@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Patch,
   Post,
   UploadedFile,
   UseGuards,
@@ -18,6 +20,7 @@ import { Roles } from '../common/auth/roles.decorator';
 import { RolesGuard } from '../common/auth/roles.guard';
 import { CurrentUser, JwtUser } from '../common/auth/current-user.decorator';
 import { CreateCourseDto } from './dto/create-course.dto';
+import { UpdateCourseDto } from './dto/update-course.dto';
 import { InstructorService } from './instructor.service';
 import { R2Service } from '../storage/r2.service';
 
@@ -43,6 +46,20 @@ export class InstructorController {
   @Post('courses')
   createCourse(@CurrentUser() user: JwtUser, @Body() dto: CreateCourseDto) {
     return this.instructors.createCourse(user.userId, dto);
+  }
+
+  @Patch('courses/:courseId')
+  updateCourse(
+    @CurrentUser() user: JwtUser,
+    @Param('courseId') courseId: string,
+    @Body() dto: UpdateCourseDto,
+  ) {
+    return this.instructors.updateCourse(user.userId, courseId, dto);
+  }
+
+  @Delete('courses/:courseId')
+  deleteCourse(@CurrentUser() user: JwtUser, @Param('courseId') courseId: string) {
+    return this.instructors.deleteCourse(user.userId, courseId);
   }
 
   @Post('lessons/:lessonId/video')

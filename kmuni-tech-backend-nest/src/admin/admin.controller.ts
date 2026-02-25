@@ -13,6 +13,7 @@ import { Enrollment } from '../entities/enrollment.entity';
 import { UserRole } from '../entities/user.entity';
 import { AuthService } from '../auth/auth.service';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UnilinkEventsService } from '../unilink-events/unilink-events.service';
 import { CreateUnilinkEventDto } from '../unilink-events/dto/create-unilink-event.dto';
 import { UpdateUnilinkEventDto } from '../unilink-events/dto/update-unilink-event.dto';
@@ -121,7 +122,100 @@ export class AdminController {
 
   @Delete('users/:userId')
   async deleteUser(@Param('userId') userId: string) {
+    const user = await this.usersRepo.findOne({ where: { id: userId } });
+    if (!user) return { success: true };
+
+    // Remove dependent rows first to avoid FK constraint issues.
+    await this.enrollmentsRepo
+      .createQueryBuilder()
+      .delete()
+      .where('studentId = :userId', { userId })
+      .execute();
+
+    if (user.role === UserRole.INSTRUCTOR) {
+      const instructorCourses = await this.coursesRepo.find({ where: { instructor: { id: userId } } });
+      for (const course of instructorCourses) {
+        await this.enrollmentsRepo
+          .createQueryBuilder()
+          .delete()
+          .where('courseId = :courseId', { courseId: course.id })
+          .execute();
+        await this.coursesRepo.manager
+          .createQueryBuilder()
+          .delete()
+          .from('lessons')
+          .where('courseId = :courseId', { courseId: course.id })
+          .execute();
+        await this.coursesRepo.delete({ id: course.id });
+      }
+    }
+
     await this.usersRepo.delete({ id: userId });
+    return { success: true };
+  }
+
+  @Patch('users/:userId')
+  async updateUser(@Param('userId') userId: string, @Body() dto: UpdateUserDto) {
+    const user = await this.usersRepo.findOne({ where: { id: userId } });
+    if (!user) throw new BadRequestException('User not found');
+
+    if (typeof dto.name === 'string') user.name = dto.name;
+    if (typeof dto.email === 'string') user.email = dto.email;
+
+    if (typeof dto.role === 'string') {
+      user.role =
+        dto.role === 'admin'
+          ? UserRole.ADMIN
+          : dto.role === 'instructor'
+            ? UserRole.INSTRUCTOR
+            : UserRole.STUDENT;
+      if (user.role !== UserRole.INSTRUCTOR) {
+        user.isApproved = true;
+      }
+    }
+
+    if (typeof dto.isApproved === 'boolean') {
+      if (user.role !== UserRole.INSTRUCTOR) {
+        throw new BadRequestException('Only instructors have approval status');
+      }
+      user.isApproved = dto.isApproved;
+    }
+
+    const saved = await this.usersRepo.save(user);
+    return {
+      id: saved.id,
+      name: saved.name,
+      email: saved.email,
+      role:
+        saved.role === 'ADMIN'
+          ? 'admin'
+          : saved.role === 'INSTRUCTOR'
+            ? 'instructor'
+            : 'student',
+      isApproved: saved.role === 'INSTRUCTOR' ? Boolean(saved.isApproved) : true,
+      createdAt: saved.createdAt ? saved.createdAt.toISOString() : '',
+    };
+  }
+
+  @Delete('courses/:courseId')
+  async deleteCourse(@Param('courseId') courseId: string) {
+    const course = await this.coursesRepo.findOne({ where: { id: courseId } });
+    if (!course) return { success: true };
+
+    await this.enrollmentsRepo
+      .createQueryBuilder()
+      .delete()
+      .where('courseId = :courseId', { courseId })
+      .execute();
+
+    await this.coursesRepo.manager
+      .createQueryBuilder()
+      .delete()
+      .from('lessons')
+      .where('courseId = :courseId', { courseId })
+      .execute();
+
+    await this.coursesRepo.delete({ id: courseId });
     return { success: true };
   }
 

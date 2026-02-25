@@ -120,6 +120,23 @@ type CreateInstructorCourseRequest = {
   lessons: CreateInstructorLessonRequest[];
 };
 
+type UpdateInstructorCourseRequest = {
+  title?: string;
+  description?: string;
+  thumbnail?: string;
+  price?: number;
+  level?: string;
+  category?: string;
+  tags?: string[];
+};
+
+type AdminUpdateUserRequest = {
+  name?: string;
+  email?: string;
+  role?: UserRole;
+  isApproved?: boolean;
+};
+
 type RegisterUnilinkLeadRequest = {
   name: string;
   phone: string;
@@ -368,6 +385,21 @@ export async function createInstructorCourse(payload: CreateInstructorCourseRequ
   return toCourse(data);
 }
 
+export async function updateInstructorCourse(courseId: string, payload: UpdateInstructorCourseRequest, token: string) {
+  const data = await apiFetch<CourseDTO>(`/api/instructor/courses/${courseId}`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    },
+    token,
+  );
+  return toCourse(data);
+}
+
+export async function deleteInstructorCourse(courseId: string, token: string) {
+  return apiFetch(`/api/instructor/courses/${courseId}`, { method: 'DELETE' }, token);
+}
+
 export async function uploadLessonVideo(lessonId: string, file: File, token: string) {
   const form = new FormData();
   form.append('file', file);
@@ -402,6 +434,25 @@ export async function adminResetUserPassword(userId: string, newPassword: string
 
 export async function adminDeleteUser(userId: string, token: string) {
   return apiFetch(`/api/admin/users/${userId}`, { method: 'DELETE' }, token);
+}
+
+export async function adminUpdateUser(userId: string, payload: AdminUpdateUserRequest, token: string) {
+  const dto = {
+    ...payload,
+    role: payload.role,
+  };
+  const data = await apiFetch<ApiUser>(`/api/admin/users/${userId}`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify(dto),
+    },
+    token,
+  );
+  return toUser(data);
+}
+
+export async function adminDeleteCourse(courseId: string, token: string) {
+  return apiFetch(`/api/admin/courses/${courseId}`, { method: 'DELETE' }, token);
 }
 
 export async function adminApproveInstructor(userId: string, token: string) {

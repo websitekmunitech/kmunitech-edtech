@@ -4,7 +4,7 @@ import { Search, Key, Trash2, Edit3, UserPlus, UserCheck } from 'lucide-react';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { User } from '../../types';
 import { useAuth } from '../../context/AuthContext';
-import { adminApproveInstructor, adminDeleteUser, adminResetUserPassword, fetchAdminUsers } from '../../utils/api';
+import { adminApproveInstructor, adminDeleteUser, adminResetUserPassword, adminUpdateUser, fetchAdminUsers } from '../../utils/api';
 
 const roleColors: Record<string, string> = {
   student: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20',
@@ -24,6 +24,11 @@ export default function AdminUsers() {
   const [search, setSearch] = useState('');
   const [resetModal, setResetModal] = useState<string | null>(null);
   const [newPwd, setNewPwd] = useState('');
+  const [editModal, setEditModal] = useState<string | null>(null);
+  const [editName, setEditName] = useState('');
+  const [editEmail, setEditEmail] = useState('');
+  const [editRole, setEditRole] = useState<User['role']>('student');
+  const [editApproved, setEditApproved] = useState(true);
   const [actionError, setActionError] = useState('');
   const [isWorking, setIsWorking] = useState(false);
 
@@ -76,6 +81,7 @@ export default function AdminUsers() {
   }, [token]);
 
   const selectedUser = useMemo(() => users.find(u => u.id === resetModal) || null, [users, resetModal]);
+  const editingUser = useMemo(() => users.find(u => u.id === editModal) || null, [users, editModal]);
 
   const filtered = users.filter(u =>
     u.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -111,6 +117,8 @@ export default function AdminUsers() {
 
   const handleDeleteUser = async (userId: string) => {
     if (!token) return;
+    const ok = window.confirm('Delete this user? This cannot be undone.');
+    if (!ok) return;
     try {
       setActionError('');
       setIsWorking(true);
@@ -132,6 +140,48 @@ export default function AdminUsers() {
       setUsers(prev => prev.map(u => (u.id === userId ? { ...u, isApproved: true } : u)));
     } catch (e: any) {
       setActionError(e?.message || 'Failed to approve instructor');
+    } finally {
+      setIsWorking(false);
+    }
+  };
+
+  const openEdit = (user: User) => {
+    setActionError('');
+    setEditModal(user.id);
+    setEditName(user.name ?? '');
+    setEditEmail(user.email ?? '');
+    setEditRole(user.role);
+    setEditApproved(user.role === 'instructor' ? Boolean(user.isApproved) : true);
+  };
+
+  const closeEdit = () => {
+    if (isWorking) return;
+    setEditModal(null);
+  };
+
+  const handleSaveUser = async () => {
+    if (!token || !editModal) return;
+    if (!editName.trim()) {
+      setActionError('Name is required.');
+      return;
+    }
+    if (!editEmail.trim() || !editEmail.includes('@')) {
+      setActionError('Valid email is required.');
+      return;
+    }
+    try {
+      setActionError('');
+      setIsWorking(true);
+      const updated = await adminUpdateUser(editModal, {
+        name: editName.trim(),
+        email: editEmail.trim(),
+        role: editRole,
+        isApproved: editRole === 'instructor' ? editApproved : undefined,
+      }, token);
+      setUsers(prev => prev.map(u => (u.id === updated.id ? updated : u)));
+      setEditModal(null);
+    } catch (e: any) {
+      setActionError(e?.message || 'Failed to update user');
     } finally {
       setIsWorking(false);
     }
@@ -210,7 +260,11 @@ export default function AdminUsers() {
                       className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 hover:border-indigo-500/40 rounded-lg text-indigo-400 text-xs font-medium transition-all">
                       <Key size={12} /> Reset PWD
                     </button>
-                    <button className="p-1.5 text-slate-500 hover:text-white hover:bg-white/5 rounded-lg transition-all"><Edit3 size={14} /></button>
+                    <button
+                      disabled={isWorking}
+                      onClick={() => openEdit(user)}
+                      className="p-1.5 text-slate-500 hover:text-white hover:bg-white/5 rounded-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                    ><Edit3 size={14} /></button>
                     <button
                       disabled={isWorking}
                       onClick={() => handleDeleteUser(user.id)}
@@ -245,6 +299,58 @@ export default function AdminUsers() {
                 onClick={handleResetPassword}
                 className="flex-1 btn-primary text-sm py-2.5 disabled:opacity-60 disabled:cursor-not-allowed"
               >Reset Password</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit User Modal */}
+      {editModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="card p-6 w-full max-w-md animate-slide-up">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-10 bg-indigo-500/15 border border-indigo-500/20 rounded-xl flex items-center justify-center"><Edit3 size={18} className="text-indigo-400" /></div>
+              <div><h3 className="text-white font-bold">Edit User</h3><p className="text-slate-500 text-sm">{editingUser?.email}</p></div>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-slate-300 text-sm font-medium mb-2">Name</label>
+                <input value={editName} onChange={e => setEditName(e.target.value)} className="input-field" />
+              </div>
+              <div>
+                <label className="block text-slate-300 text-sm font-medium mb-2">Email</label>
+                <input value={editEmail} onChange={e => setEditEmail(e.target.value)} className="input-field" />
+              </div>
+              <div>
+                <label className="block text-slate-300 text-sm font-medium mb-2">Role</label>
+                <select value={editRole} onChange={e => setEditRole(e.target.value as User['role'])} className="input-field">
+                  <option value="student">Student</option>
+                  <option value="instructor">Instructor</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              {editRole === 'instructor' && (
+                <label className="flex items-center gap-2 text-slate-300 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={editApproved}
+                    onChange={e => setEditApproved(e.target.checked)}
+                  />
+                  Approved
+                </label>
+              )}
+            </div>
+
+            {actionError && <p className="text-red-400 text-xs mt-4">{actionError}</p>}
+
+            <div className="flex gap-3 mt-6">
+              <button disabled={isWorking} onClick={closeEdit} className="flex-1 btn-secondary text-sm py-2.5 disabled:opacity-60 disabled:cursor-not-allowed">Cancel</button>
+              <button
+                disabled={isWorking}
+                onClick={handleSaveUser}
+                className="flex-1 btn-primary text-sm py-2.5 disabled:opacity-60 disabled:cursor-not-allowed"
+              >Save</button>
             </div>
           </div>
         </div>

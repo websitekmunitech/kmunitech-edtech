@@ -7,6 +7,7 @@ import { Enrollment } from '../entities/enrollment.entity';
 import { User } from '../entities/user.entity';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { CourseDTO, CourseListDTO } from '../courses/courses.service';
+import { UpdateCourseDto } from './dto/update-course.dto';
 
 type InstructorAnalyticsDTO = {
   totalCourses: number;
@@ -127,6 +128,81 @@ export class InstructorService {
       isFeatured: Boolean(savedCourse.isFeatured),
       createdAt: (savedCourse as any).createdAt ? (savedCourse as any).createdAt.toISOString() : '',
     };
+  }
+
+  async ensureCourseOwnedByInstructor(courseId: string, instructorId: string): Promise<Course> {
+    const course = await this.coursesRepo.findOne({
+      where: { id: courseId },
+      relations: { instructor: true, lessons: true },
+    });
+    if (!course) throw new NotFoundException('Course not found');
+    if (course.instructor?.id !== instructorId) {
+      throw new BadRequestException('Not your course');
+    }
+    return course;
+  }
+
+  async updateCourse(instructorId: string, courseId: string, dto: UpdateCourseDto): Promise<CourseDTO> {
+    const course = await this.ensureCourseOwnedByInstructor(courseId, instructorId);
+
+    if (typeof dto.title === 'string') course.title = dto.title;
+    if (typeof dto.description === 'string') course.description = dto.description;
+    if (typeof dto.thumbnail === 'string') course.thumbnail = dto.thumbnail.trim() ? dto.thumbnail : null;
+    if (typeof dto.price === 'number') course.price = dto.price;
+    if (typeof dto.level === 'string') course.level = dto.level;
+    if (typeof dto.category === 'string') course.category = dto.category;
+    if (Array.isArray(dto.tags)) course.tags = dto.tags;
+
+    const saved = await this.coursesRepo.save(course);
+    const lessons = (saved.lessons ?? [])
+      .slice()
+      .sort((a, b) => a.order - b.order)
+      .map((l) => ({
+        id: l.id,
+        title: l.title,
+        description: l.description ?? undefined,
+        duration: l.duration,
+        order: l.order,
+        isPreview: l.isPreview,
+      }));
+
+    return {
+      id: saved.id,
+      title: saved.title,
+      description: saved.description ?? '',
+      thumbnail: saved.thumbnail ?? undefined,
+      instructorId: course.instructor?.id ?? instructorId,
+      instructorName: course.instructor?.name ?? 'Unknown',
+      price: saved.price,
+      level: saved.level ?? 'beginner',
+      category: saved.category ?? 'web-dev',
+      tags: saved.tags ?? [],
+      lessons,
+      totalDuration: saved.totalDuration ?? 0,
+      rating: saved.rating ?? 0,
+      studentsCount: saved.studentsCount ?? 0,
+      isFeatured: Boolean(saved.isFeatured),
+      createdAt: (saved as any).createdAt ? (saved as any).createdAt.toISOString() : '',
+    };
+  }
+
+  async deleteCourse(instructorId: string, courseId: string): Promise<{ success: boolean }> {
+    await this.ensureCourseOwnedByInstructor(courseId, instructorId);
+
+    await this.enrollmentsRepo
+      .createQueryBuilder()
+      .delete()
+      .where('courseId = :courseId', { courseId })
+      .execute();
+
+    await this.lessonsRepo
+      .createQueryBuilder()
+      .delete()
+      .where('courseId = :courseId', { courseId })
+      .execute();
+
+    await this.coursesRepo.delete({ id: courseId });
+    return { success: true };
   }
 
   async ensureLessonOwnedByInstructor(lessonId: string, instructorId: string): Promise<Lesson> {

@@ -5,13 +5,15 @@ import { formatPriceINR } from '../../utils/currency';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { Course } from '../../types';
 import { useAuth } from '../../context/AuthContext';
-import { fetchAdminCourses } from '../../utils/api';
+import { adminDeleteCourse, fetchAdminCourses } from '../../utils/api';
 
 export default function AdminCourses() {
   const { token } = useAuth();
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
+  const [actionError, setActionError] = useState('');
+  const [isWorking, setIsWorking] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -59,9 +61,30 @@ export default function AdminCourses() {
     };
   }, [token]);
 
+  const handleDeleteCourse = async (courseId: string) => {
+    if (!token) return;
+    const ok = window.confirm('Delete this course? This cannot be undone.');
+    if (!ok) return;
+    try {
+      setActionError('');
+      setIsWorking(true);
+      await adminDeleteCourse(courseId, token);
+      setCourses(prev => prev.filter(c => c.id !== courseId));
+    } catch (e: any) {
+      setActionError(e?.message || 'Failed to delete course');
+    } finally {
+      setIsWorking(false);
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="mb-8"><h1 className="text-2xl font-bold text-white">Course Management</h1><p className="text-slate-400 mt-1">Review, approve, and manage all platform courses</p></div>
+      {actionError && (
+        <div className="card p-4 border border-red-500/20 text-red-300 text-sm mb-4">
+          {actionError}
+        </div>
+      )}
       <div className="space-y-3">
         {isLoading ? (
           <div className="py-10">
@@ -87,7 +110,11 @@ export default function AdminCourses() {
               <div className="flex items-center gap-2">
                 <span className="badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 text-[10px]">Published</span>
                 <button className="p-2 text-slate-500 hover:text-white hover:bg-white/5 rounded-lg transition-all"><Eye size={14} /></button>
-                <button className="p-2 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"><Trash2 size={14} /></button>
+                <button
+                  disabled={isWorking}
+                  onClick={() => handleDeleteCourse(course.id)}
+                  className="p-2 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                ><Trash2 size={14} /></button>
               </div>
             </div>
           </div>
