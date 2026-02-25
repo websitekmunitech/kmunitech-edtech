@@ -11,6 +11,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { join } from 'path';
 import { JwtAuthGuard } from '../common/auth/jwt-auth.guard';
 import { ApprovedInstructorGuard } from '../common/auth/approved-instructor.guard';
 import { Roles } from '../common/auth/roles.decorator';
@@ -18,12 +19,16 @@ import { RolesGuard } from '../common/auth/roles.guard';
 import { CurrentUser, JwtUser } from '../common/auth/current-user.decorator';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { InstructorService } from './instructor.service';
+import { R2Service } from '../storage/r2.service';
 
 @UseGuards(JwtAuthGuard, RolesGuard, ApprovedInstructorGuard)
 @Roles('instructor')
 @Controller('instructor')
 export class InstructorController {
-  constructor(private readonly instructors: InstructorService) {}
+  constructor(
+    private readonly instructors: InstructorService,
+    private readonly r2: R2Service,
+  ) {}
 
   @Get('courses')
   courses(@CurrentUser() user: JwtUser) {
@@ -58,8 +63,18 @@ export class InstructorController {
     @UploadedFile() file: any,
   ) {
     await this.instructors.ensureLessonOwnedByInstructor(lessonId, user.userId);
-    const urlPath = `/uploads/${file.filename}`;
-    await this.instructors.saveLessonVideoUrl(lessonId, urlPath);
-    return { success: true, url: urlPath };
+
+    const localPath = join(process.cwd(), 'uploads', file.filename);
+    const key = `lessons/${lessonId}/${file.filename}`;
+
+    try {
+      await this.r2.uploadFromPath({ key, filePath: localPath, contentType: file.mimetype });
+    } finally {
+      await this.r2.deleteLocalFileQuietly(localPath);
+    }
+
+    const stored = `r2:${key}`;
+    await this.instructors.saveLessonVideoUrl(lessonId, stored);
+    return { success: true, key };
   }
 }

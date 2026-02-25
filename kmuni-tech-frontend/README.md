@@ -105,21 +105,16 @@ POST /api/instructor/courses
 GET  /api/media/lessons/:lessonId/playback
 ```
 
-### Supabase (Lesson Video Storage)
+### Lesson Video Storage
 
-When an instructor creates a course, lesson video files are uploaded to **Supabase Storage** from the browser and the resulting public URL is sent to the backend.
-
-Add these to `kmuni-tech-frontend/.env.local`:
+Lesson video files are uploaded to the backend after course creation:
 
 ```
-VITE_SUPABASE_URL=https://<your-project-ref>.supabase.co
-VITE_SUPABASE_ANON_KEY=<your_anon_publishable_key>
-VITE_SUPABASE_VIDEO_BUCKET=edtechkmunitek
+POST /api/instructor/lessons/:lessonId/video
+GET  /api/media/lessons/:lessonId/playback
 ```
 
-Notes:
-- The Storage bucket must already exist.
-- `uploadLessonVideoToSupabase()` uses `getPublicUrl()`, so the bucket/object needs to be publicly readable (or you will need to switch to signed URLs).
+This keeps object-storage credentials off the browser. You can wire the backend to Cloudflare R2 (S3-compatible) without changing the frontend again.
 
 ---
 

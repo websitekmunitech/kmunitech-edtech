@@ -3,8 +3,7 @@ import DashboardLayout from '../../components/layout/DashboardLayout';
 import { PlusCircle, Trash2, GripVertical, Save } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { createInstructorCourse } from '../../utils/api';
-import { uploadLessonVideoToSupabase } from '../../utils/supabase';
+import { createInstructorCourse, uploadLessonVideo } from '../../utils/api';
 
 type LessonForm = {
   id: number;
@@ -74,13 +73,14 @@ export default function CreateCourse() {
     try {
       const lessonsPayload = lessons.map((l, index) => {
         const duration = Number(l.duration);
+        const hasFile = Boolean(lessons[index]?.videoFile);
         return {
           title: l.title.trim(),
           description: l.description.trim() || undefined,
           duration: Number.isFinite(duration) ? duration : 0,
           order: index + 1,
           isPreview: Boolean(l.isPreview),
-          videoUrl: l.videoUrl.trim() || undefined,
+          videoUrl: hasFile ? undefined : (l.videoUrl.trim() || undefined),
         };
       });
 
@@ -100,24 +100,7 @@ export default function CreateCourse() {
         if (!hasUrl && !hasFile) throw new Error(`Lesson ${i + 1} needs a video URL or an uploaded file.`);
       }
 
-      // Upload lesson video files to Supabase Storage and use their public URLs
-      // (If a lesson has both a URL and a file, the uploaded file wins.)
-      for (let i = 0; i < lessonsPayload.length; i += 1) {
-        const file = lessons[i]?.videoFile;
-        if (!file) continue;
-
-        try {
-          const uploaded = await uploadLessonVideoToSupabase({
-            file,
-            instructorId: user?.id,
-            courseTitle: title.trim(),
-          });
-          lessonsPayload[i] = { ...lessonsPayload[i], videoUrl: uploaded.publicUrl };
-        } catch (e: any) {
-          throw new Error(`Lesson ${i + 1} video upload failed: ${e?.message || 'Unknown error'}`);
-        }
-      }
-
+      // Create course first (lessons + IDs are generated server-side)
       const created = await createInstructorCourse({
         title: title.trim(),
         description: description.trim(),
@@ -128,6 +111,21 @@ export default function CreateCourse() {
         tags: parsedTags,
         lessons: lessonsPayload,
       }, token);
+
+      // Then upload lesson video files to the backend (the backend can store to R2 later)
+      const createdLessons = created.lessons ?? [];
+      if (createdLessons.length !== lessonsPayload.length) {
+        throw new Error('Course created, but lesson count mismatch during video upload.');
+      }
+      for (let i = 0; i < createdLessons.length; i += 1) {
+        const file = lessons[i]?.videoFile;
+        if (!file) continue;
+        try {
+          await uploadLessonVideo(createdLessons[i].id, file, token);
+        } catch (e: any) {
+          throw new Error(`Lesson ${i + 1} video upload failed: ${e?.message || 'Unknown error'}`);
+        }
+      }
 
       setSaved(true);
       setTimeout(() => setSaved(false), 1500);

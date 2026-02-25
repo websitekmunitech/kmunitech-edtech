@@ -27,6 +27,7 @@ import { UnilinkService } from './unilink/unilink.service';
 import { PublicController } from './public/public.controller';
 import { PublicService } from './public/public.service';
 import { UnilinkEventsService } from './unilink-events/unilink-events.service';
+import { R2Module } from './storage/r2.module';
 
 @Module({
   imports: [
@@ -120,6 +121,7 @@ import { UnilinkEventsService } from './unilink-events/unilink-events.service';
     }),
     TypeOrmModule.forFeature([User, Course, Lesson, Enrollment, UnilinkLead, UnilinkEvent]),
     AuthModule,
+    R2Module,
   ],
   controllers: [
     HealthController,

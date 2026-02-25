@@ -5,6 +5,7 @@ import { JwtAuthGuard } from '../common/auth/jwt-auth.guard';
 import { CurrentUser, JwtUser } from '../common/auth/current-user.decorator';
 import { Lesson } from '../entities/lesson.entity';
 import { Enrollment } from '../entities/enrollment.entity';
+import { R2Service } from '../storage/r2.service';
 
 @UseGuards(JwtAuthGuard)
 @Controller('media')
@@ -13,6 +14,7 @@ export class MediaController {
     @InjectRepository(Lesson) private readonly lessonsRepo: Repository<Lesson>,
     @InjectRepository(Enrollment)
     private readonly enrollmentsRepo: Repository<Enrollment>,
+    private readonly r2: R2Service,
   ) {}
 
   @Get('lessons/:lessonId/playback')
@@ -33,10 +35,14 @@ export class MediaController {
       if (!enrollment) throw new NotFoundException('Not enrolled');
     }
 
+    if (lesson.videoUrl.startsWith('r2:')) {
+      const key = lesson.videoUrl.slice('r2:'.length);
+      const url = await this.r2.getSignedGetUrl(key);
+      return { url };
+    }
+
     const base = process.env.PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
-    const url = lesson.videoUrl.startsWith('http')
-      ? lesson.videoUrl
-      : `${base}${lesson.videoUrl}`;
+    const url = lesson.videoUrl.startsWith('http') ? lesson.videoUrl : `${base}${lesson.videoUrl}`;
     return { url };
   }
 }
