@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import StatCard from '../../components/common/StatCard';
-import { BookOpen, Users, DollarSign, Star, PlusCircle, BarChart3, TrendingUp, ArrowRight } from 'lucide-react';
-import { formatINRCompact, formatPriceINR } from '../../utils/currency';
+import { BookOpen, Users, Star, PlusCircle, BarChart3, ArrowRight } from 'lucide-react';
+import { formatPriceINR } from '../../utils/currency';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { Course } from '../../types';
 import { fetchInstructorAnalytics, fetchInstructorCourses } from '../../utils/api';
@@ -70,7 +70,6 @@ export default function InstructorDashboard() {
   }, [token]);
 
   const myCourses = useMemo(() => courses.slice(0, 2), [courses]);
-  const revenueThisMonth = 0;
 
   return (
     <DashboardLayout>
@@ -82,10 +81,9 @@ export default function InstructorDashboard() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         <StatCard icon={<BookOpen size={18} />} label="Total Courses" value={analytics?.totalCourses ?? '—'} color="from-indigo-500 to-purple-500" />
         <StatCard icon={<Users size={18} />} label="Total Students" value={analytics?.totalStudents ?? '—'} color="from-blue-500 to-cyan-500" />
-        <StatCard icon={<DollarSign size={18} />} label="Revenue" value={revenueThisMonth === 0 ? '—' : formatINRCompact(revenueThisMonth)} color="from-emerald-500 to-teal-500" sub="Not available" />
         <StatCard icon={<Star size={18} />} label="Avg Rating" value={analytics?.averageRating ?? '—'} color="from-amber-500 to-orange-500" />
       </div>
 
@@ -148,22 +146,6 @@ export default function InstructorDashboard() {
             </div>
           </div>
 
-          {/* Revenue Chart */}
-          <div className="card p-5">
-            <h3 className="text-white font-bold mb-4">Revenue Trend</h3>
-            <div className="flex items-end gap-1 h-24">
-              {[40, 60, 45, 80, 65, 90, 75].map((h, i) => (
-                <div key={i} className="flex-1 bg-indigo-500/20 hover:bg-indigo-500/40 rounded-t-md transition-all cursor-pointer"
-                  style={{ height: `${h}%` }} />
-              ))}
-            </div>
-            <div className="flex justify-between text-xs text-slate-600 mt-2">
-              {['M','T','W','T','F','S','S'].map((d, i) => <span key={i}>{d}</span>)}
-            </div>
-            <p className="text-emerald-400 text-sm font-semibold mt-3 flex items-center gap-1">
-              <TrendingUp size={14} /> +18% this week
-            </p>
-          </div>
         </div>
       </div>
     </DashboardLayout>

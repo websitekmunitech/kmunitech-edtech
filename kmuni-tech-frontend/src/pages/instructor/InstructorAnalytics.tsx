@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import StatCard from '../../components/common/StatCard';
-import { Users, DollarSign, Star, TrendingUp, Eye } from 'lucide-react';
-import { formatINRCompact, formatPriceINR } from '../../utils/currency';
+import { Users, Star, TrendingUp } from 'lucide-react';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { useAuth } from '../../context/AuthContext';
 import { Course } from '../../types';
@@ -68,9 +67,6 @@ export default function InstructorAnalytics() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
-  const totalRevenue = useMemo(() => {
-    return courses.reduce((sum, c) => sum + Number(c.price || 0) * Number(c.studentsCount || 0), 0);
-  }, [courses]);
 
   const enrollmentsByCourse = useMemo(() => {
     const items = courses
@@ -85,22 +81,6 @@ export default function InstructorAnalytics() {
     return { items, max };
   }, [courses]);
 
-  const revenueBreakdown = useMemo(() => {
-    const items = courses
-      .map((c) => ({
-        name: c.title,
-        rev: Number(c.price || 0) * Number(c.studentsCount || 0),
-      }))
-      .sort((a, b) => b.rev - a.rev)
-      .slice(0, 2);
-
-    const total = items.reduce((s, i) => s + i.rev, 0) || 1;
-    return items.map((i, idx) => ({
-      ...i,
-      pct: Math.round((i.rev / total) * 100),
-      color: idx === 0 ? 'bg-indigo-500' : 'bg-orange-500',
-    }));
-  }, [courses]);
 
   return (
     <DashboardLayout>
@@ -113,10 +93,9 @@ export default function InstructorAnalytics() {
         <p className="text-slate-400 text-sm">{loadError}</p>
       ) : (
         <>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             <StatCard icon={<Users size={18} />} label="Total Students" value={analytics?.totalStudents ?? '—'} color="from-indigo-500 to-purple-500" sub="Live" />
-            <StatCard icon={<DollarSign size={18} />} label="Total Revenue" value={totalRevenue ? formatINRCompact(totalRevenue) : '—'} color="from-emerald-500 to-teal-500" sub="Estimated" />
-            <StatCard icon={<Eye size={18} />} label="Course Views" value={analytics?.totalStudents ?? '—'} color="from-blue-500 to-cyan-500" sub="Enrollments" />
+            <StatCard icon={<TrendingUp size={18} />} label="Total Courses" value={analytics?.totalCourses ?? '—'} color="from-blue-500 to-cyan-500" />
             <StatCard icon={<Star size={18} />} label="Avg Rating" value={Number.isFinite(analytics?.averageRating) ? (analytics?.averageRating ?? 0).toFixed(1) : '—'} color="from-amber-500 to-orange-500" />
           </div>
 
@@ -140,27 +119,6 @@ export default function InstructorAnalytics() {
                 </div>
               )}
               <p className="text-emerald-400 text-sm font-semibold mt-4 flex items-center gap-1"><TrendingUp size={14} /> Auto-refresh every 15s</p>
-            </div>
-
-            <div className="card p-6">
-              <h2 className="text-white font-bold mb-5">Revenue Breakdown</h2>
-              {revenueBreakdown.length === 0 ? (
-                <p className="text-slate-400 text-sm">No revenue data yet.</p>
-              ) : (
-                <div className="space-y-4">
-                  {revenueBreakdown.map((item) => (
-                    <div key={item.name}>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span className="text-slate-300">{item.name}</span>
-                        <span className="text-white font-medium">{item.rev === 0 ? '₹0' : formatPriceINR(item.rev)}</span>
-                      </div>
-                      <div className="progress-bar">
-                        <div className={`h-full ${item.color} rounded-full`} style={{ width: `${item.pct}%` }} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
         </>
