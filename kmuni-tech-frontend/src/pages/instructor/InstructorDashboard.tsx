@@ -146,6 +146,17 @@ export default function InstructorDashboard() {
             </div>
           </div>
 
+          <div className="card p-5">
+            <h3 className="text-white font-bold mb-2">Upcoming Course</h3>
+            <p className="text-slate-400 text-sm">Add your next course and publish when ready.</p>
+            <Link
+              to="/instructor/create-course"
+              className="btn-primary mt-4 text-sm flex items-center justify-center gap-2 py-3"
+            >
+              <PlusCircle size={16} /> Add Upcoming Course
+            </Link>
+          </div>
+
         </div>
       </div>
     </DashboardLayout>
