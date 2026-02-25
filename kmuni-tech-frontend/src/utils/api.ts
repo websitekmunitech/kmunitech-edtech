@@ -242,6 +242,10 @@ export async function updateAdminUnilinkEvent(
   return apiUpload<AdminUnilinkEvent>(`/api/admin/unilink-events/${id}`, form, token, 'PATCH');
 }
 
+export async function deleteAdminUnilinkEvent(id: string, token: string) {
+  return apiFetch<{ success: boolean }>(`/api/admin/unilink-events/${id}`, { method: 'DELETE' }, token);
+}
+
 export async function registerUnilinkLead(payload: RegisterUnilinkLeadRequest) {
   return apiFetch<{ success: boolean; id?: string; message?: string }>('/api/unilink/register', {
     method: 'POST',

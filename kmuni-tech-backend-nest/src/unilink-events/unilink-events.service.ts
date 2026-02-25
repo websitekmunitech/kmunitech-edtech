@@ -68,6 +68,13 @@ export class UnilinkEventsService {
     return this.eventsRepo.save(event);
   }
 
+  async delete(id: string) {
+    const event = await this.eventsRepo.findOne({ where: { id } });
+    if (!event) return { success: true };
+    await this.eventsRepo.delete({ id });
+    return { success: true };
+  }
+
   private toPublicDto = (event: UnilinkEvent) => ({
     id: event.id,
     title: event.title,

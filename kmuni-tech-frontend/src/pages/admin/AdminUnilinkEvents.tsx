@@ -5,6 +5,7 @@ import {
   AdminUnilinkEvent,
   API_BASE_URL,
   createAdminUnilinkEvent,
+  deleteAdminUnilinkEvent,
   fetchAdminUnilinkEvents,
   updateAdminUnilinkEvent,
 } from '../../utils/api';
@@ -19,6 +20,7 @@ type Draft = {
   title: string;
   poster?: File;
   saving?: boolean;
+  deleting?: boolean;
   error?: string;
 };
 
@@ -146,6 +148,30 @@ export default function AdminUnilinkEvents() {
     }
   };
 
+  const deleteItem = async (id: string) => {
+    if (!token) return;
+    const ok = window.confirm('Delete this poster/event? This cannot be undone.');
+    if (!ok) return;
+
+    const draft = drafts[id];
+    setDrafts((d) => ({ ...d, [id]: { ...(draft || { title: '' }), deleting: true, error: '' } }));
+    try {
+      await deleteAdminUnilinkEvent(id, token);
+      setDrafts((d) => {
+        const next = { ...d };
+        delete next[id];
+        return next;
+      });
+      await load();
+    } catch (err: any) {
+      const current = drafts[id] || { title: '' };
+      setDrafts((d) => ({
+        ...d,
+        [id]: { ...current, deleting: false, error: err?.message || 'Delete failed' },
+      }));
+    }
+  };
+
   const renderList = (items: AdminUnilinkEvent[]) => {
     if (!items.length) {
       return <p className="text-slate-400 text-sm">No posters added yet.</p>;
@@ -209,6 +235,14 @@ export default function AdminUnilinkEvents() {
                   onClick={() => updateItem(item.id)}
                 >
                   {draft.saving ? 'Updating...' : 'Update'}
+                </button>
+
+                <button
+                  className="w-full px-4 py-3 rounded-xl border border-red-500/20 bg-red-500/10 text-red-300 text-sm font-semibold hover:bg-red-500/20 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                  disabled={Boolean(draft.saving || draft.deleting)}
+                  onClick={() => deleteItem(item.id)}
+                >
+                  {draft.deleting ? 'Deleting...' : 'Delete'}
                 </button>
               </div>
             </div>

@@ -271,4 +271,9 @@ export class AdminController {
     const posterUrl = poster ? `/uploads/${poster.filename}` : undefined;
     return this.unilinkEvents.update(id, { title: dto.title, status: dto.status, posterUrl });
   }
+
+  @Delete('unilink-events/:id')
+  async deleteUnilinkEvent(@Param('id') id: string) {
+    return this.unilinkEvents.delete(id);
+  }
 }
