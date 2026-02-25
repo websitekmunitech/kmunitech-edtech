@@ -29,6 +29,8 @@ export default function AdminUsers() {
 
   useEffect(() => {
     let mounted = true;
+    let timer: any;
+    let inFlight = false;
     (async () => {
       if (!token) {
         setIsLoading(false);
@@ -37,9 +39,28 @@ export default function AdminUsers() {
       }
       try {
         setLoadError('');
-        const data = await fetchAdminUsers(token);
+        const load = async () => {
+          const data = await fetchAdminUsers(token);
+          if (!mounted) return;
+          setUsers(data);
+        };
+
+        await load();
         if (!mounted) return;
-        setUsers(data);
+
+        timer = setInterval(async () => {
+          if (!mounted || !token || inFlight) return;
+          // Avoid refreshing while an admin action is in progress
+          if (isWorking) return;
+          inFlight = true;
+          try {
+            await load();
+          } catch {
+            // keep last good data
+          } finally {
+            inFlight = false;
+          }
+        }, 15000);
       } catch (e: any) {
         if (!mounted) return;
         setLoadError(e?.message || 'Failed to load users');
@@ -48,7 +69,10 @@ export default function AdminUsers() {
         setIsLoading(false);
       }
     })();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+      if (timer) clearInterval(timer);
+    };
   }, [token]);
 
   const selectedUser = useMemo(() => users.find(u => u.id === resetModal) || null, [users, resetModal]);

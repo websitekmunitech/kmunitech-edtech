@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   OneToMany,
+  CreateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 import { Lesson } from './lesson.entity';
@@ -46,6 +47,9 @@ export class Course {
 
   @Column({ default: false })
   isFeatured!: boolean;
+
+  @CreateDateColumn()
+  createdAt!: Date;
 
   @ManyToOne(() => User, (u) => u.coursesCreated)
   instructor!: User;

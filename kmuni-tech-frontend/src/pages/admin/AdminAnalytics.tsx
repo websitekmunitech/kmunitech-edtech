@@ -20,6 +20,8 @@ export default function AdminAnalytics() {
 
   useEffect(() => {
     let mounted = true;
+    let timer: any;
+    let inFlight = false;
     (async () => {
       if (!token) {
         setIsLoading(false);
@@ -28,9 +30,26 @@ export default function AdminAnalytics() {
       }
       try {
         setLoadError('');
-        const data = await fetchAdminAnalytics(token);
+        const load = async () => {
+          const data = await fetchAdminAnalytics(token);
+          if (!mounted) return;
+          setAnalytics(data);
+        };
+
+        await load();
         if (!mounted) return;
-        setAnalytics(data);
+
+        timer = setInterval(async () => {
+          if (!mounted || !token || inFlight) return;
+          inFlight = true;
+          try {
+            await load();
+          } catch {
+            // keep last good data
+          } finally {
+            inFlight = false;
+          }
+        }, 15000);
       } catch (e: any) {
         if (!mounted) return;
         setLoadError(e?.message || 'Failed to load analytics');
@@ -41,6 +60,7 @@ export default function AdminAnalytics() {
     })();
     return () => {
       mounted = false;
+      if (timer) clearInterval(timer);
     };
   }, [token]);
 

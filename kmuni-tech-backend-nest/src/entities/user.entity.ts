@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Enrollment } from './enrollment.entity';
 import { Course } from './course.entity';
 
@@ -28,6 +28,9 @@ export class User {
 
   @Column({ type: 'boolean', default: true })
   isApproved!: boolean;
+
+  @CreateDateColumn()
+  createdAt!: Date;
 
   @OneToMany(() => Enrollment, (e) => e.student)
   enrollments?: Enrollment[];

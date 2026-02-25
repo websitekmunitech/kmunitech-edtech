@@ -125,7 +125,7 @@ export class CoursesService {
       rating: course.rating ?? 0,
       studentsCount: course.studentsCount ?? 0,
       isFeatured: Boolean(course.isFeatured),
-      createdAt: '',
+      createdAt: (course as any).createdAt ? (course as any).createdAt.toISOString() : '',
     };
   }
 }

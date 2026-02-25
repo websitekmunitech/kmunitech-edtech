@@ -18,6 +18,8 @@ export default function InstructorDashboard() {
 
   useEffect(() => {
     let mounted = true;
+    let timer: any;
+    let inFlight = false;
     (async () => {
       if (!token) {
         setIsLoading(false);
@@ -26,13 +28,33 @@ export default function InstructorDashboard() {
       }
       try {
         setLoadError('');
-        const [coursesData, analyticsData] = await Promise.all([
-          fetchInstructorCourses(token),
-          fetchInstructorAnalytics(token),
-        ]);
+        const fetchAll = async () => {
+          const [coursesData, analyticsData] = await Promise.all([
+            fetchInstructorCourses(token),
+            fetchInstructorAnalytics(token),
+          ]);
+          return { coursesData, analyticsData };
+        };
+
+        const first = await fetchAll();
         if (!mounted) return;
-        setCourses(coursesData);
-        setAnalytics(analyticsData);
+        setCourses(first.coursesData);
+        setAnalytics(first.analyticsData);
+
+        timer = setInterval(async () => {
+          if (!mounted || !token || inFlight) return;
+          inFlight = true;
+          try {
+            const next = await fetchAll();
+            if (!mounted) return;
+            setCourses(next.coursesData);
+            setAnalytics(next.analyticsData);
+          } catch {
+            // keep last good data
+          } finally {
+            inFlight = false;
+          }
+        }, 15000);
       } catch (e: any) {
         if (!mounted) return;
         setLoadError(e?.message || 'Failed to load instructor dashboard');
@@ -41,7 +63,10 @@ export default function InstructorDashboard() {
         setIsLoading(false);
       }
     })();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+      if (timer) clearInterval(timer);
+    };
   }, [token]);
 
   const myCourses = useMemo(() => courses.slice(0, 2), [courses]);

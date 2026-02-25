@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn } from 'typeorm';
 import { User } from './user.entity';
 import { Course } from './course.entity';
 
@@ -15,4 +15,7 @@ export class Enrollment {
 
   @Column({ type: 'int', default: 0 })
   progress!: number;
+
+  @CreateDateColumn()
+  createdAt!: Date;
 }

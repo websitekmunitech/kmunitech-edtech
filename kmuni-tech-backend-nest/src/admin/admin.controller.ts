@@ -64,7 +64,7 @@ export class AdminController {
       rating: c.rating ?? 0,
       studentsCount: c.studentsCount ?? 0,
       isFeatured: Boolean(c.isFeatured),
-      createdAt: '',
+      createdAt: c.createdAt ? c.createdAt.toISOString() : '',
     }));
   }
 
@@ -82,7 +82,7 @@ export class AdminController {
             ? 'instructor'
             : 'student',
       isApproved: u.role === 'INSTRUCTOR' ? Boolean(u.isApproved) : true,
-      createdAt: '',
+      createdAt: u.createdAt ? u.createdAt.toISOString() : '',
     }));
   }
 
@@ -97,7 +97,7 @@ export class AdminController {
       email: u.email,
       role: 'instructor',
       isApproved: false,
-      createdAt: '',
+      createdAt: u.createdAt ? u.createdAt.toISOString() : '',
     }));
   }
 

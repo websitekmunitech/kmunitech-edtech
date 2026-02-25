@@ -44,7 +44,7 @@ export class InstructorService {
       rating: c.rating ?? 0,
       studentsCount: c.studentsCount ?? 0,
       isFeatured: Boolean(c.isFeatured),
-      createdAt: '',
+      createdAt: (c as any).createdAt ? (c as any).createdAt.toISOString() : '',
     }));
   }
 
@@ -125,7 +125,7 @@ export class InstructorService {
       rating: savedCourse.rating ?? 0,
       studentsCount: savedCourse.studentsCount ?? 0,
       isFeatured: Boolean(savedCourse.isFeatured),
-      createdAt: '',
+      createdAt: (savedCourse as any).createdAt ? (savedCourse as any).createdAt.toISOString() : '',
     };
   }
 

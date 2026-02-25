@@ -15,6 +15,8 @@ export default function AdminCourses() {
 
   useEffect(() => {
     let mounted = true;
+    let timer: any;
+    let inFlight = false;
     (async () => {
       if (!token) {
         setIsLoading(false);
@@ -23,9 +25,26 @@ export default function AdminCourses() {
       }
       try {
         setLoadError('');
-        const data = await fetchAdminCourses(token);
+        const load = async () => {
+          const data = await fetchAdminCourses(token);
+          if (!mounted) return;
+          setCourses(data);
+        };
+
+        await load();
         if (!mounted) return;
-        setCourses(data);
+
+        timer = setInterval(async () => {
+          if (!mounted || !token || inFlight) return;
+          inFlight = true;
+          try {
+            await load();
+          } catch {
+            // keep last good data
+          } finally {
+            inFlight = false;
+          }
+        }, 15000);
       } catch (e: any) {
         if (!mounted) return;
         setLoadError(e?.message || 'Failed to load courses');
@@ -34,7 +53,10 @@ export default function AdminCourses() {
         setIsLoading(false);
       }
     })();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+      if (timer) clearInterval(timer);
+    };
   }, [token]);
 
   return (

@@ -29,6 +29,8 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     let mounted = true;
+    let timer: any;
+    let inFlight = false;
     (async () => {
       if (!token) {
         setIsLoading(false);
@@ -37,13 +39,33 @@ export default function AdminDashboard() {
       }
       try {
         setLoadError('');
-        const [analyticsData, usersData] = await Promise.all([
-          fetchAdminAnalytics(token),
-          fetchAdminUsers(token),
-        ]);
+        const fetchAll = async () => {
+          const [analyticsData, usersData] = await Promise.all([
+            fetchAdminAnalytics(token),
+            fetchAdminUsers(token),
+          ]);
+          return { analyticsData, usersData };
+        };
+
+        const first = await fetchAll();
         if (!mounted) return;
-        setAnalytics(analyticsData);
-        setUsers(usersData);
+        setAnalytics(first.analyticsData);
+        setUsers(first.usersData);
+
+        timer = setInterval(async () => {
+          if (!mounted || !token || inFlight) return;
+          inFlight = true;
+          try {
+            const next = await fetchAll();
+            if (!mounted) return;
+            setAnalytics(next.analyticsData);
+            setUsers(next.usersData);
+          } catch {
+            // keep last good data
+          } finally {
+            inFlight = false;
+          }
+        }, 15000);
       } catch (e: any) {
         if (!mounted) return;
         setLoadError(e?.message || 'Failed to load admin dashboard');
@@ -52,7 +74,10 @@ export default function AdminDashboard() {
         setIsLoading(false);
       }
     })();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+      if (timer) clearInterval(timer);
+    };
   }, [token]);
 
   const recentUsers = useMemo(() => users.slice(0, 4), [users]);
