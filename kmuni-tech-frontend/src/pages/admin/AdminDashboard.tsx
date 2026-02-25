@@ -1,0 +1,144 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import DashboardLayout from '../../components/layout/DashboardLayout';
+import StatCard from '../../components/common/StatCard';
+import { Users, BookOpen, GraduationCap, TrendingUp, ShieldCheck, ArrowRight } from 'lucide-react';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
+import { User } from '../../types';
+import { useAuth } from '../../context/AuthContext';
+import { fetchAdminAnalytics, fetchAdminUsers } from '../../utils/api';
+
+const roleColors: Record<string, string> = {
+  student: 'bg-emerald-500/15 text-emerald-400',
+  instructor: 'bg-blue-500/15 text-blue-400',
+  admin: 'bg-orange-500/15 text-orange-400',
+};
+
+export default function AdminDashboard() {
+  const { token } = useAuth();
+  const [analytics, setAnalytics] = useState<{
+    totalUsers: number;
+    totalStudents: number;
+    totalInstructors: number;
+    totalCourses: number;
+    totalEnrollments: number;
+  } | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      if (!token) {
+        setIsLoading(false);
+        setLoadError('Not authenticated');
+        return;
+      }
+      try {
+        setLoadError('');
+        const [analyticsData, usersData] = await Promise.all([
+          fetchAdminAnalytics(token),
+          fetchAdminUsers(token),
+        ]);
+        if (!mounted) return;
+        setAnalytics(analyticsData);
+        setUsers(usersData);
+      } catch (e: any) {
+        if (!mounted) return;
+        setLoadError(e?.message || 'Failed to load admin dashboard');
+      } finally {
+        if (!mounted) return;
+        setIsLoading(false);
+      }
+    })();
+    return () => { mounted = false; };
+  }, [token]);
+
+  const recentUsers = useMemo(() => users.slice(0, 4), [users]);
+
+  const timeAgo = (iso: string) => {
+    if (!iso) return '—';
+    const date = new Date(iso);
+    if (Number.isNaN(date.getTime())) return '—';
+    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    if (days > 0) return `${days} day${days === 1 ? '' : 's'} ago`;
+    if (hours > 0) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+    if (minutes > 0) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+    return 'just now';
+  };
+  return (
+    <DashboardLayout>
+      <div className="mb-8">
+        <div className="flex items-center gap-2.5 mb-2">
+          <ShieldCheck size={22} className="text-orange-400" />
+          <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
+        </div>
+        <p className="text-slate-400">Platform overview and management console — ISquare Tech Solutions</p>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <StatCard icon={<Users size={18} />} label="Total Users" value={analytics?.totalUsers ?? '—'} color="from-indigo-500 to-purple-500" />
+        <StatCard icon={<GraduationCap size={18} />} label="Students" value={analytics?.totalStudents ?? '—'} color="from-blue-500 to-cyan-500" />
+        <StatCard icon={<BookOpen size={18} />} label="Courses" value={analytics?.totalCourses ?? '—'} color="from-emerald-500 to-teal-500" />
+        <StatCard icon={<TrendingUp size={18} />} label="Enrollments" value={analytics?.totalEnrollments ?? '—'} color="from-orange-500 to-red-500" />
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Recent Users */}
+        <div className="lg:col-span-2 card p-6">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-white font-bold text-lg">Recent Users</h2>
+            <Link to="/admin/users" className="text-indigo-400 hover:text-indigo-300 text-sm flex items-center gap-1">View all <ArrowRight size={13} /></Link>
+          </div>
+          <div className="space-y-3">
+            {isLoading ? (
+              <LoadingSpinner text="Loading users..." />
+            ) : loadError ? (
+              <p className="text-slate-400 text-sm">{loadError}</p>
+            ) : recentUsers.map(u => (
+              <div key={u.id} className="flex items-center gap-3 p-3 bg-white/2 rounded-xl hover:bg-white/4 transition-all">
+                <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                  {u.name.charAt(0)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-white text-sm font-medium">{u.name}</p>
+                  <p className="text-slate-500 text-xs truncate">{u.email}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={`badge ${roleColors[u.role]} text-[10px] capitalize`}>{u.role}</span>
+                  <span className="badge text-[10px] capitalize bg-emerald-500/10 text-emerald-400">active</span>
+                </div>
+                <span className="text-slate-600 text-xs whitespace-nowrap">{timeAgo(u.createdAt)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Sidebar */}
+        <div className="space-y-5">
+          {/* Quick Actions */}
+          <div className="card p-5">
+            <h3 className="text-white font-bold mb-4">Admin Actions</h3>
+            <div className="space-y-2">
+              {[
+                { label: 'Manage Users', path: '/admin/users', icon: Users },
+                { label: 'Review Courses', path: '/admin/courses', icon: BookOpen },
+                { label: 'Security Logs', path: '/admin/security', icon: ShieldCheck },
+              ].map(({ label, path, icon: Icon }) => (
+                <Link key={path} to={path} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all">
+                  <Icon size={15} className="text-orange-400" />
+                  <span className="text-slate-300 text-sm">{label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </DashboardLayout>
+  );
+}
