@@ -67,6 +67,9 @@ export default function Navbar() {
             <Link to="/about" className="text-slate-300 hover:text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-all text-sm font-medium">
               About
             </Link>
+            <Link to="/social-connect" className="text-slate-300 hover:text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-all text-sm font-medium">
+              Social Connect
+            </Link>
             <Link to="/collaborations" className="text-slate-300 hover:text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-all text-sm font-medium">
               Collaborations
             </Link>

@@ -15,6 +15,8 @@ const CollaborationsPage = React.lazy(() => import('./pages/public/Collaboration
 const AboutPage = React.lazy(() => import('./pages/public/AboutPage'));
 const UnilinkPage = React.lazy(() => import('./pages/public/UnilinkPage'));
 const SelfLearnPage = React.lazy(() => import('./pages/public/SelfLearnPage'));
+const UserProfilePage = React.lazy(() => import('./pages/public/UserProfilePage'));
+const SocialConnectPage = React.lazy(() => import('./pages/public/SocialConnectPage'));
 
 const StudentDashboard = React.lazy(() => import('./pages/student/StudentDashboard'));
 const StudentCourses = React.lazy(() => import('./pages/student/StudentCourses'));
@@ -51,6 +53,8 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/unilink" element={<UnilinkPage />} />
             <Route path="/self-learn" element={<SelfLearnPage />} />
+            <Route path="/profile/:id" element={<UserProfilePage />} />
+            <Route path="/social-connect" element={<SocialConnectPage />} />
 
             {/* ── Student (protected) ─────────────────────────────── */}
             <Route path="/student/dashboard" element={

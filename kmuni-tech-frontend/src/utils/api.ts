@@ -207,6 +207,21 @@ export type PublicUnilinkEventsResponse = {
   finished: UnilinkEvent[];
 };
 
+export type PublicUserProfile = {
+  id: string;
+  name: string;
+  role: UserRole;
+  createdAt: string;
+  courses?: Course[];
+};
+
+export type PublicUserListItem = {
+  id: string;
+  name: string;
+  role: UserRole;
+  createdAt: string;
+};
+
 export async function fetchPublicUnilinkEvents() {
   return apiFetch<PublicUnilinkEventsResponse>('/api/public/unilink-events');
 }
@@ -255,6 +270,43 @@ export async function registerUnilinkLead(payload: RegisterUnilinkLeadRequest) {
 
 export async function fetchHomeStats() {
   return apiFetch<HomeStats>('/api/public/home-stats');
+}
+
+export async function fetchPublicUserProfile(userId: string) {
+  const data = await apiFetch<{
+    id: string;
+    name: string;
+    role: string;
+    createdAt: string;
+    courses?: CourseListDTO[];
+  }>(`/api/public/users/${userId}`, { method: 'GET' });
+
+  return {
+    id: data.id,
+    name: data.name,
+    role: (data.role as UserRole) ?? 'student',
+    createdAt: data.createdAt ?? '',
+    courses: data.courses ? data.courses.map(toCourse) : undefined,
+  } satisfies PublicUserProfile;
+}
+
+export async function fetchPublicUsers(params?: { limit?: number; offset?: number }) {
+  const qs = new URLSearchParams();
+  if (typeof params?.limit === 'number') qs.set('limit', String(params.limit));
+  if (typeof params?.offset === 'number') qs.set('offset', String(params.offset));
+  const suffix = qs.toString() ? `?${qs.toString()}` : '';
+
+  const data = await apiFetch<Array<{ id: string; name: string; role: string; createdAt: string }>>(
+    `/api/public/users${suffix}`,
+    { method: 'GET' },
+  );
+
+  return data.map((u) => ({
+    id: u.id,
+    name: u.name,
+    role: (u.role as UserRole) ?? 'student',
+    createdAt: u.createdAt ?? '',
+  })) as PublicUserListItem[];
 }
 
 const toUser = (apiUser: ApiUser): User => ({

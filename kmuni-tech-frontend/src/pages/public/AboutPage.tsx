@@ -77,7 +77,7 @@ export default function AboutPage() {
                             <div className="relative aspect-square lg:aspect-auto lg:h-[600px] overflow-hidden">
                                 <img
                                     src={`${baseUrl}assetskmuni/pradosh-km.png`}
-                                    alt="Tharun Varshan U"
+                                    alt="K.M.Pradosh"
                                     className="w-full h-full object-cover object-top filter brightness-90 hover:brightness-100 transition-all duration-700"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#0d0f1a] via-transparent to-transparent opacity-60" />
@@ -94,11 +94,11 @@ export default function AboutPage() {
                                 </h2>
                                 <div className="space-y-6 text-slate-300 text-lg leading-relaxed">
                                     <p>
-                                        Tharun Varshan U, the Founder and CEO of KM UniTech, established the organization with a
+                                        K.M.Pradosh, the Founder and CEO of KM UniTech, established the organization with a
                                         singular goal: to create a world where education is synonymous with impact.
                                     </p>
                                     <p>
-                                        With deep expertise in software engineering and digital transformation, Tharun envisioned
+                                        With deep expertise in software engineering and digital transformation, K.M.Pradosh envisioned
                                         KM UniTech as more than just an ed-tech platform. He built it as a hybrid ecosystem
                                         where practical skills meet social responsibility.
                                     </p>
