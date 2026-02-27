@@ -45,6 +45,23 @@ export default function SelfLearnPage() {
   const [activitySubmitError, setActivitySubmitError] = useState('');
   const [activityLastScore, setActivityLastScore] = useState<number | null>(null);
 
+  const activityErrorHint = useMemo(() => {
+    const msg = (activityError || '').toLowerCase();
+    if (!msg) return '';
+    if (
+      msg.includes('failed to fetch') ||
+      msg.includes('could not connect') ||
+      msg.includes('network') ||
+      msg.includes('connect to')
+    ) {
+      return 'Backend API is not reachable. Start it with: kmuni-tech-backend-nest → npm run start:dev';
+    }
+    if (msg.includes('cannot get')) {
+      return 'Backend API route not found. Ensure the Nest backend is running on port 3000 and rebuilt/restarted.';
+    }
+    return '';
+  }, [activityError]);
+
   const activeTopic = activeDomain.topics.find((t) => t.key === activeTopicKey) ?? activeDomain.topics[0];
 
   const chapters = useMemo(() => {
@@ -495,7 +512,12 @@ export default function SelfLearnPage() {
                           ) : activityLoading ? (
                             <p className="mt-5 text-slate-400 text-sm">Loading attempts…</p>
                           ) : activityError ? (
-                            <p className="mt-5 text-slate-400 text-sm">{activityError}</p>
+                            <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4">
+                              <p className="text-slate-300 text-sm font-semibold">{activityError}</p>
+                              {activityErrorHint ? (
+                                <p className="text-slate-500 text-sm mt-2">{activityErrorHint}</p>
+                              ) : null}
+                            </div>
                           ) : (
                             <>
                               <div className="mt-5 space-y-4">
