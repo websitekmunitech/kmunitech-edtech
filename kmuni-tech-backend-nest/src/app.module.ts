@@ -8,6 +8,7 @@ import { Lesson } from './entities/lesson.entity';
 import { Enrollment } from './entities/enrollment.entity';
 import { UnilinkLead } from './entities/unilink-lead.entity';
 import { UnilinkEvent } from './entities/unilink-event.entity';
+import { SelfLearnActivityAttempt } from './entities/self-learn-activity-attempt.entity';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { CoursesController } from './courses/courses.controller';
@@ -28,6 +29,8 @@ import { PublicController } from './public/public.controller';
 import { PublicService } from './public/public.service';
 import { UnilinkEventsService } from './unilink-events/unilink-events.service';
 import { R2Module } from './storage/r2.module';
+import { SelfLearnActivityController } from './self-learn-activity/self-learn-activity.controller';
+import { SelfLearnActivityService } from './self-learn-activity/self-learn-activity.service';
 
 @Module({
   imports: [
@@ -108,7 +111,7 @@ import { R2Module } from './storage/r2.module';
                   database: process.env.DB_NAME || 'kmunitech',
                 }),
           ...(useSsl ? { ssl: sslOptions } : {}),
-          entities: [User, Course, Lesson, Enrollment, UnilinkLead, UnilinkEvent],
+          entities: [User, Course, Lesson, Enrollment, UnilinkLead, UnilinkEvent, SelfLearnActivityAttempt],
           synchronize: true,
           retryAttempts: 10,
           retryDelay: 3000,
@@ -119,7 +122,7 @@ import { R2Module } from './storage/r2.module';
         };
       },
     }),
-    TypeOrmModule.forFeature([User, Course, Lesson, Enrollment, UnilinkLead, UnilinkEvent]),
+    TypeOrmModule.forFeature([User, Course, Lesson, Enrollment, UnilinkLead, UnilinkEvent, SelfLearnActivityAttempt]),
     AuthModule,
     R2Module,
   ],
@@ -133,6 +136,7 @@ import { R2Module } from './storage/r2.module';
     MediaController,
     UnilinkController,
     PublicController,
+    SelfLearnActivityController,
   ],
   providers: [
     AuthService,
@@ -145,6 +149,7 @@ import { R2Module } from './storage/r2.module';
     UnilinkService,
     PublicService,
     UnilinkEventsService,
+    SelfLearnActivityService,
   ],
 })
 export class AppModule {}

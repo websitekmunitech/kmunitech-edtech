@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { PublicService } from './public.service';
 import { UnilinkEventsService } from '../unilink-events/unilink-events.service';
 
@@ -17,5 +17,21 @@ export class PublicController {
   @Get('unilink-events')
   unilinkEventsList() {
     return this.unilinkEvents.listPublicGrouped();
+  }
+
+  @Get('users/:id')
+  userProfile(@Param('id') id: string) {
+    return this.pub.getPublicUserProfile(id);
+  }
+
+  @Get('users')
+  usersList(
+    @Query('limit') limit?: string,
+    @Query('offset') offset?: string,
+  ) {
+    return this.pub.listPublicUsers({
+      limit: limit ? Number(limit) : undefined,
+      offset: offset ? Number(offset) : undefined,
+    });
   }
 }

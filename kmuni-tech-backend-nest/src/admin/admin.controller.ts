@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -17,6 +17,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UnilinkEventsService } from '../unilink-events/unilink-events.service';
 import { CreateUnilinkEventDto } from '../unilink-events/dto/create-unilink-event.dto';
 import { UpdateUnilinkEventDto } from '../unilink-events/dto/update-unilink-event.dto';
+import { SelfLearnActivityAttempt } from '../entities/self-learn-activity-attempt.entity';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('admin')
@@ -27,6 +28,8 @@ export class AdminController {
     @InjectRepository(Course) private readonly coursesRepo: Repository<Course>,
     @InjectRepository(Enrollment)
     private readonly enrollmentsRepo: Repository<Enrollment>,
+    @InjectRepository(SelfLearnActivityAttempt)
+    private readonly selfLearnAttemptsRepo: Repository<SelfLearnActivityAttempt>,
     private readonly auth: AuthService,
     private readonly unilinkEvents: UnilinkEventsService,
   ) {}
@@ -222,6 +225,52 @@ export class AdminController {
   @Get('unilink-events')
   async listUnilinkEvents() {
     return this.unilinkEvents.listAll();
+  }
+
+  @Get('self-learn/activity-attempts')
+  async listSelfLearnActivityAttempts(
+    @Query('userId') userId?: string,
+    @Query('topic') topic?: string,
+    @Query('level') level?: string,
+    @Query('chapterId') chapterId?: string,
+    @Query('limit') limitRaw?: string,
+  ) {
+    const parsed = Number.parseInt((limitRaw || '').trim(), 10);
+    const limit = Number.isFinite(parsed) ? Math.min(Math.max(parsed, 1), 200) : 50;
+
+    const qb = this.selfLearnAttemptsRepo
+      .createQueryBuilder('a')
+      .leftJoinAndSelect('a.user', 'user')
+      .orderBy('a.createdAt', 'DESC')
+      .take(limit);
+
+    if (userId && userId.trim()) qb.andWhere('user.id = :userId', { userId: userId.trim() });
+    if (topic && topic.trim()) qb.andWhere('a.topic = :topic', { topic: topic.trim() });
+    if (level && level.trim()) qb.andWhere('a.level = :level', { level: level.trim() });
+    if (chapterId && chapterId.trim()) qb.andWhere('a.chapterId = :chapterId', { chapterId: chapterId.trim() });
+
+    const attempts = await qb.getMany();
+    return attempts.map((a) => ({
+      id: a.id,
+      user: {
+        id: a.user?.id,
+        name: a.user?.name,
+        email: a.user?.email,
+        role:
+          a.user?.role === 'ADMIN'
+            ? 'admin'
+            : a.user?.role === 'INSTRUCTOR'
+              ? 'instructor'
+              : 'student',
+      },
+      topic: a.topic,
+      level: a.level,
+      chapterId: a.chapterId,
+      attemptNumber: a.attemptNumber,
+      score: a.score,
+      totalQuestions: a.totalQuestions,
+      createdAt: a.createdAt ? a.createdAt.toISOString() : '',
+    }));
   }
 
   @Post('unilink-events')

@@ -14,8 +14,6 @@ export default function StudentCertificates() {
   const { user } = useAuth();
 
   const certs = useMemo(() => {
-    const base = [{ id: 'course:devops', course: 'DevOps & CI/CD Pipeline', date: 'March 2024', grade: 'A+', hours: 60 }];
-
     const unlocked = getUnlockedCertificates(user?.id ?? null).map((c) => ({
       id: c.id,
       course: c.title,
@@ -24,7 +22,7 @@ export default function StudentCertificates() {
       hours: 3,
     }));
 
-    return [...unlocked, ...base];
+    return unlocked;
   }, [user?.id]);
 
   return (

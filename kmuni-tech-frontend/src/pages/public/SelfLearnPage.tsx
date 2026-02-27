@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { BookOpen, CheckCircle2, Code2, ChevronRight } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { BookOpen, CheckCircle2, Code2, ChevronLeft, ChevronRight } from 'lucide-react';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import { useAuth } from '../../context/AuthContext';
@@ -16,9 +16,15 @@ import {
   isLevelFullyComplete,
   toggleChapterCompletion,
 } from '../../utils/selfLearnProgress';
+import { getChapterActivity } from '../../data/selfLearnActivities';
+import {
+  fetchSelfLearnActivityAttempts,
+  submitSelfLearnActivityAttempt,
+  type SelfLearnActivityAttemptDTO,
+} from '../../utils/api';
 
 export default function SelfLearnPage() {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const userId = user?.id ?? null;
 
   const domains = useMemo(() => SELF_LEARN_DOMAINS, []);
@@ -28,6 +34,16 @@ export default function SelfLearnPage() {
   const [activeTopicKey, setActiveTopicKey] = useState<TopicKey>('html');
   const [activeLevel, setActiveLevel] = useState<LevelKey>('Beginner');
   const [activeChapterId, setActiveChapterId] = useState<string>('');
+  const lessonTopRef = useRef<HTMLDivElement | null>(null);
+  const [chapterPulse, setChapterPulse] = useState(false);
+
+  const [activitySelections, setActivitySelections] = useState<Partial<Record<string, number>>>({});
+  const [activityAttempts, setActivityAttempts] = useState<SelfLearnActivityAttemptDTO[]>([]);
+  const [activityLoading, setActivityLoading] = useState(false);
+  const [activityError, setActivityError] = useState('');
+  const [activitySubmitting, setActivitySubmitting] = useState(false);
+  const [activitySubmitError, setActivitySubmitError] = useState('');
+  const [activityLastScore, setActivityLastScore] = useState<number | null>(null);
 
   const activeTopic = activeDomain.topics.find((t) => t.key === activeTopicKey) ?? activeDomain.topics[0];
 
@@ -44,6 +60,58 @@ export default function SelfLearnPage() {
     if (!chapters.length) return undefined;
     return chapters.find((c) => c.id === activeChapterId) ?? chapters[0];
   }, [chapters, activeChapterId]);
+
+  const activity = useMemo(() => {
+    if (!activeTopic || !activeChapter) return undefined;
+    return getChapterActivity(activeTopic.key, activeLevel, activeChapter.id);
+  }, [activeTopic, activeLevel, activeChapter]);
+
+  const activeChapterIndex = useMemo(() => {
+    if (!activeChapter) return -1;
+    return chapters.findIndex((c) => c.id === activeChapter.id);
+  }, [chapters, activeChapter]);
+
+  useEffect(() => {
+    if (!activeChapterId) return;
+
+    lessonTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setChapterPulse(true);
+    const timeoutId = window.setTimeout(() => setChapterPulse(false), 400);
+    return () => window.clearTimeout(timeoutId);
+  }, [activeChapterId]);
+
+  useEffect(() => {
+    setActivitySelections({});
+    setActivityAttempts([]);
+    setActivityError('');
+    setActivitySubmitError('');
+    setActivityLastScore(null);
+
+    if (!token || !activity) return;
+
+    let mounted = true;
+    setActivityLoading(true);
+    fetchSelfLearnActivityAttempts(
+      { topic: activity.topic, level: activity.level, chapterId: activity.chapterId },
+      token,
+    )
+      .then((rows) => {
+        if (!mounted) return;
+        setActivityAttempts(rows);
+      })
+      .catch((e: any) => {
+        if (!mounted) return;
+        setActivityError(e?.message || 'Failed to load activity attempts');
+      })
+      .finally(() => {
+        if (!mounted) return;
+        setActivityLoading(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, [token, activity?.chapterId, activity?.topic, activity?.level]);
 
   const [progressTick, setProgressTick] = useState(0);
   const progress = useMemo(() => {
@@ -313,13 +381,19 @@ export default function SelfLearnPage() {
 
                   {/* Lesson content */}
                   {activeChapter ? (
-                    <div className="bg-gradient-to-br from-indigo-600/10 to-purple-600/5 border border-indigo-500/20 rounded-3xl p-6 md:p-8">
+                    <div
+                      className={`bg-gradient-to-br from-indigo-600/10 to-purple-600/5 border border-indigo-500/20 rounded-3xl p-6 md:p-8 transition-all duration-300 ${
+                        chapterPulse ? 'ring-2 ring-indigo-500/30' : ''
+                      }`}
+                    >
+                      <div ref={lessonTopRef} />
                       <div className="flex items-center justify-between gap-4 mb-6">
                         <div>
                           <p className="text-indigo-300 text-xs font-bold uppercase tracking-widest">
                             {activeLevel} • {activeTopic?.title}
                           </p>
                           <h3 className="text-white font-bold text-2xl md:text-3xl mt-2">Lesson Guide</h3>
+                          <p className="text-slate-300 text-sm font-semibold mt-2">{activeChapter.title}</p>
                         </div>
                         <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/5 border border-white/10">
                           <span className="text-slate-400 text-xs font-semibold">Progress:</span>
@@ -392,6 +466,185 @@ export default function SelfLearnPage() {
                             ))}
                           </ol>
                         </div>
+                      </div>
+
+                      {/* Activity (Exam) */}
+                      {activity ? (
+                        <div className="mt-8 bg-white/5 border border-white/10 rounded-2xl p-6">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                            <div>
+                              <h4 className="text-white font-bold text-lg">Activity</h4>
+                              <p className="text-slate-500 text-sm mt-1">5 questions • Max 3 attempts</p>
+                            </div>
+                            <div className="text-left sm:text-right">
+                              <p className="text-slate-400 text-xs font-semibold">Attempts</p>
+                              <p className="text-white text-sm font-bold mt-1">{Math.min(activityAttempts.length, 3)}/3</p>
+                            </div>
+                          </div>
+
+                          {!user || !token ? (
+                            <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                              <p className="text-slate-300 text-sm font-semibold">Login required to attempt the activity.</p>
+                              <a
+                                href="/login"
+                                className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-bold border bg-white/5 border-white/10 text-slate-300 hover:border-white/20"
+                              >
+                                Login
+                              </a>
+                            </div>
+                          ) : activityLoading ? (
+                            <p className="mt-5 text-slate-400 text-sm">Loading attempts…</p>
+                          ) : activityError ? (
+                            <p className="mt-5 text-slate-400 text-sm">{activityError}</p>
+                          ) : (
+                            <>
+                              <div className="mt-5 space-y-4">
+                                {activity.questions.map((question, index) => (
+                                  <div key={question.id} className="bg-white/5 border border-white/10 rounded-2xl p-5">
+                                    <p className="text-white font-semibold text-sm">Q{index + 1}. {question.prompt}</p>
+                                    <div className="mt-3 space-y-2">
+                                      {question.options.map((opt, optIndex) => {
+                                        const selected = activitySelections[question.id] === optIndex;
+                                        return (
+                                          <button
+                                            key={opt}
+                                            type="button"
+                                            onClick={() => setActivitySelections((prev) => ({ ...prev, [question.id]: optIndex }))}
+                                            className={`w-full text-left px-4 py-3 rounded-xl border transition-all ${
+                                              selected
+                                                ? 'bg-indigo-600/20 border-indigo-500/30 text-white'
+                                                : 'bg-white/5 border-white/10 text-slate-300 hover:border-white/20'
+                                            }`}
+                                          >
+                                            <span className="text-sm font-semibold">{opt}</span>
+                                          </button>
+                                        );
+                                      })}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+
+                              {activitySubmitError ? (
+                                <p className="mt-4 text-sm text-red-400 font-semibold">{activitySubmitError}</p>
+                              ) : null}
+
+                              {typeof activityLastScore === 'number' ? (
+                                <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4">
+                                  <p className="text-slate-300 text-sm font-semibold">
+                                    Last attempt score: <span className="text-white">{activityLastScore}/5</span>
+                                  </p>
+                                </div>
+                              ) : null}
+
+                              <div className="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div className="text-slate-400 text-sm">
+                                  Best score: <span className="text-white font-bold">{Math.max(0, ...activityAttempts.map((a) => a.score))}/5</span>
+                                </div>
+                                <button
+                                  type="button"
+                                  disabled={activitySubmitting || activityAttempts.length >= 3}
+                                  onClick={async () => {
+                                    if (!activity || !token) return;
+                                    setActivitySubmitError('');
+
+                                    const unanswered = activity.questions.filter((q) => typeof activitySelections[q.id] !== 'number');
+                                    if (unanswered.length > 0) {
+                                      setActivitySubmitError('Please answer all questions before submitting.');
+                                      return;
+                                    }
+
+                                    const answers = activity.questions.map((q) => activitySelections[q.id]);
+                                    const score = activity.questions.reduce((acc, q) => {
+                                      return acc + (activitySelections[q.id] === q.correctIndex ? 1 : 0);
+                                    }, 0);
+
+                                    try {
+                                      setActivitySubmitting(true);
+                                      const saved = await submitSelfLearnActivityAttempt(
+                                        {
+                                          topic: activity.topic,
+                                          level: activity.level,
+                                          chapterId: activity.chapterId,
+                                          score,
+                                          answers,
+                                        },
+                                        token,
+                                      );
+                                      setActivityAttempts((prev) => [...prev, saved]);
+                                      setActivityLastScore(score);
+                                    } catch (e: any) {
+                                      setActivitySubmitError(e?.message || 'Failed to submit attempt');
+                                    } finally {
+                                      setActivitySubmitting(false);
+                                    }
+                                  }}
+                                  className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-bold border bg-indigo-600/20 border-indigo-500/30 text-white hover:bg-indigo-600/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                  {activitySubmitting ? 'Submitting…' : activityAttempts.length >= 3 ? 'Attempt Limit Reached' : 'Submit Attempt'}
+                                </button>
+                              </div>
+
+                              {/* Completion claim (UI placeholder) */}
+                              <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5">
+                                <p className="text-white font-bold">Completion Badge</p>
+                                <p className="text-slate-500 text-sm mt-1">
+                                  Claim badge and download PDF (coming soon).
+                                </p>
+                                <div className="mt-4 flex flex-col sm:flex-row gap-3">
+                                  <button
+                                    type="button"
+                                    disabled
+                                    className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-bold border bg-white/5 border-white/10 text-slate-400 cursor-not-allowed"
+                                  >
+                                    Claim Badge
+                                  </button>
+                                  <button
+                                    type="button"
+                                    disabled
+                                    className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-bold border bg-white/5 border-white/10 text-slate-400 cursor-not-allowed"
+                                  >
+                                    Download PDF
+                                  </button>
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      ) : null}
+
+                      <div className="mt-8 flex items-center justify-between gap-3">
+                        <button
+                          type="button"
+                          disabled={activeChapterIndex <= 0}
+                          onClick={() => {
+                            const prev = chapters[activeChapterIndex - 1];
+                            if (prev) setActiveChapterId(prev.id);
+                          }}
+                          className="group inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border bg-white/5 border-white/10 text-slate-300 hover:border-white/20 transition-all duration-200 ease-out active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-white/10 disabled:active:scale-100"
+                        >
+                          <ChevronLeft
+                            size={16}
+                            className="transition-transform duration-200 ease-out group-hover:-translate-x-0.5 group-active:-translate-x-1"
+                          />
+                          Previous
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={activeChapterIndex < 0 || activeChapterIndex >= chapters.length - 1}
+                          onClick={() => {
+                            const next = chapters[activeChapterIndex + 1];
+                            if (next) setActiveChapterId(next.id);
+                          }}
+                          className="group inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border bg-white/5 border-white/10 text-slate-300 hover:border-white/20 transition-all duration-200 ease-out active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-white/10 disabled:active:scale-100"
+                        >
+                          Next
+                          <ChevronRight
+                            size={16}
+                            className="transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-active:translate-x-1"
+                          />
+                        </button>
                       </div>
                     </div>
                   ) : (

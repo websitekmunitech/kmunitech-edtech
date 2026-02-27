@@ -6,7 +6,12 @@ import { Users, BookOpen, GraduationCap, TrendingUp, ShieldCheck, ArrowRight } f
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { User } from '../../types';
 import { useAuth } from '../../context/AuthContext';
-import { fetchAdminAnalytics, fetchAdminUsers } from '../../utils/api';
+import {
+  fetchAdminAnalytics,
+  fetchAdminSelfLearnActivityAttempts,
+  fetchAdminUsers,
+  type AdminSelfLearnActivityAttemptDTO,
+} from '../../utils/api';
 
 const roleColors: Record<string, string> = {
   student: 'bg-emerald-500/15 text-emerald-400',
@@ -24,6 +29,7 @@ export default function AdminDashboard() {
     totalEnrollments: number;
   } | null>(null);
   const [users, setUsers] = useState<User[]>([]);
+  const [selfLearnAttempts, setSelfLearnAttempts] = useState<AdminSelfLearnActivityAttemptDTO[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
 
@@ -44,13 +50,22 @@ export default function AdminDashboard() {
             fetchAdminAnalytics(token),
             fetchAdminUsers(token),
           ]);
-          return { analyticsData, usersData };
+
+          let attemptsData: AdminSelfLearnActivityAttemptDTO[] = [];
+          try {
+            attemptsData = await fetchAdminSelfLearnActivityAttempts(token, { limit: 5 });
+          } catch {
+            // marks are optional; keep dashboard usable
+            attemptsData = [];
+          }
+          return { analyticsData, usersData, attemptsData };
         };
 
         const first = await fetchAll();
         if (!mounted) return;
         setAnalytics(first.analyticsData);
         setUsers(first.usersData);
+        setSelfLearnAttempts(first.attemptsData);
 
         timer = setInterval(async () => {
           if (!mounted || !token || inFlight) return;
@@ -60,6 +75,7 @@ export default function AdminDashboard() {
             if (!mounted) return;
             setAnalytics(next.analyticsData);
             setUsers(next.usersData);
+            setSelfLearnAttempts(next.attemptsData);
           } catch {
             // keep last good data
           } finally {
@@ -161,6 +177,36 @@ export default function AdminDashboard() {
                 </Link>
               ))}
             </div>
+          </div>
+
+          <div className="card p-5">
+            <h3 className="text-white font-bold mb-4">Self Learn Marks</h3>
+            {isLoading ? (
+              <LoadingSpinner text="Loading marks..." />
+            ) : loadError ? (
+              <p className="text-slate-400 text-sm">{loadError}</p>
+            ) : selfLearnAttempts.length === 0 ? (
+              <p className="text-slate-400 text-sm">No activity attempts yet.</p>
+            ) : (
+              <div className="space-y-3">
+                {selfLearnAttempts.map((a) => (
+                  <div key={a.id} className="p-3 bg-white/2 rounded-xl">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-white text-sm font-semibold truncate">{a.user.name}</p>
+                        <p className="text-slate-500 text-xs mt-0.5 truncate">
+                          {a.topic.toUpperCase()} • {a.level} • {a.chapterId}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-white text-sm font-bold">{a.score}/{a.totalQuestions}</p>
+                        <p className="text-slate-600 text-xs">{timeAgo(a.createdAt)}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

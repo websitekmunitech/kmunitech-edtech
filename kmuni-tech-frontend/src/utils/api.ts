@@ -514,3 +514,66 @@ export async function adminDeleteCourse(courseId: string, token: string) {
 export async function adminApproveInstructor(userId: string, token: string) {
   return apiFetch(`/api/admin/instructors/${userId}/approve`, { method: 'POST' }, token);
 }
+
+export type SelfLearnActivityAttemptDTO = {
+  id: string;
+  topic: string;
+  level: string;
+  chapterId: string;
+  attemptNumber: number;
+  score: number;
+  totalQuestions: number;
+  createdAt: string;
+};
+
+export type SubmitSelfLearnActivityAttemptRequest = {
+  topic: string;
+  level: string;
+  chapterId: string;
+  score: number;
+  answers?: unknown[];
+};
+
+export type SubmitSelfLearnActivityAttemptResponse = SelfLearnActivityAttemptDTO & {
+  attemptsUsed: number;
+  attemptsRemaining: number;
+};
+
+export async function fetchSelfLearnActivityAttempts(
+  params: { topic: string; level: string; chapterId: string },
+  token: string,
+) {
+  const query = new URLSearchParams({
+    topic: params.topic,
+    level: params.level,
+    chapterId: params.chapterId,
+  });
+  return apiFetch<SelfLearnActivityAttemptDTO[]>(`/api/self-learn/activity/attempts?${query.toString()}`, { method: 'GET' }, token);
+}
+
+export async function submitSelfLearnActivityAttempt(payload: SubmitSelfLearnActivityAttemptRequest, token: string) {
+  return apiFetch<SubmitSelfLearnActivityAttemptResponse>('/api/self-learn/activity/attempts', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  }, token);
+}
+
+export type AdminSelfLearnActivityAttemptDTO = SelfLearnActivityAttemptDTO & {
+  user: { id: string; name: string; email: string; role: string };
+};
+
+export async function fetchAdminSelfLearnActivityAttempts(
+  token: string,
+  params?: { userId?: string; topic?: string; level?: string; chapterId?: string; limit?: number },
+) {
+  const query = new URLSearchParams();
+  if (params?.userId) query.set('userId', params.userId);
+  if (params?.topic) query.set('topic', params.topic);
+  if (params?.level) query.set('level', params.level);
+  if (params?.chapterId) query.set('chapterId', params.chapterId);
+  if (typeof params?.limit === 'number') query.set('limit', String(params.limit));
+
+  const qs = query.toString();
+  const path = qs ? `/api/admin/self-learn/activity-attempts?${qs}` : '/api/admin/self-learn/activity-attempts';
+  return apiFetch<AdminSelfLearnActivityAttemptDTO[]>(path, { method: 'GET' }, token);
+}

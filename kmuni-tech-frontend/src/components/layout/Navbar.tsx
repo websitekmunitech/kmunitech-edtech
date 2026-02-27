@@ -32,6 +32,29 @@ export default function Navbar() {
     return user ? colors[user.role] : '';
   };
 
+  const isActiveRoute = (to: string) => {
+    if (to === '/') return location.pathname === '/';
+    return location.pathname === to || location.pathname.startsWith(`${to}/`);
+  };
+
+  const desktopNavLinkClass = (to: string) => {
+    const active = isActiveRoute(to);
+    return `px-4 py-2 rounded-lg transition-all text-sm font-medium border ${
+      active
+        ? 'bg-indigo-600/20 border-indigo-500/30 text-white'
+        : 'border-transparent text-slate-300 hover:text-white hover:bg-white/5'
+    }`;
+  };
+
+  const mobileNavLinkClass = (to: string) => {
+    const active = isActiveRoute(to);
+    return `block px-4 py-3 rounded-xl transition-all border ${
+      active
+        ? 'bg-indigo-600/20 border-indigo-500/30 text-white'
+        : 'border-transparent text-slate-300 hover:text-white hover:bg-white/5'
+    }`;
+  };
+
   const logoSrc = `${import.meta.env.BASE_URL}kmunitech-logo.jpeg`;
 
   return (
@@ -52,25 +75,26 @@ export default function Navbar() {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
-            <Link to="/" className="text-slate-300 hover:text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-all text-sm font-medium">
+            <Link to="/" className={desktopNavLinkClass('/')}
+            >
               Home
             </Link>
-            <Link to="/courses" className="text-slate-300 hover:text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-all text-sm font-medium">
+            <Link to="/courses" className={desktopNavLinkClass('/courses')}>
               Courses
             </Link>
-            <Link to="/unilink" className="text-slate-300 hover:text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-all text-sm font-medium">
+            <Link to="/unilink" className={desktopNavLinkClass('/unilink')}>
               Unilink
             </Link>
-            <Link to="/self-learn" className="text-slate-300 hover:text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-all text-sm font-medium">
+            <Link to="/self-learn" className={desktopNavLinkClass('/self-learn')}>
               Self Learn
             </Link>
-            <Link to="/about" className="text-slate-300 hover:text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-all text-sm font-medium">
+            <Link to="/about" className={desktopNavLinkClass('/about')}>
               About
             </Link>
-            <Link to="/social-connect" className="text-slate-300 hover:text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-all text-sm font-medium">
+            <Link to="/social-connect" className={desktopNavLinkClass('/social-connect')}>
               Social Connect
             </Link>
-            <Link to="/collaborations" className="text-slate-300 hover:text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-all text-sm font-medium">
+            <Link to="/collaborations" className={desktopNavLinkClass('/collaborations')}>
               Collaborations
             </Link>
           </div>
@@ -140,12 +164,12 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {mobileOpen && (
         <div className="md:hidden bg-[#0d0f1a]/98 border-t border-white/5 px-4 py-4 space-y-2 animate-slide-up">
-          <Link to="/" className="block px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all">Home</Link>
-          <Link to="/courses" className="block px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all">Courses</Link>
-          <Link to="/unilink" className="block px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all">Unilink</Link>
-          <Link to="/self-learn" className="block px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all">Self Learn</Link>
-          <Link to="/about" className="block px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all">About</Link>
-          <Link to="/collaborations" className="block px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all">Collaborations</Link>
+          <Link to="/" className={mobileNavLinkClass('/')}>Home</Link>
+          <Link to="/courses" className={mobileNavLinkClass('/courses')}>Courses</Link>
+          <Link to="/unilink" className={mobileNavLinkClass('/unilink')}>Unilink</Link>
+          <Link to="/self-learn" className={mobileNavLinkClass('/self-learn')}>Self Learn</Link>
+          <Link to="/about" className={mobileNavLinkClass('/about')}>About</Link>
+          <Link to="/collaborations" className={mobileNavLinkClass('/collaborations')}>Collaborations</Link>
           {isAuthenticated && user ? (
             <>
               <div className="border-t border-white/5 pt-2 mt-2" />

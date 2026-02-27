@@ -5,14 +5,26 @@ import { R2Service } from './storage/r2.service';
 export class HealthController {
   constructor(private readonly r2: R2Service) {}
 
+  private deploymentMeta() {
+    const commit = (process.env.RENDER_GIT_COMMIT || process.env.GIT_COMMIT || '').trim();
+    const serviceId = (process.env.RENDER_SERVICE_ID || '').trim();
+    const serviceName = (process.env.RENDER_SERVICE_NAME || '').trim();
+
+    return {
+      commit: commit.length ? commit : undefined,
+      serviceId: serviceId.length ? serviceId : undefined,
+      serviceName: serviceName.length ? serviceName : undefined,
+    };
+  }
+
   @Get()
   getRoot() {
-    return { status: 'ok' };
+    return { status: 'ok', ...this.deploymentMeta() };
   }
 
   @Get('health')
   getHealth() {
-    return { status: 'ok' };
+    return { status: 'ok', ...this.deploymentMeta() };
   }
 
   @Get('health/r2')
