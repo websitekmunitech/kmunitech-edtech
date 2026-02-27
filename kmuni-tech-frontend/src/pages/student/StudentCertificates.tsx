@@ -1,12 +1,32 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import { Award, Download } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { getUnlockedCertificates } from '../../utils/selfLearnProgress';
 
-const certs = [
-  { id: 1, course: 'DevOps & CI/CD Pipeline', date: 'March 2024', grade: 'A+', hours: 60 },
-];
+function formatMonthYear(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return '—';
+  return date.toLocaleString(undefined, { month: 'long', year: 'numeric' });
+}
 
 export default function StudentCertificates() {
+  const { user } = useAuth();
+
+  const certs = useMemo(() => {
+    const base = [{ id: 'course:devops', course: 'DevOps & CI/CD Pipeline', date: 'March 2024', grade: 'A+', hours: 60 }];
+
+    const unlocked = getUnlockedCertificates(user?.id ?? null).map((c) => ({
+      id: c.id,
+      course: c.title,
+      date: formatMonthYear(c.issuedAt),
+      grade: 'Completed',
+      hours: 3,
+    }));
+
+    return [...unlocked, ...base];
+  }, [user?.id]);
+
   return (
     <DashboardLayout>
       <div className="mb-8"><h1 className="text-2xl font-bold text-white">Certificates</h1><p className="text-slate-400 mt-1">Your earned certificates of completion</p></div>
