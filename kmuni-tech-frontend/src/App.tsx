@@ -54,7 +54,8 @@ function App() {
             <Route path="/unilink" element={<UnilinkPage />} />
             <Route path="/self-learn" element={<SelfLearnPage />} />
             <Route path="/profile/:id" element={<UserProfilePage />} />
-            <Route path="/social-connect" element={<SocialConnectPage />} />
+            <Route path="/unispace" element={<SocialConnectPage />} />
+            <Route path="/social-connect" element={<Navigate to="/unispace" replace />} />
 
             {/* ── Student (protected) ─────────────────────────────── */}
             <Route path="/student/dashboard" element={

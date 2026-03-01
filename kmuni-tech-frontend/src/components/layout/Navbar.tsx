@@ -91,7 +91,7 @@ export default function Navbar() {
             <Link to="/about" className={desktopNavLinkClass('/about')}>
               About
             </Link>
-            <Link to="/social-connect" className={desktopNavLinkClass('/social-connect')}>
+            <Link to="/unispace" className={desktopNavLinkClass('/unispace')}>
               UniSpace
             </Link>
             <Link to="/collaborations" className={desktopNavLinkClass('/collaborations')}>
@@ -169,6 +169,7 @@ export default function Navbar() {
           <Link to="/unilink" className={mobileNavLinkClass('/unilink')}>Unilink</Link>
           <Link to="/self-learn" className={mobileNavLinkClass('/self-learn')}>Self Learn</Link>
           <Link to="/about" className={mobileNavLinkClass('/about')}>About</Link>
+          <Link to="/unispace" className={mobileNavLinkClass('/unispace')}>UniSpace</Link>
           <Link to="/collaborations" className={mobileNavLinkClass('/collaborations')}>Collaborations</Link>
           {isAuthenticated && user ? (
             <>

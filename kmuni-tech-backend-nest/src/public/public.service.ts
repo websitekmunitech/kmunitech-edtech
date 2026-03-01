@@ -108,6 +108,7 @@ export class PublicService {
       name: u.name,
       role: u.role === UserRole.INSTRUCTOR ? 'instructor' : 'student',
       createdAt: u.createdAt ? u.createdAt.toISOString() : '',
+      bio: u.bio ?? null,
     }));
   }
 }

@@ -6,6 +6,8 @@ import Footer from '../../components/layout/Footer';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { fetchPublicUsers, PublicUserListItem } from '../../utils/api';
 
+type RoleFilter = 'all' | 'student' | 'instructor' | 'admin';
+
 const roleBadge: Record<string, string> = {
   student: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20',
   instructor: 'bg-blue-500/15 text-blue-400 border-blue-500/20',
@@ -17,6 +19,7 @@ export default function SocialConnectPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [shareStatusById, setShareStatusById] = useState<Record<string, string>>({});
+  const [roleFilter, setRoleFilter] = useState<RoleFilter>('all');
 
   useEffect(() => {
     let mounted = true;
@@ -73,7 +76,7 @@ export default function SocialConnectPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-white">UniSpace</h1>
-            <p className="text-slate-400 mt-1">Browse public profiles and share them.</p>
+            <p className="text-slate-400 mt-1">Explore public profiles and share them with one click.</p>
           </div>
 
           {isLoading ? (
@@ -87,8 +90,38 @@ export default function SocialConnectPage() {
           ) : users.length === 0 ? (
             <p className="text-slate-400 text-sm">No profiles found.</p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {users.map((u) => (
+            <>
+              <div className="mb-6 flex flex-wrap gap-2">
+                {(
+                  [
+                    { key: 'all' as const, label: 'All' },
+                    { key: 'student' as const, label: 'Students' },
+                    { key: 'instructor' as const, label: 'Instructors' },
+                    { key: 'admin' as const, label: 'Admins' },
+                  ]
+                ).map((chip) => {
+                  const active = chip.key === roleFilter;
+                  return (
+                    <button
+                      key={chip.key}
+                      type="button"
+                      onClick={() => setRoleFilter(chip.key)}
+                      className={`px-4 py-2 rounded-xl text-sm font-bold border transition-all ${
+                        active
+                          ? 'bg-indigo-600/20 border-indigo-500/30 text-white'
+                          : 'bg-white/5 border-white/10 text-slate-300 hover:border-white/20'
+                      }`}
+                    >
+                      {chip.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {users
+                  .filter((u) => (roleFilter === 'all' ? true : u.role === roleFilter))
+                  .map((u) => (
                 <div key={u.id} className="card p-6">
                   <div className="flex items-start gap-4">
                     <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-xl font-black flex-shrink-0">
@@ -99,6 +132,9 @@ export default function SocialConnectPage() {
                       <div className="flex items-center gap-2 mt-1">
                         <span className={`badge border text-xs capitalize ${roleBadge[u.role] || 'bg-white/5 text-slate-300 border-white/10'}`}>{u.role}</span>
                       </div>
+                      {u.bio ? (
+                        <p className="text-slate-400 text-sm mt-2 line-clamp-2">{u.bio}</p>
+                      ) : null}
                     </div>
                   </div>
 
@@ -118,8 +154,9 @@ export default function SocialConnectPage() {
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </div>

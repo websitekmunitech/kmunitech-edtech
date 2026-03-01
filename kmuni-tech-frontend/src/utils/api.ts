@@ -220,6 +220,7 @@ export type PublicUserListItem = {
   name: string;
   role: UserRole;
   createdAt: string;
+  bio?: string;
 };
 
 export async function fetchPublicUnilinkEvents() {
@@ -296,7 +297,7 @@ export async function fetchPublicUsers(params?: { limit?: number; offset?: numbe
   if (typeof params?.offset === 'number') qs.set('offset', String(params.offset));
   const suffix = qs.toString() ? `?${qs.toString()}` : '';
 
-  const data = await apiFetch<Array<{ id: string; name: string; role: string; createdAt: string }>>(
+  const data = await apiFetch<Array<{ id: string; name: string; role: string; createdAt: string; bio?: string | null }>>(
     `/api/public/users${suffix}`,
     { method: 'GET' },
   );
@@ -306,6 +307,7 @@ export async function fetchPublicUsers(params?: { limit?: number; offset?: numbe
     name: u.name,
     role: (u.role as UserRole) ?? 'student',
     createdAt: u.createdAt ?? '',
+    bio: typeof u.bio === 'string' && u.bio.trim().length > 0 ? u.bio : undefined,
   })) as PublicUserListItem[];
 }
 
