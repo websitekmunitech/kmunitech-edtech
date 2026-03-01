@@ -2,7 +2,7 @@ import { IsArray, IsIn, IsInt, IsOptional, IsString, Max, Min } from 'class-vali
 
 export class CreateActivityAttemptDto {
   @IsString()
-  @IsIn(['html', 'css'])
+  @IsIn(['html', 'css', 'js'])
   topic!: string;
 
   @IsString()

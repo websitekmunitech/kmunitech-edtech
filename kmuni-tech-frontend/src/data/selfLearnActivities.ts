@@ -136,6 +136,90 @@ export const SELF_LEARN_ACTIVITIES: Record<string, ChapterActivity> = {
     ],
   },
 
+  'html-b-attributes': {
+    topic: 'html',
+    level: 'Beginner',
+    chapterId: 'html-b-attributes',
+    title: 'Activity: Elements, Attributes, Nesting',
+    questions: [
+      q('q1', 'An HTML attribute is used to…', ['Add extra information/config to an element', 'Replace CSS', 'Run JavaScript automatically', 'Make text bold always'], 0),
+      q('q2', 'Which is a void (empty) element?', ['<p>', '<div>', '<img>', '<section>'], 2),
+      q('q3', 'A boolean attribute is typically…', ['Always written with a number value', 'Enabled by its presence (e.g., required)', 'Only used in CSS', 'Only used on links'], 1),
+      q('q4', 'To connect a label to an input you need…', ['label href + input src', 'label for + input id', 'label id + input for', 'label name + input class'], 1),
+      q('q5', 'Proper nesting means…', ['Closing tags in the correct order', 'Using only div elements', 'Using uppercase tags', 'Avoiding all attributes'], 0),
+    ],
+  },
+
+  'html-b-block-inline': {
+    topic: 'html',
+    level: 'Beginner',
+    chapterId: 'html-b-block-inline',
+    title: 'Activity: Block vs Inline + Containers',
+    questions: [
+      q('q1', 'Which is commonly an inline element?', ['<p>', '<section>', '<a>', '<article>'], 2),
+      q('q2', 'Which is commonly a block element?', ['<span>', '<em>', '<div>', '<a>'], 2),
+      q('q3', 'You should choose elements primarily based on…', ['Meaning/semantics', 'How big they look by default', 'Random preference', 'File name'], 0),
+      q('q4', 'A good use of <span> is…', ['Wrapping an entire page layout', 'Grouping a word inside a paragraph', 'Replacing <main>', 'Creating navigation'], 1),
+      q('q5', 'A good use of <div> is…', ['Adding meaning like “navigation”', 'Grouping content for layout/styling when semantics don’t fit', 'Replacing headings', 'Creating form labels'], 1),
+    ],
+  },
+
+  'html-i-validation': {
+    topic: 'html',
+    level: 'Intermediate',
+    chapterId: 'html-i-validation',
+    title: 'Activity: Native Form Validation',
+    questions: [
+      q('q1', 'Which attribute prevents submitting a form without a value?', ['required', 'readonly', 'open', 'autofocus'], 0),
+      q('q2', 'Which attribute is used to constrain text length?', ['minlength/maxlength', 'min/max', 'pattern only', 'scope'], 0),
+      q('q3', 'aria-describedby is commonly used to…', ['Attach helper/error text to a field', 'Change font size', 'Encrypt form data', 'Submit faster'], 0),
+      q('q4', 'Which is generally a good first choice for email validation?', ['type="email"', 'pattern with a huge regex', 'contenteditable', 'id="email" only'], 0),
+      q('q5', 'novalidate on a form will…', ['Disable native validation UI', 'Enable stricter validation', 'Autofill fields', 'Convert GET to POST'], 0),
+    ],
+  },
+
+  'html-i-media-embeds': {
+    topic: 'html',
+    level: 'Intermediate',
+    chapterId: 'html-i-media-embeds',
+    title: 'Activity: Media + Embeds',
+    questions: [
+      q('q1', 'Which element provides the built-in UI for a video player?', ['controls attribute on <video>', '<caption>', '<meta>', '<figure>'], 0),
+      q('q2', 'Multiple encodings for a video are typically provided using…', ['Multiple <source> tags', 'Multiple <title> tags', 'Multiple <body> tags', 'Multiple <track> tags only'], 0),
+      q('q3', 'An iframe should have a title because…', ['It improves accessibility for screen readers', 'It adds CSS', 'It validates JavaScript', 'It removes ads'], 0),
+      q('q4', 'The sandbox attribute on an iframe is used to…', ['Restrict capabilities of embedded content', 'Speed up HTML parsing', 'Change image resolution', 'Make it responsive automatically'], 0),
+      q('q5', 'Captions for a video are commonly provided via…', ['<track kind="captions">', '<caption>', '<meta name="captions">', '<subtitle>'], 0),
+    ],
+  },
+
+  'html-a-interactive': {
+    topic: 'html',
+    level: 'Advanced',
+    chapterId: 'html-a-interactive',
+    title: 'Activity: Interactive HTML',
+    questions: [
+      q('q1', 'The <details> element is commonly used for…', ['Expandable/disclosure content', 'Page navigation', 'Embedding videos', 'Submitting forms'], 0),
+      q('q2', 'The clickable label for a <details> element is…', ['<summary>', '<caption>', '<legend>', '<title>'], 0),
+      q('q3', 'A <dialog> can be opened in JavaScript using…', ['showModal()', 'open()', 'run()', 'display()'], 0),
+      q('q4', 'A good practice for interactive controls is…', ['Clear button text like “Close”', 'Only icons with no labels', 'Clickable divs without keyboard support', 'Removing focus outlines always'], 0),
+      q('q5', 'Testing with Tab helps verify…', ['Keyboard navigation and focus order', 'Only CSS performance', 'Only image quality', 'Only SEO ranking'], 0),
+    ],
+  },
+
+  'html-a-advanced-forms': {
+    topic: 'html',
+    level: 'Advanced',
+    chapterId: 'html-a-advanced-forms',
+    title: 'Activity: Advanced Forms',
+    questions: [
+      q('q1', 'fieldset/legend is used to…', ['Group related form fields with a label', 'Style text to be bold', 'Embed external pages', 'Define table headers'], 0),
+      q('q2', 'The name attribute on an input typically controls…', ['The key sent during native form submission', 'The font family', 'The CSS selector', 'The tab title'], 0),
+      q('q3', 'autocomplete tokens help mainly by…', ['Letting browsers suggest stored values', 'Encrypting data', 'Disabling validation', 'Changing layout'], 0),
+      q('q4', 'datalist is best described as…', ['A suggestion list for an input', 'A mandatory dropdown', 'A table section', 'A media caption'], 0),
+      q('q5', 'inputmode is useful because it can…', ['Hint a better mobile keyboard (e.g., numeric)', 'Replace required validation', 'Change CSS specificity', 'Make iframe safe'], 0),
+    ],
+  },
+
   'css-b-selectors': {
     topic: 'css',
     level: 'Beginner',
@@ -245,6 +329,118 @@ export const SELF_LEARN_ACTIVITIES: Record<string, ChapterActivity> = {
       q('q3', 'When two rules conflict, the winner is decided by…', ['Specificity and source order', 'File name alphabetically', 'Font size', 'Image dimensions'], 0),
       q('q4', 'To debug flex layouts, you often inspect…', ['Flex container + item properties', 'Only JavaScript console', 'Only network tab', 'Only HTML validator'], 0),
       q('q5', 'A good practice when fixing CSS bugs is…', ['Make the smallest change and verify', 'Rewrite everything', 'Add many !important rules', 'Disable responsive design'], 0),
+    ],
+  },
+
+  'js-b-basics': {
+    topic: 'js',
+    level: 'Beginner',
+    chapterId: 'js-b-basics',
+    title: 'Activity: Values & Variables',
+    questions: [
+      q('q1', 'Which statement prints a message in the browser console?', ['console.log("Hi")', 'print("Hi")', 'alert.log("Hi")', 'echo("Hi")'], 0),
+      q('q2', 'In modern JavaScript, which keyword should you prefer for values that won’t be reassigned?', ['var', 'let', 'const', 'static'], 2),
+      q('q3', 'Which of these is a boolean value?', ['"true"', 'true', '1', '"yes"'], 1),
+      q('q4', '`undefined` usually means…', ['The value is intentionally empty', 'The variable has not been assigned a value', 'The value is always zero', 'The value is a number'], 1),
+      q('q5', 'Which keyword is best for a value you plan to reassign?', ['const', 'let', 'import', 'export'], 1),
+    ],
+  },
+
+  'js-b-control': {
+    topic: 'js',
+    level: 'Beginner',
+    chapterId: 'js-b-control',
+    title: 'Activity: Control Flow + Functions',
+    questions: [
+      q('q1', 'An `if` block runs when its condition is…', ['true', 'false', 'a string', 'undefined'], 0),
+      q('q2', 'Which loop is commonly used when you know the number of iterations?', ['for', 'while', 'try', 'switch'], 0),
+      q('q3', 'What does `return` do inside a function?', ['Stops the function and provides an output value', 'Logs to console', 'Declares a variable', 'Imports a module'], 0),
+      q('q4', 'Function parameters are…', ['The values passed into a function when you call it', 'Always global variables', 'Only used for loops', 'Only used for arrays'], 0),
+      q('q5', 'A `while` loop typically stops when…', ['The condition becomes false', 'The browser closes', 'A semicolon is missing', 'The variable name changes'], 0),
+    ],
+  },
+
+  'js-b-dom': {
+    topic: 'js',
+    level: 'Beginner',
+    chapterId: 'js-b-dom',
+    title: 'Activity: DOM Basics + Events',
+    questions: [
+      q('q1', '`document.querySelector(".card")` returns…', ['All matching elements', 'The first matching element', 'Only text nodes', 'An array of strings'], 1),
+      q('q2', 'Which method attaches an event handler to an element?', ['addEventListener', 'addHandler', 'onClick()', 'listen()'], 0),
+      q('q3', 'Which property is best for setting plain text inside an element?', ['innerHTML', 'textContent', 'outerHTML', 'value'], 1),
+      q('q4', 'What does `classList.toggle("open")` do?', ['Always removes the class', 'Always adds the class', 'Adds it if missing, removes it if present', 'Renames the class'], 2),
+      q('q5', 'A click event handler runs…', ['When the element is clicked', 'Only when the page loads', 'Only when CSS changes', 'Only in Node.js'], 0),
+    ],
+  },
+
+  'js-i-data': {
+    topic: 'js',
+    level: 'Intermediate',
+    chapterId: 'js-i-data',
+    title: 'Activity: Arrays, Objects, Modern Syntax',
+    questions: [
+      q('q1', '`array.map(fn)` usually returns…', ['A new array', 'A single value', 'A boolean', 'Nothing'], 0),
+      q('q2', '`array.filter(fn)` returns…', ['Only the first match', 'A new array with items that pass the test', 'The last item', 'A number'], 1),
+      q('q3', 'Destructuring helps you…', ['Delete properties', 'Extract values into variables', 'Encrypt objects', 'Sort arrays'], 1),
+      q('q4', 'The spread operator (`...`) is commonly used to…', ['Mutate arrays in place', 'Copy/merge arrays and objects', 'Create loops', 'Declare classes'], 1),
+      q('q5', '`array.find(fn)` returns…', ['All matches', 'The first matching item (or undefined)', 'A new array of matches', 'The index of every match'], 1),
+    ],
+  },
+
+  'js-i-async': {
+    topic: 'js',
+    level: 'Intermediate',
+    chapterId: 'js-i-async',
+    title: 'Activity: Async JavaScript',
+    questions: [
+      q('q1', 'An `async` function always returns…', ['A Promise', 'A number', 'A DOM element', 'A CSS rule'], 0),
+      q('q2', '`await` is used to…', ['Make code run in parallel always', 'Pause until a promise settles (in async code)', 'Convert strings to numbers', 'Import a module'], 1),
+      q('q3', 'When you `await` a rejected promise inside try/catch, the error is…', ['Ignored', 'Caught in catch', 'Converted to undefined', 'Printed automatically'], 1),
+      q('q4', 'In the browser, `fetch(url)` returns…', ['A Promise that resolves to a Response', 'A JSON object directly', 'A string', 'A DOM node'], 0),
+      q('q5', '`res.ok` is true when…', ['The response status is in the 200–299 range', 'The JSON has a field ok=true', 'The network is offline', 'The request uses POST'], 0),
+    ],
+  },
+
+  'js-i-modules': {
+    topic: 'js',
+    level: 'Intermediate',
+    chapterId: 'js-i-modules',
+    title: 'Activity: Modules + Organization',
+    questions: [
+      q('q1', 'Which keyword makes a function available outside its file?', ['export', 'require', 'public', 'open'], 0),
+      q('q2', 'A common relative import path starts with…', ['http://', './ or ../', '#', 'C:/'], 1),
+      q('q3', 'A default export is typically imported…', ['With braces only', 'Without braces (name can be chosen)', 'Only with require()', 'Only in CSS'], 1),
+      q('q4', 'Modules help primarily by…', ['Making CSS faster', 'Organizing code and reducing globals', 'Removing the need for HTML', 'Increasing file size'], 1),
+      q('q5', 'Named exports are typically imported…', ['Without braces', 'With braces', 'With parentheses', 'With a semicolon prefix'], 1),
+    ],
+  },
+
+  'js-a-debugging': {
+    topic: 'js',
+    level: 'Advanced',
+    chapterId: 'js-a-debugging',
+    title: 'Activity: Debugging + Performance',
+    questions: [
+      q('q1', 'A breakpoint in DevTools lets you…', ['Pause code execution and inspect state', 'Minify code', 'Deploy to production', 'Fix CSS automatically'], 0),
+      q('q2', 'Debouncing is useful when…', ['An event fires rapidly (like typing)', 'You want to remove all events', 'You want CSS to compile', 'You want to encrypt data'], 0),
+      q('q3', 'A performance trap in DOM code is often…', ['Reading/writing layout repeatedly in a loop', 'Using const', 'Using template strings', 'Using strict equality'], 0),
+      q('q4', 'A good debugging approach is to…', ['Add many random logs and hope', 'Use the debugger and isolate the smallest failing case', 'Rewrite the whole file', 'Disable errors'], 1),
+      q('q5', 'In general, you should avoid doing expensive work…', ['Inside tight loops or high-frequency events', 'In functions', 'In variables', 'In comments'], 0),
+    ],
+  },
+
+  'js-a-patterns': {
+    topic: 'js',
+    level: 'Advanced',
+    chapterId: 'js-a-patterns',
+    title: 'Activity: Robust Patterns',
+    questions: [
+      q('q1', 'Immutability means…', ['Changing objects directly', 'Not mutating existing objects/arrays in place', 'Only using const', 'Only using classes'], 1),
+      q('q2', 'To add an item immutably to an array, a common pattern is…', ['arr.push(x)', '[...arr, x]', 'arr = x', 'arr.pop()'], 1),
+      q('q3', 'A “pure function” typically…', ['Depends only on inputs and has no side effects', 'Always updates the DOM', 'Always throws errors', 'Requires a database'], 0),
+      q('q4', 'An event emitter pattern is used to…', ['Notify listeners when something happens', 'Write CSS selectors', 'Compress images', 'Validate HTML'], 0),
+      q('q5', 'Using small, focused modules helps mainly with…', ['Maintainability and testing', 'Changing browser fonts', 'Making HTML optional', 'Disabling errors'], 0),
     ],
   },
 };

@@ -2,7 +2,7 @@ import type { LucideIcon } from 'lucide-react';
 import { BookOpen, Cpu, Database, Globe } from 'lucide-react';
 
 export type DomainKey = 'web' | 'ai' | 'data' | 'other';
-export type TopicKey = 'html' | 'css';
+export type TopicKey = 'html' | 'css' | 'js';
 export type LevelKey = 'Beginner' | 'Intermediate' | 'Advanced';
 
 export type LessonSection = {
@@ -54,6 +54,12 @@ export const SELF_LEARN_DOMAINS: Domain[] = [
         key: 'css',
         title: 'CSS',
         description: 'Style responsive interfaces with modern CSS layouts.',
+        levels: ['Beginner', 'Intermediate', 'Advanced'],
+      },
+      {
+        key: 'js',
+        title: 'JavaScript',
+        description: 'Add interactivity with modern JavaScript and DOM patterns.',
         levels: ['Beginner', 'Intermediate', 'Advanced'],
       },
     ],
@@ -242,6 +248,103 @@ export const SELF_LEARN_CONTENT: Record<TopicKey, Record<LevelKey, Chapter[]>> =
           ],
         },
       },
+      {
+        id: 'html-b-attributes',
+        title: 'Elements, Attributes, and Nesting',
+        overview:
+          'Learn how elements are structured, how attributes add meaning/behavior, and how to nest markup so browsers (and teammates) can understand it easily.',
+        outcomes: [
+          'Identify opening/closing tags and properly nest elements',
+          'Use common attributes like id, class, href, src, alt',
+          'Understand void elements (no closing tag) and boolean attributes',
+        ],
+        sections: [
+          {
+            title: 'Elements + Proper Nesting',
+            description:
+              'HTML is a tree. When you open an element, you should close it in the correct order. Proper nesting prevents weird layout and accessibility bugs.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<article>\n  <h2>My First Article</h2>\n  <p>HTML elements can contain other elements.</p>\n  <ul>\n    <li>Keep nesting correct</li>\n    <li>Indent for readability</li>\n  </ul>\n</article>`,
+            },
+          },
+          {
+            title: 'Attributes (Including Boolean Attributes)',
+            description:
+              'Attributes configure an element. Some are key/value pairs (href, src). Some are boolean (disabled, checked, required) where the presence of the attribute turns it on.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<a href="/courses" class="nav-link">Courses</a>\n\n<input id="agree" type="checkbox" checked />\n<label for="agree">I agree</label>`,
+            },
+          },
+          {
+            title: 'Void Elements',
+            description:
+              'Some elements don’t wrap content and therefore don’t have closing tags (for example: img, input, br, meta, link).',
+            bullets: ['Common void elements: <img>, <input>, <meta>, <link>', 'Do not write closing tags for void elements', 'Prefer CSS spacing over using <br> repeatedly'],
+          },
+        ],
+        practice: [
+          'Create a small article using article, h2, p, and ul/li with correct nesting.',
+          'Add an id to one heading and link to it using an anchor link.',
+          'Create a checkbox + label pair where clicking the label toggles the checkbox.',
+        ],
+        miniProject: {
+          title: 'Mini Project: “Quick Notes” Page',
+          steps: [
+            'Create 3 notes using <article> elements.',
+            'Give each note a heading and a short list.',
+            'Add an in-page table of contents using anchor links (#ids).',
+          ],
+        },
+      },
+      {
+        id: 'html-b-block-inline',
+        title: 'Block vs Inline + Containers',
+        overview:
+          'Understand the difference between block and inline elements and learn when to use generic containers like div and span without losing semantics.',
+        outcomes: [
+          'Recognize common block and inline elements',
+          'Use div for grouping and span for inline text grouping',
+          'Avoid common nesting mistakes and messy markup',
+        ],
+        sections: [
+          {
+            title: 'Block vs Inline (Practical View)',
+            description:
+              'Block elements typically start on a new line and can contain other blocks. Inline elements flow within text. CSS can change display, but start by choosing elements based on meaning.',
+            bullets: ['Common block: div, p, section, article, ul/li', 'Common inline: a, span, strong, em', 'Prefer meaning first, styling second'],
+          },
+          {
+            title: 'div and span (When Semantics Don’t Fit)',
+            description:
+              'Use div and span when you need a hook for layout/styling, but no semantic element is a good match. Don’t replace meaningful elements with divs.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<p>\n  You can <span class="highlight">highlight</span> a word without changing the paragraph structure.\n</p>\n\n<div class="card">\n  <h3>Course</h3>\n  <p>HTML for Beginners</p>\n</div>`,
+            },
+          },
+          {
+            title: 'Keep Markup Clean',
+            description:
+              'Clean markup is easier to maintain. If you find yourself nesting many divs, check if a semantic element (section/article/nav/aside) fits better.',
+            bullets: ['Indent consistently', 'Avoid unnecessary wrappers', 'Use headings to create structure'],
+          },
+        ],
+        practice: [
+          'Create a paragraph containing a link and a highlighted word using span.',
+          'Create a simple card using a div container with a heading and paragraph inside.',
+          'Replace a meaningless div wrapper with section/article if it improves meaning.',
+        ],
+        miniProject: {
+          title: 'Mini Project: Feature Cards Markup',
+          steps: [
+            'Create 4 feature cards using semantic headings and short text.',
+            'Use div only where you need grouping for layout.',
+            'Ensure the page outline is logical (h1 then h2/h3).',
+          ],
+        },
+      },
     ],
     Intermediate: [
       {
@@ -367,6 +470,109 @@ export const SELF_LEARN_CONTENT: Record<TopicKey, Record<LevelKey, Chapter[]>> =
           ],
         },
       },
+      {
+        id: 'html-i-validation',
+        title: 'Native Form Validation + Helpful Errors',
+        overview:
+          'HTML has built-in validation that works without JavaScript. Learn the key attributes and how to show helper text that’s friendly and accessible.',
+        outcomes: [
+          'Use required, minlength/maxlength, min/max, and pattern',
+          'Write helper text using aria-describedby',
+          'Understand when to use novalidate (and why you might)',
+        ],
+        sections: [
+          {
+            title: 'Common Validation Attributes',
+            description:
+              'Start with the simplest constraints. Native validation improves UX and reduces errors before data reaches your backend.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<form>\n  <label for="username">Username</label>\n  <input\n    id="username"\n    name="username"\n    type="text"\n    minlength="3"\n    maxlength="20"\n    required\n    aria-describedby="username-help"\n  />\n  <p id="username-help">3–20 characters. Letters and numbers only.</p>\n\n  <button type="submit">Create account</button>\n</form>`,
+            },
+          },
+          {
+            title: 'Pattern + Input Type',
+            description:
+              'Pick the right input type first (email/url/tel). Use pattern for custom formats, but keep patterns simple and avoid over-restricting real users.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<label for="code">Invite code</label>\n<input\n  id="code"\n  name="code"\n  type="text"\n  pattern="[A-Z0-9]{6}"\n  required\n  aria-describedby="code-help"\n/>\n<p id="code-help">6 characters, uppercase letters and numbers.</p>`,
+            },
+          },
+          {
+            title: 'novalidate (Use Carefully)',
+            description:
+              'If you plan to fully control validation in JavaScript (custom UI and messages), you can disable native validation with novalidate. If not, keep native validation enabled.',
+            bullets: ['Native validation is a good default', 'Server-side validation is still required', 'Use helper text to guide users'],
+          },
+        ],
+        practice: [
+          'Add minlength/maxlength to a username field.',
+          'Add helper text and connect it with aria-describedby.',
+          'Create a number input with min/max (e.g., age 1–120).',
+        ],
+        miniProject: {
+          title: 'Mini Project: Signup Form (Validation First)',
+          steps: [
+            'Build a signup form with name, email, password.',
+            'Use required + appropriate input types.',
+            'Add helper text for password rules using aria-describedby.',
+          ],
+        },
+      },
+      {
+        id: 'html-i-media-embeds',
+        title: 'Audio, Video, and Embeds (Responsible Defaults)',
+        overview:
+          'Modern pages often include media and embeds. Learn how to add audio/video with fallbacks, and embed external pages safely with iframes.',
+        outcomes: [
+          'Use audio/video with controls and multiple sources',
+          'Add captions with track when needed',
+          'Embed content with iframe title and basic safety attributes',
+        ],
+        sections: [
+          {
+            title: 'Video with Multiple Sources',
+            description:
+              'Use <source> elements so the browser can choose a supported format. Always provide a fallback message for older browsers.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<video controls width="640">\n  <source src="/media/intro.mp4" type="video/mp4" />\n  <source src="/media/intro.webm" type="video/webm" />\n  Sorry, your browser cannot play this video.\n</video>`,
+            },
+          },
+          {
+            title: 'Captions and Accessibility',
+            description:
+              'When video contains speech that matters, captions help many users. Track files are commonly WebVTT (.vtt).',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<video controls width="640">\n  <source src="/media/lesson.mp4" type="video/mp4" />\n  <track kind="captions" src="/media/lesson.en.vtt" srclang="en" label="English" default />\n</video>`,
+            },
+          },
+          {
+            title: 'Iframes (Add a Title, Consider Sandboxing)',
+            description:
+              'If you embed external content, give the iframe a title for screen readers. Use sandbox when you want to restrict what the embed can do.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<iframe\n  title="Map preview"\n  src="https://example.com/map"\n  loading="lazy"\n  sandbox\n  width="600"\n  height="400"\n></iframe>`,
+            },
+          },
+        ],
+        practice: [
+          'Add a video element with controls and at least one source.',
+          'Add a track element for captions (use a placeholder file path).',
+          'Embed an iframe with a title and loading="lazy".',
+        ],
+        miniProject: {
+          title: 'Mini Project: Media Showcase Page',
+          steps: [
+            'Create sections for Video, Audio, and Embed.',
+            'Include a video with a fallback message.',
+            'Include an iframe with title + lazy loading.',
+          ],
+        },
+      },
     ],
     Advanced: [
       {
@@ -452,6 +658,106 @@ export const SELF_LEARN_CONTENT: Record<TopicKey, Record<LevelKey, Chapter[]>> =
             'Create 4 sections with h2 headings and ids.',
             'Add a table of contents at the top.',
             'Include one image with proper sizing and lazy loading.',
+          ],
+        },
+      },
+      {
+        id: 'html-a-interactive',
+        title: 'Interactive HTML (Details + Dialog)',
+        overview:
+          'Not every interaction needs a heavy framework. Learn built-in interactive elements and how to use them in an accessible way.',
+        outcomes: [
+          'Use details/summary for simple disclosure UI',
+          'Use dialog for modal-like UI with minimal JS',
+          'Keep focus and labels clear for users',
+        ],
+        sections: [
+          {
+            title: 'Disclosure with details/summary',
+            description:
+              'details/summary is a built-in pattern for expandable content. It’s a great fit for FAQs and “show more” sections.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<details>\n  <summary>What is KM Uni?</summary>\n  <p>KM Uni is a learning platform for building practical tech skills.</p>\n</details>`,
+            },
+          },
+          {
+            title: 'A Small Dialog Pattern',
+            description:
+              'dialog can be opened with JavaScript. Keep the dialog content short and include a clear close action.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<button id="open" type="button">Open dialog</button>\n\n<dialog id="d">\n  <h2>Contact</h2>\n  <p>Send your message and we will reply.</p>\n  <form method="dialog">\n    <button type="submit">Close</button>\n  </form>\n</dialog>\n\n<script>\n  const dialog = document.querySelector('#d');\n  document.querySelector('#open')?.addEventListener('click', () => dialog?.showModal());\n</script>`,
+            },
+          },
+          {
+            title: 'Accessibility Notes',
+            description:
+              'Even with built-in elements, test with keyboard navigation. Ensure buttons have clear text and content is readable in a logical order.',
+            bullets: ['Use clear button labels like “Close”', 'Avoid putting essential content only in placeholders', 'Test with Tab to ensure focus moves logically'],
+          },
+        ],
+        practice: [
+          'Create an FAQ using details/summary with 3 items.',
+          'Create a dialog with a heading and a close button.',
+          'Test navigation using Tab and Enter/Space.',
+        ],
+        miniProject: {
+          title: 'Mini Project: FAQ + Contact Dialog',
+          steps: [
+            'Create a FAQ section using details/summary.',
+            'Add a “Contact” button that opens a dialog.',
+            'Add a close button inside the dialog using a form with method="dialog".',
+          ],
+        },
+      },
+      {
+        id: 'html-a-advanced-forms',
+        title: 'Advanced Forms (Fieldsets, Autocomplete, Datalist)',
+        overview:
+          'Advanced forms are about clarity: grouping related fields, choosing helpful autocomplete tokens, and making input faster and less error-prone.',
+        outcomes: [
+          'Group related fields with fieldset/legend',
+          'Use autocomplete tokens intentionally',
+          'Provide suggestions with datalist when appropriate',
+        ],
+        sections: [
+          {
+            title: 'Group Related Fields',
+            description:
+              'fieldset/legend helps users understand what a group of inputs represents. This can improve accessibility and scanning.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<form>\n  <fieldset>\n    <legend>Billing address</legend>\n\n    <label for="city">City</label>\n    <input id="city" name="city" autocomplete="address-level2" />\n\n    <label for="zip">ZIP</label>\n    <input id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" />\n  </fieldset>\n\n  <button type="submit">Pay</button>\n</form>`,
+            },
+          },
+          {
+            title: 'Datalist Suggestions',
+            description:
+              'datalist provides suggestions without forcing a fixed choice like a select. It’s useful for long lists where free text is also allowed.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<label for="skill">Skill</label>\n<input id="skill" name="skill" list="skills" />\n<datalist id="skills">\n  <option value="HTML"></option>\n  <option value="CSS"></option>\n  <option value="JavaScript"></option>\n</datalist>`,
+            },
+          },
+          {
+            title: 'Form Submission Basics',
+            description:
+              'For real apps, HTML forms send key/value pairs using name attributes. Even if you submit via JavaScript later, understanding name/action/method helps you design forms correctly.',
+            bullets: ['name controls the key sent for that field', 'method is usually GET or POST', 'action is the URL the form submits to (if using native submission)'],
+          },
+        ],
+        practice: [
+          'Add a fieldset/legend to group 2–3 related inputs.',
+          'Add autocomplete to name and email fields (e.g., autocomplete="name").',
+          'Add a datalist to suggest common values (skills, cities, etc.).',
+        ],
+        miniProject: {
+          title: 'Mini Project: Checkout Form Markup',
+          steps: [
+            'Create sections for Contact and Billing address (use fieldset/legend).',
+            'Use autocomplete tokens to reduce typing.',
+            'Add a datalist for a field that benefits from suggestions.',
           ],
         },
       },
@@ -791,6 +1097,378 @@ export const SELF_LEARN_CONTENT: Record<TopicKey, Record<LevelKey, Chapter[]>> =
             'Create a small broken layout intentionally (overflow, wrong spacing).',
             'Use DevTools to identify the cause.',
             'Apply a minimal fix and document what you changed.',
+          ],
+        },
+      },
+    ],
+  },
+  js: {
+    Beginner: [
+      {
+        id: 'js-b-basics',
+        title: 'JavaScript Basics: Values & Variables',
+        overview:
+          'Learn how JavaScript runs in the browser, how to print output for debugging, and how to store values in variables using let and const.',
+        outcomes: [
+          'Write a script and see output in the browser console',
+          'Use let and const appropriately',
+          'Understand common value types (string, number, boolean, null, undefined)',
+        ],
+        sections: [
+          {
+            title: 'Your First Script + Console',
+            description:
+              'In the browser, JavaScript can run from a script tag. The console is your best friend for quick checks and debugging.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<!doctype html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>JS Basics</title>\n  </head>\n  <body>\n    <script>\n      console.log('Hello from JavaScript');\n    </script>\n  </body>\n</html>`,
+            },
+          },
+          {
+            title: 'Variables: let vs const',
+            description:
+              'Use const by default. Use let only when you need to reassign the value. Avoid var in modern code unless you’re reading legacy code.',
+            code: {
+              languageLabel: 'JavaScript',
+              snippet: `const siteName = 'KM Uni';\nlet visits = 0;\n\nvisits = visits + 1;\nconsole.log(siteName, visits);`,
+            },
+          },
+          {
+            title: 'Types You’ll See Every Day',
+            description:
+              'JavaScript is dynamically typed: a variable can hold any type. Learn the common primitives so you can reason about values correctly.',
+            bullets: [
+              'string: text like "Hello"',
+              'number: integers/decimals like 42 or 3.14',
+              'boolean: true/false',
+              'null: intentional “no value”',
+              'undefined: not assigned yet',
+            ],
+          },
+        ],
+        practice: [
+          'Create a page that logs your name and a favorite number in the console.',
+          'Create 2 const values and 1 let value, then reassign the let value.',
+          'Create a boolean variable and log it with a helpful label.',
+        ],
+        miniProject: {
+          title: 'Mini Project: Simple Counter (Console Only)',
+          steps: [
+            'Create a visits variable starting at 0.',
+            'Increment it 5 times using a loop.',
+            'Log the value after each increment.',
+          ],
+        },
+      },
+      {
+        id: 'js-b-control',
+        title: 'Control Flow + Functions',
+        overview:
+          'Learn how to make decisions with if/else, repeat work with loops, and package logic into reusable functions.',
+        outcomes: [
+          'Write if/else statements to branch logic',
+          'Use for and while loops safely',
+          'Create functions with parameters and return values',
+        ],
+        sections: [
+          {
+            title: 'Conditions (if/else)',
+            description:
+              'Use if/else to run different code based on a boolean condition. Keep conditions readable.',
+            code: {
+              languageLabel: 'JavaScript',
+              snippet: `const score = 78;\n\nif (score >= 90) {\n  console.log('A');\n} else if (score >= 75) {\n  console.log('B');\n} else {\n  console.log('Keep practicing');\n}`,
+            },
+          },
+          {
+            title: 'Loops',
+            description:
+              'Loops repeat work. Always be sure the loop has a clear end condition so it doesn’t run forever.',
+            code: {
+              languageLabel: 'JavaScript',
+              snippet: `for (let i = 1; i <= 3; i++) {\n  console.log('Step', i);\n}\n\nlet n = 3;\nwhile (n > 0) {\n  console.log('Countdown', n);\n  n--;\n}`,
+            },
+          },
+          {
+            title: 'Functions',
+            description:
+              'Functions help reuse logic and keep code organized. A return value is what the function produces as output.',
+            code: {
+              languageLabel: 'JavaScript',
+              snippet: `function add(a, b) {\n  return a + b;\n}\n\nconst total = add(10, 5);\nconsole.log(total);`,
+            },
+          },
+        ],
+        practice: [
+          'Write a function that converts minutes to seconds.',
+          'Write an if/else that prints “Adult” if age >= 18, otherwise “Minor”.',
+          'Write a loop that prints numbers 1 to 10.',
+        ],
+        miniProject: {
+          title: 'Mini Project: Grade Checker',
+          steps: [
+            'Write a function grade(score) that returns A/B/C/Fail.',
+            'Call it with 4 different scores and log the results.',
+            'Keep your conditions readable (use else if).',
+          ],
+        },
+      },
+      {
+        id: 'js-b-dom',
+        title: 'DOM Basics + Events',
+        overview:
+          'Bring JavaScript to life by selecting elements, updating text, and responding to user actions like clicks.',
+        outcomes: [
+          'Select elements with querySelector',
+          'Update text content and classes',
+          'Handle events with addEventListener',
+        ],
+        sections: [
+          {
+            title: 'Select + Update Elements',
+            description:
+              'Use querySelector to find elements. Use textContent to update text safely.',
+            code: {
+              languageLabel: 'HTML',
+              snippet: `<h1 id="title">Welcome</h1>\n<button id="btn">Change title</button>\n\n<script>\n  const title = document.querySelector('#title');\n  const btn = document.querySelector('#btn');\n\n  btn.addEventListener('click', () => {\n    title.textContent = 'You clicked the button!';\n  });\n</script>`,
+            },
+          },
+          {
+            title: 'Class Toggling',
+            description:
+              'classList.toggle is a clean way to turn styles on/off (e.g., open/closed, active/inactive).',
+            code: {
+              languageLabel: 'JavaScript',
+              snippet: `const panel = document.querySelector('#panel');\n\nfunction toggleOpen() {\n  panel?.classList.toggle('open');\n}`,
+            },
+          },
+        ],
+        practice: [
+          'Create a button that changes a paragraph’s text when clicked.',
+          'Create a button that toggles a CSS class on a div.',
+          'Log “clicked” to the console on every click.',
+        ],
+        miniProject: {
+          title: 'Mini Project: Toggle Card',
+          steps: [
+            'Create a card with a title and hidden details text.',
+            'Add a “Show/Hide” button that toggles a class.',
+            'Use CSS to hide/show based on that class.',
+          ],
+        },
+      },
+    ],
+    Intermediate: [
+      {
+        id: 'js-i-data',
+        title: 'Arrays, Objects, and Modern Syntax',
+        overview:
+          'Most real-world JavaScript is about processing data. Learn how to work with arrays/objects using readable modern patterns.',
+        outcomes: [
+          'Use map/filter/find to process arrays',
+          'Read and update objects safely',
+          'Use destructuring and spread for cleaner code',
+        ],
+        sections: [
+          {
+            title: 'Array Methods (map/filter/find)',
+            description:
+              'These methods help you create new arrays without manual loops. They’re readable and reduce bugs when used correctly.',
+            code: {
+              languageLabel: 'JavaScript',
+              snippet: `const prices = [100, 250, 80];\n\nconst withTax = prices.map((p) => Math.round(p * 1.18));\nconst expensive = prices.filter((p) => p >= 200);\nconst firstCheap = prices.find((p) => p < 100);\n\nconsole.log(withTax, expensive, firstCheap);`,
+            },
+          },
+          {
+            title: 'Objects + Destructuring',
+            description:
+              'Destructuring makes it easier to pull values out of objects. Spread helps copy and update immutably.',
+            code: {
+              languageLabel: 'JavaScript',
+              snippet: `const user = { name: 'Asha', role: 'student', points: 10 };\nconst { name, points } = user;\n\nconst nextUser = { ...user, points: points + 5 };\nconsole.log(name, nextUser);`,
+            },
+          },
+        ],
+        practice: [
+          'Create an array of numbers and map it to squares.',
+          'Filter an array of scores to keep only those >= 75.',
+          'Create an object and update one field using spread.',
+        ],
+        miniProject: {
+          title: 'Mini Project: Simple Leaderboard',
+          steps: [
+            'Create an array of player objects: name and score.',
+            'Filter players above a threshold score.',
+            'Map to a list of display strings like “Name — Score”.',
+          ],
+        },
+      },
+      {
+        id: 'js-i-async',
+        title: 'Async JavaScript: Promises & async/await',
+        overview:
+          'Modern apps call APIs. Learn how promises work and how async/await makes asynchronous code easier to read.',
+        outcomes: [
+          'Explain what a promise represents',
+          'Use async/await with try/catch',
+          'Fetch JSON data from an API',
+        ],
+        sections: [
+          {
+            title: 'Promises, Briefly',
+            description:
+              'A promise represents a future value: pending → fulfilled (resolved) or rejected (error).',
+            bullets: ['Use .then/.catch or async/await', 'Always handle errors', 'Avoid deeply nested callbacks'],
+          },
+          {
+            title: 'Fetch + JSON Example',
+            description:
+              'fetch returns a promise. You typically await the response and then parse JSON.',
+            code: {
+              languageLabel: 'JavaScript',
+              snippet: `async function loadTodo() {\n  try {\n    const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');\n    if (!res.ok) throw new Error('Request failed');\n\n    const data = await res.json();\n    console.log('Todo:', data.title);\n  } catch (err) {\n    console.error(err);\n  }\n}\n\nloadTodo();`,
+            },
+          },
+        ],
+        practice: [
+          'Write an async function that fetches JSON and logs one field.',
+          'Add an error check using res.ok.',
+          'Wrap your fetch in try/catch and log errors.',
+        ],
+        miniProject: {
+          title: 'Mini Project: Quote Loader (Console)',
+          steps: [
+            'Fetch a JSON endpoint (any public test API).',
+            'Log a “loading…” message before the request.',
+            'Log the result and handle errors gracefully.',
+          ],
+        },
+      },
+      {
+        id: 'js-i-modules',
+        title: 'Modules + Organizing Code',
+        overview:
+          'As your codebase grows, you need structure. Learn how ES modules work and how to organize functions across files.',
+        outcomes: [
+          'Use export and import correctly',
+          'Separate logic into small files',
+          'Avoid global variables by default',
+        ],
+        sections: [
+          {
+            title: 'Export and Import',
+            description:
+              'ES modules let you export values from one file and import them into another. This keeps code maintainable.',
+            code: {
+              languageLabel: 'JavaScript',
+              snippet: `// math.js\nexport function sum(a, b) {\n  return a + b;\n}\n\n// app.js\nimport { sum } from './math.js';\nconsole.log(sum(2, 3));`,
+            },
+          },
+          {
+            title: 'Naming + Responsibility',
+            description:
+              'Keep files focused. A good module name describes what it does. Avoid huge files that contain unrelated logic.',
+            bullets: ['One module = one responsibility', 'Prefer small pure functions', 'Export only what you need'],
+          },
+        ],
+        practice: [
+          'Create a module with a function that formats a currency value.',
+          'Import and use it from another file.',
+          'Refactor one large script into 2 smaller modules.',
+        ],
+        miniProject: {
+          title: 'Mini Project: Utilities Library',
+          steps: [
+            'Create utils/strings.js and utils/numbers.js.',
+            'Export 2 functions from each file.',
+            'Import them in app.js and demonstrate usage in console.',
+          ],
+        },
+      },
+    ],
+    Advanced: [
+      {
+        id: 'js-a-debugging',
+        title: 'Debugging + Performance Thinking',
+        overview:
+          'Advanced JavaScript work is about finding issues quickly and writing code that stays fast as apps scale.',
+        outcomes: [
+          'Use the debugger and breakpoints effectively',
+          'Recognize performance traps in DOM code',
+          'Apply debouncing to reduce repeated work',
+        ],
+        sections: [
+          {
+            title: 'DevTools Debugger',
+            description:
+              'Use breakpoints to pause execution and inspect variables. Prefer debugging over guessing.',
+            bullets: ['Set a breakpoint inside an event handler', 'Inspect call stack and scope variables', 'Step over/into carefully'],
+          },
+          {
+            title: 'Debounce Example',
+            description:
+              'Debouncing prevents a function from running too often (useful for search inputs and resize events).',
+            code: {
+              languageLabel: 'JavaScript',
+              snippet: `function debounce(fn, delayMs) {\n  let timerId;\n  return (...args) => {\n    clearTimeout(timerId);\n    timerId = setTimeout(() => fn(...args), delayMs);\n  };\n}\n\nconst onSearch = debounce((value) => {\n  console.log('Searching for:', value);\n}, 300);`,
+            },
+          },
+        ],
+        practice: [
+          'Use a breakpoint to inspect a variable inside a function.',
+          'Add a debounce wrapper around a keyup handler.',
+          'Identify one place where you can avoid repeated DOM queries.',
+        ],
+        miniProject: {
+          title: 'Mini Project: Debounced Search Input',
+          steps: [
+            'Create an input field and listen for input events.',
+            'Debounce the handler by 300ms.',
+            'Show the latest “search term” text below the input.',
+          ],
+        },
+      },
+      {
+        id: 'js-a-patterns',
+        title: 'Robust Patterns (Immutability + Events)',
+        overview:
+          'Build maintainable front-end logic by keeping state updates predictable and using event-driven patterns cleanly.',
+        outcomes: [
+          'Update state immutably to avoid side effects',
+          'Use simple observer-style events when needed',
+          'Separate pure logic from UI code',
+        ],
+        sections: [
+          {
+            title: 'Immutability Basics',
+            description:
+              'Instead of editing objects/arrays in place, create copies with the updates. This makes bugs easier to avoid and tests easier to write.',
+            code: {
+              languageLabel: 'JavaScript',
+              snippet: `const state = { items: ['HTML', 'CSS'] };\n\nconst next = {\n  ...state,\n  items: [...state.items, 'JS'],\n};\n\nconsole.log(state.items.length, next.items.length);`,
+            },
+          },
+          {
+            title: 'A Tiny Event Emitter',
+            description:
+              'In larger apps, you sometimes need to notify multiple parts of the system. Keep it simple and explicit.',
+            code: {
+              languageLabel: 'JavaScript',
+              snippet: `function createEmitter() {\n  const listeners = new Set();\n  return {\n    on(fn) { listeners.add(fn); return () => listeners.delete(fn); },\n    emit(value) { for (const fn of listeners) fn(value); },\n  };\n}\n\nconst emitter = createEmitter();\nemitter.on((v) => console.log('Event:', v));\nemitter.emit('updated');`,
+            },
+          },
+        ],
+        practice: [
+          'Refactor an array update to use spread instead of push.',
+          'Create an emitter and emit 2 different events.',
+          'Keep UI code separate from data transformation code.',
+        ],
+        miniProject: {
+          title: 'Mini Project: Simple Todo State Engine',
+          steps: [
+            'Store todos in an array and update immutably.',
+            'Emit an “updated” event whenever state changes.',
+            'Render the updated list to the DOM on every update.',
           ],
         },
       },
