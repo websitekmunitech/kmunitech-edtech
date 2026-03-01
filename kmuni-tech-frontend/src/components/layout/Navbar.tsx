@@ -92,7 +92,7 @@ export default function Navbar() {
               About
             </Link>
             <Link to="/social-connect" className={desktopNavLinkClass('/social-connect')}>
-              Social Connect
+              UniSpace
             </Link>
             <Link to="/collaborations" className={desktopNavLinkClass('/collaborations')}>
               Collaborations
