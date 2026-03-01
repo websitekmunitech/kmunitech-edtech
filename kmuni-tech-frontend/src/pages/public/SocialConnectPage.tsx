@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Share2 } from 'lucide-react';
+import { Share2, Search } from 'lucide-react';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { fetchPublicUsers, PublicUserListItem } from '../../utils/api';
 
-type RoleFilter = 'all' | 'student' | 'instructor' | 'admin';
+type RoleFilter = 'all' | 'student' | 'instructor';
 
 const roleBadge: Record<string, string> = {
   student: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20',
@@ -20,6 +20,7 @@ export default function SocialConnectPage() {
   const [error, setError] = useState('');
   const [shareStatusById, setShareStatusById] = useState<Record<string, string>>({});
   const [roleFilter, setRoleFilter] = useState<RoleFilter>('all');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     let mounted = true;
@@ -68,6 +69,15 @@ export default function SocialConnectPage() {
     }
   };
 
+  const filteredUsers = users.filter((u) => {
+    const roleOk = roleFilter === 'all' ? true : u.role === roleFilter;
+    if (!roleOk) return false;
+
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return true;
+    return (u.name ?? '').toLowerCase().includes(q);
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0d0f1a] to-[#1a1c2e]">
       <Navbar />
@@ -91,37 +101,55 @@ export default function SocialConnectPage() {
             <p className="text-slate-400 text-sm">No profiles found.</p>
           ) : (
             <>
-              <div className="mb-6 flex flex-wrap gap-2">
-                {(
-                  [
-                    { key: 'all' as const, label: 'All' },
-                    { key: 'student' as const, label: 'Students' },
-                    { key: 'instructor' as const, label: 'Instructors' },
-                    { key: 'admin' as const, label: 'Admins' },
-                  ]
-                ).map((chip) => {
-                  const active = chip.key === roleFilter;
-                  return (
-                    <button
-                      key={chip.key}
-                      type="button"
-                      onClick={() => setRoleFilter(chip.key)}
-                      className={`px-4 py-2 rounded-xl text-sm font-bold border transition-all ${
-                        active
-                          ? 'bg-indigo-600/20 border-indigo-500/30 text-white'
-                          : 'bg-white/5 border-white/10 text-slate-300 hover:border-white/20'
-                      }`}
-                    >
-                      {chip.label}
-                    </button>
-                  );
-                })}
+              <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="flex flex-wrap gap-2">
+                  {(
+                    [
+                      { key: 'all' as const, label: 'All' },
+                      { key: 'student' as const, label: 'Students' },
+                      { key: 'instructor' as const, label: 'Instructors' },
+                    ]
+                  ).map((chip) => {
+                    const active = chip.key === roleFilter;
+                    return (
+                      <button
+                        key={chip.key}
+                        type="button"
+                        onClick={() => setRoleFilter(chip.key)}
+                        className={`px-4 py-2 rounded-xl text-sm font-bold border transition-all ${
+                          active
+                            ? 'bg-indigo-600/20 border-indigo-500/30 text-white'
+                            : 'bg-white/5 border-white/10 text-slate-300 hover:border-white/20'
+                        }`}
+                      >
+                        {chip.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <form
+                  onSubmit={(e) => e.preventDefault()}
+                  className="flex items-center gap-2 w-full sm:w-auto"
+                >
+                  <div className="flex items-center gap-2 w-full sm:w-72 bg-white/5 border border-white/10 rounded-xl px-3 py-2">
+                    <Search size={16} className="text-slate-400" />
+                    <input
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search profiles"
+                      className="w-full bg-transparent outline-none text-slate-200 placeholder:text-slate-500 text-sm"
+                      aria-label="Search profiles"
+                    />
+                  </div>
+                  <button type="submit" className="btn-secondary text-sm px-4 py-2.5">
+                    Search
+                  </button>
+                </form>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {users
-                  .filter((u) => (roleFilter === 'all' ? true : u.role === roleFilter))
-                  .map((u) => (
+                {filteredUsers.map((u) => (
                 <div key={u.id} className="card p-6">
                   <div className="flex items-start gap-4">
                     <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-xl font-black flex-shrink-0">
