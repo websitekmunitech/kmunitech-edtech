@@ -2,7 +2,7 @@ import type { LucideIcon } from 'lucide-react';
 import { BookOpen, Cpu, Database, Globe } from 'lucide-react';
 
 export type DomainKey = 'web' | 'ai' | 'data' | 'other';
-export type TopicKey = 'html' | 'css' | 'js';
+export type TopicKey = 'html' | 'css' | 'js' | 'python' | 'ml' | 'sql' | 'git';
 export type LevelKey = 'Beginner' | 'Intermediate' | 'Advanced';
 
 export type LessonSection = {
@@ -68,22 +68,29 @@ export const SELF_LEARN_DOMAINS: Domain[] = [
     key: 'ai',
     title: 'AI / ML',
     icon: Cpu,
-    enabled: false,
-    topics: [],
+    enabled: true,
+    topics: [
+      { key: 'python', title: 'Python Basics', description: 'Core Python for Data & AI.', levels: ['Beginner', 'Intermediate', 'Advanced'] },
+      { key: 'ml', title: 'Machine Learning', description: 'Concepts of model training.', levels: ['Beginner', 'Intermediate', 'Advanced'] }
+    ],
   },
   {
     key: 'data',
     title: 'Data Science',
     icon: Database,
-    enabled: false,
-    topics: [],
+    enabled: true,
+    topics: [
+      { key: 'sql', title: 'SQL', description: 'Query and manage relational data.', levels: ['Beginner', 'Intermediate', 'Advanced'] }
+    ],
   },
   {
     key: 'other',
     title: 'More Domains',
     icon: BookOpen,
-    enabled: false,
-    topics: [],
+    enabled: true,
+    topics: [
+      { key: 'git', title: 'Git & GitHub', description: 'Version control for teams.', levels: ['Beginner', 'Intermediate', 'Advanced'] }
+    ],
   },
 ];
 
@@ -1474,4 +1481,89 @@ export const SELF_LEARN_CONTENT: Record<TopicKey, Record<LevelKey, Chapter[]>> =
       },
     ],
   },
+  python: {
+    Beginner: [
+      {
+        id: 'py-b-intro',
+        title: 'Python Introduction',
+        overview: 'Learn the syntax and core concepts of Python.',
+        outcomes: ['Write your first Python script', 'Understand variables and data types'],
+        sections: [
+          {
+            title: 'Hello Python',
+            description: 'Python is a high-level, interpreted language.',
+            code: { languageLabel: 'Python', snippet: 'print("Hello, Python!")' },
+            bullets: ['Easy to read', 'Dynamically typed']
+          }
+        ],
+        practice: ['Run a print statement in the terminal.'],
+        miniProject: { title: 'Mini Project: Greet', steps: ['Ask for user name using input()', 'Print a personalized greeting'] }
+      }
+    ],
+    Intermediate: [],
+    Advanced: []
+  },
+  ml: {
+    Beginner: [
+      {
+        id: 'ml-b-intro',
+        title: 'Intro to Machine Learning',
+        overview: 'What makes ML different from traditional programming.',
+        outcomes: ['Understand supervised vs unsupervised learning'],
+        sections: [
+          {
+            title: 'The AI Spectrum',
+            description: 'ML algorithms learn patterns from data instead of hard-coded rules.',
+            bullets: ['Supervised: Labeled data', 'Unsupervised: Unlabeled grouping']
+          }
+        ],
+        practice: ['Identify 3 apps that use ML.'],
+        miniProject: { title: 'Mini Project: Classify Data', steps: ['Conceptual mapping of inputs to outputs'] }
+      }
+    ],
+    Intermediate: [],
+    Advanced: []
+  },
+  sql: {
+    Beginner: [
+      {
+        id: 'sql-b-select',
+        title: 'Basic Queries (SELECT)',
+        overview: 'Retrieve data from a database cleanly.',
+        outcomes: ['Write a basic SELECT statement', 'Filter with WHERE'],
+        sections: [
+          {
+            title: 'Selecting Data',
+            description: 'The SELECT keyword is the foundation of SQL.',
+            code: { languageLabel: 'SQL', snippet: 'SELECT * FROM users\nWHERE active = true;' },
+          }
+        ],
+        practice: ['Write a query selecting only the name and email.'],
+        miniProject: { title: 'Mini Project: User Roster', steps: ['Query 5 users out of a mock table'] }
+      }
+    ],
+    Intermediate: [],
+    Advanced: []
+  },
+  git: {
+    Beginner: [
+      {
+        id: 'git-b-intro',
+        title: 'Git Version Control',
+        overview: 'Track your code changes safely.',
+        outcomes: ['Init a repository', 'Commit changes'],
+        sections: [
+          {
+            title: 'The Staging Area',
+            description: 'Git commits are built by staging files first.',
+            code: { languageLabel: 'Bash', snippet: 'git init\ngit add .\ngit commit -m "Initial commit"' },
+          }
+        ],
+        practice: ['Initialize an empty repo and make one commit.'],
+        miniProject: { title: 'Mini Project: First Commit', steps: ['Create a text file, add it, and commit it'] }
+      }
+    ],
+    Intermediate: [],
+    Advanced: []
+  }
 };

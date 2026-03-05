@@ -443,6 +443,50 @@ export const SELF_LEARN_ACTIVITIES: Record<string, ChapterActivity> = {
       q('q5', 'Using small, focused modules helps mainly with…', ['Maintainability and testing', 'Changing browser fonts', 'Making HTML optional', 'Disabling errors'], 0),
     ],
   },
+  'py-b-intro': {
+    topic: 'python',
+    level: 'Beginner',
+    chapterId: 'py-b-intro',
+    title: 'Activity: Python Introduction',
+    questions: [
+      q('py1', 'Which function prints text safely to the console in Python?', ['console.log()', 'out()', 'print()', 'echo()'], 2),
+      q('py2', 'Python uses what for block scopes instead of curly braces?', ['Indentation', 'Semicolons', 'Tags', 'Parentheses'], 0),
+      q('py3', 'Which of these is a valid Python comment?', ['// comment', '<!-- comment -->', '# comment', '/* comment */'], 2),
+    ],
+  },
+  'ml-b-intro': {
+    topic: 'ml',
+    level: 'Beginner',
+    chapterId: 'ml-b-intro',
+    title: 'Activity: Intro to ML',
+    questions: [
+      q('ml1', 'Supervised learning requires...', ['No data', 'Labeled data', 'Only images', 'A robotic arm'], 1),
+      q('ml2', 'Predicting a continuous value (like house prices) is called:', ['Classification', 'Regression', 'Clustering', 'Routing'], 1),
+      q('ml3', 'Which is an example of clustering?', ['Sorting spam vs not spam', 'Grouping customers by purchasing behavior', 'Predicting the weather', 'Translating text'], 1),
+    ],
+  },
+  'sql-b-select': {
+    topic: 'sql',
+    level: 'Beginner',
+    chapterId: 'sql-b-select',
+    title: 'Activity: Basic Queries',
+    questions: [
+      q('sq1', 'Which clause is used to filter records?', ['WHERE', 'FILTER', 'FIND', 'ORDER BY'], 0),
+      q('sq2', 'What does the * symbol mean in a SELECT statement?', ['Multiply everything', 'Select all columns', 'Inner join', 'Add a wildcard'], 1),
+      q('sq3', 'Which clause sorts the results?', ['SORT BY', 'GROUP BY', 'ORDER BY', 'ARRANGE BY'], 2),
+    ],
+  },
+  'git-b-intro': {
+    topic: 'git',
+    level: 'Beginner',
+    chapterId: 'git-b-intro',
+    title: 'Activity: Git Basics',
+    questions: [
+      q('git1', 'Which command initializes a new Git repository?', ['git start', 'git create', 'git init', 'git make'], 2),
+      q('git2', 'How do you stage all modified files for a commit?', ['git add .', 'git stage all', 'git commit all', 'git push'], 0),
+      q('git3', 'Which command records changes to the repository?', ['git commit', 'git save', 'git store', 'git record'], 0),
+    ],
+  }
 };
 
 export function getChapterActivity(topic: TopicKey, level: LevelKey, chapterId: string): ChapterActivity | undefined {
