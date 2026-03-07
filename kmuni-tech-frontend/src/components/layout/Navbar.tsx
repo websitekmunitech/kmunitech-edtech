@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { BookOpen, Menu, X, ChevronDown, LogOut, Settings, LayoutDashboard, Sparkles } from 'lucide-react';
+import { BookOpen, Menu, X, ChevronDown, LogOut, Settings, LayoutDashboard, Sparkles, Link2 } from 'lucide-react';
 
 export default function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
@@ -10,16 +10,6 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [universeOpen, setUniverseOpen] = useState(false);
-  const universeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const openUniverse = () => {
-    if (universeTimer.current) clearTimeout(universeTimer.current);
-    setUniverseOpen(true);
-  };
-  const closeUniverseDelayed = () => {
-    universeTimer.current = setTimeout(() => setUniverseOpen(false), 120);
-  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -55,17 +45,12 @@ export default function Navbar() {
     return location.pathname === to || location.pathname.startsWith(to + '/');
   };
 
-  const isUniverseActive = () =>
-    ['/universe', '/courses', '/unilink', '/self-learn', '/unispace'].some(p =>
-      location.pathname.startsWith(p)
-    );
-
   const linkCls = (to: string) => {
     const active = isActive(to);
     return (
       'px-3.5 py-2 rounded-lg transition-all text-sm font-medium border ' +
       (active
-        ? 'bg-indigo-600/20 border-indigo-500/30 text-white shadow-lg shadow-indigo-500/10'
+        ? 'bg-blue-600/20 border-blue-500/30 text-white shadow-lg shadow-blue-500/10'
         : 'border-transparent text-slate-300 hover:text-white hover:bg-white/5 hover:border-white/10')
     );
   };
@@ -75,7 +60,7 @@ export default function Navbar() {
     return (
       'block px-4 py-3 rounded-xl transition-all border ' +
       (active
-        ? 'bg-indigo-600/20 border-indigo-500/30 text-white'
+        ? 'bg-blue-600/20 border-blue-500/30 text-white'
         : 'border-transparent text-slate-300 hover:text-white hover:bg-white/5')
     );
   };
@@ -96,124 +81,51 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
-            <div className="w-11 h-11 rounded-xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:shadow-indigo-500/40 transition-all">
-              <img src={logoSrc} alt="KM UniTech logo" className="w-full h-full object-contain" />
+            <div className="w-11 h-11 rounded-xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center shadow-lg shadow-blue-500/25 group-hover:shadow-blue-500/40 transition-all">
+              <img src={logoSrc} alt="UniVerse logo" className="w-full h-full object-contain" />
             </div>
             <div>
-              <span className="text-white font-bold text-lg">KM </span>
-              <span className="text-indigo-400 font-bold text-lg">UniTech</span>
+              <span className="text-blue-400 font-bold text-lg">Uni</span>
+              <span className="text-green-400 font-bold text-lg">Verse</span>
             </div>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-0.5">
             <Link to="/" className={linkCls('/')}>Home</Link>
-            <Link to="/about" className={linkCls('/about')}>About</Link>
-
-            {/* Universe Dropdown */}
-            <div className="relative" onMouseLeave={closeUniverseDelayed}>
-              <button
-                onMouseEnter={openUniverse}
-                onClick={() => navigate('/universe')}
-                className={
-                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg transition-all text-sm font-medium border ' +
-                  (isUniverseActive()
-                    ? 'bg-gradient-to-r from-indigo-600/20 to-purple-600/20 border-indigo-500/30 text-white shadow-lg shadow-indigo-500/10'
-                    : 'border-transparent text-slate-300 hover:text-white hover:bg-white/5 hover:border-white/10')
-                }
-              >
-                <Sparkles size={14} className="text-indigo-400" />
+            <Link to="/universe" className={linkCls('/universe')}>
+              <span className="flex items-center gap-1.5">
+                <Sparkles size={13} className="text-blue-400" />
                 Universe
-                <ChevronDown
-                  size={13}
-                  className={'transition-transform duration-200 ' + (universeOpen ? 'rotate-180' : '')}
-                />
-              </button>
-
-              {universeOpen && (
-                <div
-                  onMouseEnter={openUniverse}
-                  onMouseLeave={closeUniverseDelayed}
-                  className="absolute top-full left-0 mt-1.5 w-64 bg-[#12141f] backdrop-blur-xl border border-indigo-500/20 rounded-2xl shadow-2xl shadow-indigo-500/20 overflow-hidden z-50"
-                >
-                  <div className="px-4 py-3 border-b border-white/5 bg-gradient-to-r from-indigo-600/10 to-purple-600/10">
-                    <Link
-                      to="/universe"
-                      onClick={() => setUniverseOpen(false)}
-                      className="flex items-center justify-between group"
-                    >
-                      <p className="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
-                        <Sparkles size={12} /> Universe Platform
-                      </p>
-                      <span className="text-indigo-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity">View all →</span>
-                    </Link>
-                  </div>
-                  <div className="p-2 space-y-0.5">
-                    <Link
-                      to="/courses"
-                      onClick={() => setUniverseOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-indigo-500/10 transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center flex-shrink-0">
-                        <BookOpen size={16} className="text-indigo-400" />
-                      </div>
-                      <div>
-                        <div className="font-medium text-sm">Courses</div>
-                        <div className="text-xs text-slate-500">Learn &amp; Upskill</div>
-                      </div>
-                    </Link>
-                    <Link
-                      to="/self-learn"
-                      onClick={() => setUniverseOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-purple-500/10 transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0">
-                        <Sparkles size={16} className="text-purple-400" />
-                      </div>
-                      <div>
-                        <div className="font-medium text-sm">Self Learn</div>
-                        <div className="text-xs text-slate-500">Interactive Modules</div>
-                      </div>
-                    </Link>
-                    <Link
-                      to="/unilink"
-                      onClick={() => setUniverseOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-blue-500/10 transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                        <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <div className="font-medium text-sm">UniLink</div>
-                        <div className="text-xs text-slate-500">Career Events</div>
-                      </div>
-                    </Link>
-                    <Link
-                      to="/unispace"
-                      onClick={() => setUniverseOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-emerald-500/10 transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                        <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <div className="font-medium text-sm">UniSpace</div>
-                        <div className="text-xs text-slate-500">Social Connect</div>
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <Link to="/services" className={linkCls('/services')}>Services</Link>
-            <Link to="/community" className={linkCls('/community')}>Community</Link>
-            <Link to="/blog" className={linkCls('/blog')}>Blog</Link>
-            <Link to="/roadmap" className={linkCls('/roadmap')}>Roadmap</Link>
+              </span>
+            </Link>
+            <Link to="/courses" className={linkCls('/courses')}>
+              <span className="flex items-center gap-1.5">
+                <BookOpen size={13} className="text-blue-400" />
+                Courses
+              </span>
+            </Link>
+            <Link to="/self-learn" className={linkCls('/self-learn')}>
+              <span className="flex items-center gap-1.5">
+                <Sparkles size={13} className="text-green-400" />
+                Self Learn
+              </span>
+            </Link>
+            <Link to="/unilink" className={linkCls('/unilink')}>
+              <span className="flex items-center gap-1.5">
+                <Link2 size={13} className="text-sky-400" />
+                UniLink
+              </span>
+            </Link>
+            <Link to="/unispace" className={linkCls('/unispace')}>
+              <span className="flex items-center gap-1.5">
+                <svg className="w-3.5 h-3.5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                UniSpace
+              </span>
+            </Link>
+            <Link to="/about" className={linkCls('/about')}>About</Link>
             <Link to="/contact" className={linkCls('/contact')}>Contact</Link>
           </div>
 
@@ -223,9 +135,9 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(v => !v)}
-                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/5 transition-all border border-white/10 hover:border-indigo-500/30"
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/5 transition-all border border-white/10 hover:border-blue-500/30"
                 >
-                  <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-indigo-500/30">
+                  <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-blue-500/30">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
                   <div className="text-left">
@@ -276,7 +188,7 @@ export default function Navbar() {
                 </Link>
                 <Link
                   to="/signup"
-                  className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all"
+                  className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-500 hover:to-green-500 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all"
                 >
                   Get Started
                 </Link>
@@ -298,31 +210,27 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="lg:hidden bg-[#0d0f1a]/98 border-t border-white/5 px-4 py-4 space-y-1 backdrop-blur-xl">
           <Link to="/" className={mobileLinkCls('/')}>Home</Link>
+          <Link to="/universe" className={mobileLinkCls('/universe')}>
+            <span className="flex items-center gap-2.5"><Sparkles size={15} className="text-blue-400" /> Universe</span>
+          </Link>
+          <Link to="/courses" className={mobileLinkCls('/courses')}>
+            <span className="flex items-center gap-2.5"><BookOpen size={15} className="text-blue-400" /> Courses</span>
+          </Link>
+          <Link to="/self-learn" className={mobileLinkCls('/self-learn')}>
+            <span className="flex items-center gap-2.5"><Sparkles size={15} className="text-green-400" /> Self Learn</span>
+          </Link>
+          <Link to="/unilink" className={mobileLinkCls('/unilink')}>
+            <span className="flex items-center gap-2.5"><Link2 size={15} className="text-sky-400" /> UniLink</span>
+          </Link>
+          <Link to="/unispace" className={mobileLinkCls('/unispace')}>
+            <span className="flex items-center gap-2.5">
+              <svg className="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              UniSpace
+            </span>
+          </Link>
           <Link to="/about" className={mobileLinkCls('/about')}>About</Link>
-
-          {/* Universe Section */}
-          <div className="border border-indigo-500/20 rounded-xl p-3 bg-indigo-500/5 space-y-0.5">
-            <p className="text-indigo-400 text-xs font-bold uppercase tracking-wider mb-2 px-1 flex items-center gap-1.5">
-              <Sparkles size={12} /> Universe Platform
-            </p>
-            <Link to="/courses" className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 text-sm transition-all">
-              📚 <span>Courses</span>
-            </Link>
-            <Link to="/self-learn" className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 text-sm transition-all">
-              ✨ <span>Self Learn</span>
-            </Link>
-            <Link to="/unilink" className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 text-sm transition-all">
-              💼 <span>UniLink Events</span>
-            </Link>
-            <Link to="/unispace" className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 text-sm transition-all">
-              👥 <span>UniSpace Connect</span>
-            </Link>
-          </div>
-
-          <Link to="/services" className={mobileLinkCls('/services')}>Services</Link>
-          <Link to="/community" className={mobileLinkCls('/community')}>Community</Link>
-          <Link to="/blog" className={mobileLinkCls('/blog')}>Blog</Link>
-          <Link to="/roadmap" className={mobileLinkCls('/roadmap')}>Roadmap</Link>
           <Link to="/contact" className={mobileLinkCls('/contact')}>Contact</Link>
 
           {isAuthenticated && user ? (
@@ -345,7 +253,7 @@ export default function Navbar() {
               <Link to="/login" className="bg-white/5 hover:bg-white/10 border border-white/10 text-white text-center text-sm py-3 rounded-xl font-medium transition-all">
                 Log in
               </Link>
-              <Link to="/signup" className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center text-sm py-3 rounded-xl font-semibold shadow-lg shadow-indigo-500/30 transition-all">
+              <Link to="/signup" className="bg-gradient-to-r from-blue-600 to-green-600 text-white text-center text-sm py-3 rounded-xl font-semibold shadow-lg shadow-blue-500/30 transition-all">
                 Get Started
               </Link>
             </div>
@@ -353,11 +261,11 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* Overlay to close open dropdowns */}
-      {(dropdownOpen || universeOpen) && (
+      {/* Overlay to close user dropdown */}
+      {dropdownOpen && (
         <div
           className="fixed inset-0 z-[-1]"
-          onClick={() => { setDropdownOpen(false); setUniverseOpen(false); }}
+          onClick={() => setDropdownOpen(false)}
         />
       )}
     </nav>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" fill="none">
+  <defs>
+    <!-- Book blue gradient -->
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2196F3"/>
+      <stop offset="100%" stop-color="#29ABE2"/>
+    </linearGradient>
+    <!-- Book green gradient -->
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4CAF50"/>
+      <stop offset="100%" stop-color="#8DC63F"/>
+    </linearGradient>
+    <!-- Orbit gradient -->
+    <linearGradient id="orbitGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#2196F3"/>
+      <stop offset="100%" stop-color="#4CAF50"/>
+    </linearGradient>
+    <!-- Shadow filter -->
+    <filter id="bookShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#00000040"/>
+    </filter>
+  </defs>
+
+  <!-- ── Orbit swoosh ── -->
+  <!-- Main orbital ring (ellipse outline) -->
+  <ellipse cx="140" cy="148" rx="105" ry="28" stroke="url(#orbitGrad)" stroke-width="6" fill="none" opacity="0.85"/>
+  <!-- Front arc overlay (creates depth) -->
+  <path d="M 50 162 Q 140 188 230 162" stroke="url(#orbitGrad)" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- ── Open Book ── -->
+  <!-- Left page (blue) -->
+  <path d="M140 70 L140 182 Q120 186 95 180 L80 174 Q72 170 72 162 L72 84 Q72 76 80 72 Q105 62 135 68 Q138 69 140 70Z" fill="url(#blueGrad)" filter="url(#bookShadow)"/>
+  <!-- Left page inner shadow line -->
+  <path d="M135 72 L135 180" stroke="white" stroke-width="1.5" opacity="0.25"/>
+
+  <!-- Right page (green) -->
+  <path d="M140 70 L140 182 Q160 186 185 180 L200 174 Q208 170 208 162 L208 84 Q208 76 200 72 Q175 62 145 68 Q142 69 140 70Z" fill="url(#greenGrad)" filter="url(#bookShadow)"/>
+  <!-- Right page inner shadow line -->
+  <path d="M145 72 L145 180" stroke="white" stroke-width="1.5" opacity="0.25"/>
+
+  <!-- Book spine highlight -->
+  <path d="M140 68 L140 184" stroke="white" stroke-width="2.5" opacity="0.4" stroke-linecap="round"/>
+
+  <!-- ── Sparkle star (top-right) ── -->
+  <!-- Large star -->
+  <path d="M205 58 L207.5 52 L210 58 L216 60.5 L210 63 L207.5 69 L205 63 L199 60.5 Z" fill="#8DC63F"/>
+  <!-- Small star dot -->
+  <circle cx="195" cy="50" r="3" fill="#8DC63F" opacity="0.7"/>
+  <!-- Tiny dot -->
+  <circle cx="218" cy="52" r="2" fill="#4CAF50" opacity="0.6"/>
+</svg>

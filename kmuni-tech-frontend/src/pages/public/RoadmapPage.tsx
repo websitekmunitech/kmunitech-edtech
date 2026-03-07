@@ -83,7 +83,7 @@ export default function RoadmapPage() {
           {/* Header */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Product <span className="text-indigo-400">Roadmap</span>
+              Product <span className="text-blue-400">Roadmap</span>
             </h1>
             <p className="text-xl text-slate-400 max-w-3xl mx-auto">
               Our journey to transform education through technology
@@ -126,7 +126,7 @@ export default function RoadmapPage() {
                   
                   <div className="space-y-4 ml-11">
                     {phase.items.map((item, idx) => (
-                      <div key={idx} className="border-l-2 border-indigo-500/30 pl-4">
+                      <div key={idx} className="border-l-2 border-blue-500/30 pl-4">
                         <h4 className="text-lg font-semibold text-white mb-1">{item.title}</h4>
                         <p className="text-slate-400 text-sm">{item.description}</p>
                       </div>
@@ -138,7 +138,7 @@ export default function RoadmapPage() {
           </div>
 
           {/* Footer Note */}
-          <div className="mt-12 text-center bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-6">
+          <div className="mt-12 text-center bg-blue-500/10 border border-blue-500/20 rounded-xl p-6">
             <p className="text-slate-300">
               <span className="font-semibold text-white">Note:</span> This roadmap is subject to change based on user feedback, 
               market demands, and technological advancements. We're committed to continuous improvement and innovation.

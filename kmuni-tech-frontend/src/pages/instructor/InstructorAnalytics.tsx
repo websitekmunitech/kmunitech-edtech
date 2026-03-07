@@ -94,7 +94,7 @@ export default function InstructorAnalytics() {
       ) : (
         <>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-            <StatCard icon={<Users size={18} />} label="Total Students" value={analytics?.totalStudents ?? '—'} color="from-indigo-500 to-purple-500" sub="Live" />
+            <StatCard icon={<Users size={18} />} label="Total Students" value={analytics?.totalStudents ?? '—'} color="from-blue-500 to-green-500" sub="Live" />
             <StatCard icon={<TrendingUp size={18} />} label="Total Courses" value={analytics?.totalCourses ?? '—'} color="from-blue-500 to-cyan-500" />
             <StatCard icon={<Star size={18} />} label="Avg Rating" value={Number.isFinite(analytics?.averageRating) ? (analytics?.averageRating ?? 0).toFixed(1) : '—'} color="from-amber-500 to-orange-500" />
           </div>
@@ -110,7 +110,7 @@ export default function InstructorAnalytics() {
                     <div key={`${item.label}-${i}`} className="flex-1 flex flex-col items-center gap-2">
                       <span className="text-xs text-slate-500">{item.value}</span>
                       <div
-                        className="w-full bg-indigo-500/20 hover:bg-indigo-500/40 rounded-t-lg transition-all cursor-pointer"
+                        className="w-full bg-blue-500/20 hover:bg-blue-500/40 rounded-t-lg transition-all cursor-pointer"
                         style={{ height: `${(item.value / enrollmentsByCourse.max) * 100}%`, minHeight: '8px' }}
                       />
                       <span className="text-xs text-slate-500">{item.label}</span>

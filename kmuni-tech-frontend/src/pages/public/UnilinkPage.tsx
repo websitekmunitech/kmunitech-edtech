@@ -96,8 +96,8 @@ export default function UnilinkPage() {
 
               <div className="mt-10 space-y-4 max-w-xl">
                 <div className="flex items-start gap-3 bg-white/5 border border-white/10 rounded-2xl p-5">
-                  <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center shrink-0">
-                    <Video size={18} className="text-indigo-400" />
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0">
+                    <Video size={18} className="text-blue-400" />
                   </div>
                   <div>
                     <p className="text-white font-semibold">Live Classes</p>
@@ -116,8 +116,8 @@ export default function UnilinkPage() {
                 </div>
 
                 <div className="flex items-start gap-3 bg-white/5 border border-white/10 rounded-2xl p-5">
-                  <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center shrink-0">
-                    <Users size={18} className="text-purple-400" />
+                  <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center shrink-0">
+                    <Users size={18} className="text-green-400" />
                   </div>
                   <div>
                     <p className="text-white font-semibold">Community Support</p>

@@ -145,7 +145,7 @@ export default function CourseDetailPage() {
     return h > 0 ? `${h}h ${m}m` : `${m}m`;
   };
 
-  const gradients = ['from-indigo-600 to-purple-700','from-blue-600 to-cyan-600','from-emerald-600 to-teal-600','from-orange-600 to-red-600','from-pink-600 to-rose-600','from-violet-600 to-indigo-600'];
+  const gradients = ['from-blue-600 to-green-700','from-blue-600 to-cyan-600','from-emerald-600 to-teal-600','from-orange-600 to-red-600','from-pink-600 to-rose-600','from-teal-600 to-blue-600'];
   const gradient = gradients[course.id ? stringHash(course.id) % gradients.length : 0];
 
   const handleEnroll = async () => {
@@ -262,7 +262,7 @@ export default function CourseDetailPage() {
                           locked
                             ? 'bg-white/2 border-white/5 opacity-60 cursor-not-allowed'
                             : isActive
-                              ? 'bg-white/5 border-indigo-500/30'
+                              ? 'bg-white/5 border-blue-500/30'
                               : 'bg-white/3 border-white/10 hover:bg-white/5'
                         }`}
                       >
@@ -270,7 +270,7 @@ export default function CourseDetailPage() {
                           <p className="text-white text-sm font-medium truncate">{idx + 1}. {lesson.title}</p>
                           <p className="text-slate-500 text-xs truncate">{lesson.duration}m</p>
                         </div>
-                        {locked ? <Lock size={14} className="text-slate-500 flex-shrink-0" /> : <Play size={14} className="text-indigo-400 flex-shrink-0" />}
+                        {locked ? <Lock size={14} className="text-slate-500 flex-shrink-0" /> : <Play size={14} className="text-blue-400 flex-shrink-0" />}
                       </button>
                     );
                   })}
@@ -301,7 +301,7 @@ export default function CourseDetailPage() {
                   }`}>
                     <div className="flex items-center gap-3">
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold ${
-                        lesson.isPreview ? 'bg-indigo-500/20 text-indigo-400' : 'bg-white/5 text-slate-500'
+                        lesson.isPreview ? 'bg-blue-500/20 text-blue-400' : 'bg-white/5 text-slate-500'
                       }`}>{idx + 1}</div>
                       <div>
                         <p className={`font-medium text-sm ${lesson.isPreview ? 'text-white' : 'text-slate-400'}`}>{lesson.title}</p>
@@ -311,7 +311,7 @@ export default function CourseDetailPage() {
                     <div className="flex items-center gap-3">
                       <span className="text-slate-500 text-xs">{lesson.duration}m</span>
                       {lesson.isPreview ? (
-                        <span className="flex items-center gap-1 text-indigo-400 text-xs"><Play size={11} /> Preview</span>
+                        <span className="flex items-center gap-1 text-blue-400 text-xs"><Play size={11} /> Preview</span>
                       ) : (
                         <Lock size={13} className="text-slate-600" />
                       )}
@@ -325,12 +325,12 @@ export default function CourseDetailPage() {
             <div className="card p-6">
               <h2 className="text-white font-bold text-xl mb-5">About the Instructor</h2>
               <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center text-white text-xl font-bold flex-shrink-0">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-500 rounded-2xl flex items-center justify-center text-white text-xl font-bold flex-shrink-0">
                   {course.instructorName.charAt(0)}
                 </div>
                 <div>
                   <h3 className="text-white font-semibold text-lg">{course.instructorName}</h3>
-                  <p className="text-indigo-400 text-sm mb-3">Senior Software Engineer & Educator</p>
+                  <p className="text-blue-400 text-sm mb-3">Senior Software Engineer & Educator</p>
                   <p className="text-slate-400 text-sm leading-relaxed">Expert practitioner with 10+ years of industry experience. Passionate about making complex concepts accessible to everyone. Taught over 5,000 students worldwide.</p>
                 </div>
               </div>
@@ -393,7 +393,7 @@ export default function CourseDetailPage() {
                   ['Full lifetime access', CheckCircle],
                 ].map(([text, Icon]: any) => (
                   <div key={text} className="flex items-center gap-2.5 text-slate-300 text-sm">
-                    <Icon size={15} className="text-indigo-400 flex-shrink-0" /> {text}
+                    <Icon size={15} className="text-blue-400 flex-shrink-0" /> {text}
                   </div>
                 ))}
               </div>

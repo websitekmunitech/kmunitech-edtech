@@ -82,7 +82,7 @@ export default function InstructorDashboard() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <StatCard icon={<BookOpen size={18} />} label="Total Courses" value={analytics?.totalCourses ?? '—'} color="from-indigo-500 to-purple-500" />
+        <StatCard icon={<BookOpen size={18} />} label="Total Courses" value={analytics?.totalCourses ?? '—'} color="from-blue-500 to-green-500" />
         <StatCard icon={<Users size={18} />} label="Total Students" value={analytics?.totalStudents ?? '—'} color="from-blue-500 to-cyan-500" />
         <StatCard icon={<Star size={18} />} label="Avg Rating" value={analytics?.averageRating ?? '—'} color="from-amber-500 to-orange-500" />
       </div>
@@ -92,7 +92,7 @@ export default function InstructorDashboard() {
         <div className="lg:col-span-2 card p-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-white font-bold text-lg">My Courses</h2>
-            <Link to="/instructor/courses" className="text-indigo-400 hover:text-indigo-300 text-sm flex items-center gap-1">
+            <Link to="/instructor/courses" className="text-blue-400 hover:text-blue-300 text-sm flex items-center gap-1">
               View all <ArrowRight size={13} />
             </Link>
           </div>
@@ -106,7 +106,7 @@ export default function InstructorDashboard() {
             ) : myCourses.map((course, i) => (
               <div key={course.id} className="flex items-center gap-4 p-4 bg-white/3 rounded-2xl">
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold flex-shrink-0 bg-gradient-to-br ${
-                  ['from-indigo-500 to-purple-500','from-orange-500 to-red-500'][i]
+                  ['from-blue-500 to-green-500','from-orange-500 to-red-500'][i]
                 }`}>{course.title.charAt(0)}</div>
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-medium text-sm truncate">{course.title}</p>
@@ -134,7 +134,7 @@ export default function InstructorDashboard() {
             <h3 className="text-white font-bold mb-4">Quick Actions</h3>
             <div className="space-y-2">
               {[
-                { icon: PlusCircle, label: 'New Course', path: '/instructor/create-course', color: 'text-indigo-400' },
+                { icon: PlusCircle, label: 'New Course', path: '/instructor/create-course', color: 'text-blue-400' },
                 { icon: BarChart3, label: 'View Analytics', path: '/instructor/analytics', color: 'text-blue-400' },
                 { icon: BookOpen, label: 'Manage Courses', path: '/instructor/courses', color: 'text-emerald-400' },
               ].map(({ icon: Icon, label, path, color }) => (

@@ -9,7 +9,7 @@ interface Props { course: Course; showEnroll?: boolean; }
 
 const categoryColors: Record<string, string> = {
   'web-dev': 'bg-blue-500/15 text-blue-400',
-  'ai-ml': 'bg-purple-500/15 text-purple-400',
+  'ai-ml': 'bg-green-500/15 text-green-400',
   'mobile': 'bg-emerald-500/15 text-emerald-400',
   'devops': 'bg-orange-500/15 text-orange-400',
   'design': 'bg-pink-500/15 text-pink-400',
@@ -18,12 +18,12 @@ const categoryColors: Record<string, string> = {
 };
 
 const thumbnailGradients = [
-  'from-indigo-600 to-purple-700',
+  'from-blue-600 to-green-700',
   'from-blue-600 to-cyan-600',
   'from-emerald-600 to-teal-600',
   'from-orange-600 to-red-600',
   'from-pink-600 to-rose-600',
-  'from-violet-600 to-indigo-600',
+  'from-teal-600 to-blue-600',
 ];
 
 function stringHash(value: string) {
@@ -95,7 +95,7 @@ export default function CourseCard({ course, showEnroll = true }: Props) {
         </div>
 
         {/* Title */}
-        <h3 className="text-white font-semibold text-base leading-snug mb-2 group-hover:text-indigo-300 transition-colors line-clamp-2">
+        <h3 className="text-white font-semibold text-base leading-snug mb-2 group-hover:text-blue-300 transition-colors line-clamp-2">
           {course.title}
         </h3>
 
@@ -103,7 +103,7 @@ export default function CourseCard({ course, showEnroll = true }: Props) {
         <p className="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">{course.description}</p>
 
         {/* Instructor */}
-        <p className="text-slate-400 text-xs mb-4">by <span className="text-indigo-400">{course.instructorName}</span></p>
+        <p className="text-slate-400 text-xs mb-4">by <span className="text-blue-400">{course.instructorName}</span></p>
 
         {/* Stats */}
         <div className="flex items-center justify-between text-xs">

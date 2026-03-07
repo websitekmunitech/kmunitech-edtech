@@ -49,7 +49,7 @@ export default function DashboardLayout({ children }: Props) {
 
   const roleColors = {
     student: { bg: 'from-emerald-500 to-teal-500', badge: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20', label: 'Student' },
-    instructor: { bg: 'from-blue-500 to-indigo-500', badge: 'bg-blue-500/15 text-blue-400 border-blue-500/20', label: 'Instructor' },
+    instructor: { bg: 'from-blue-500 to-blue-500', badge: 'bg-blue-500/15 text-blue-400 border-blue-500/20', label: 'Instructor' },
     admin: { bg: 'from-orange-500 to-red-500', badge: 'bg-orange-500/15 text-orange-400 border-orange-500/20', label: 'Admin' },
   };
   const rc = roleColors[user.role];
@@ -61,10 +61,10 @@ export default function DashboardLayout({ children }: Props) {
       {/* Logo */}
       <div className="px-5 py-5 border-b border-white/5">
         <Link to="/" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-green-600 rounded-lg flex items-center justify-center">
             <BookOpen size={15} className="text-white" />
           </div>
-          <span className="text-white font-bold">KM <span className="text-indigo-400">UniTech</span></span>
+          <span className="font-bold"><span className="text-blue-400">Uni</span><span className="text-green-400">Verse</span></span>
         </Link>
       </div>
 
@@ -91,7 +91,7 @@ export default function DashboardLayout({ children }: Props) {
               className={active ? 'sidebar-item-active' : 'sidebar-item'}>
               <item.icon size={17} />
               <span className="text-sm">{item.label}</span>
-              {active && <ChevronRight size={13} className="ml-auto text-indigo-400" />}
+              {active && <ChevronRight size={13} className="ml-auto text-blue-400" />}
             </Link>
           );
         })}
@@ -143,7 +143,7 @@ export default function DashboardLayout({ children }: Props) {
           <div className="flex items-center gap-2 ml-auto">
             <button className="relative p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all">
               <Bell size={18} />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full"></span>
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-500 rounded-full"></span>
             </button>
             <div className={`w-8 h-8 bg-gradient-to-br ${rc.bg} rounded-lg flex items-center justify-center text-white text-sm font-bold`}>
               {user.name.charAt(0).toUpperCase()}

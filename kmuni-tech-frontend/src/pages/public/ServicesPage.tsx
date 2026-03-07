@@ -52,7 +52,7 @@ export default function ServicesPage() {
           {/* Header */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Our <span className="text-indigo-400">Services</span>
+              Our <span className="text-blue-400">Services</span>
             </h1>
             <p className="text-xl text-slate-400 max-w-3xl mx-auto">
               Comprehensive solutions for education, training, and technology transformation
@@ -64,11 +64,11 @@ export default function ServicesPage() {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:border-indigo-500/30 transition-all"
+                className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:border-blue-500/30 transition-all"
               >
                 <div className="flex items-start gap-6">
-                  <div className="w-16 h-16 bg-indigo-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <service.icon className="text-indigo-400" size={32} />
+                  <div className="w-16 h-16 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <service.icon className="text-blue-400" size={32} />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold text-white mb-3">{service.title}</h3>
@@ -76,7 +76,7 @@ export default function ServicesPage() {
                     <div className="grid sm:grid-cols-2 gap-3">
                       {service.features.map((feature, idx) => (
                         <div key={idx} className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full"></div>
+                          <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
                           <span className="text-slate-300 text-sm">{feature}</span>
                         </div>
                       ))}
@@ -88,14 +88,14 @@ export default function ServicesPage() {
           </div>
 
           {/* CTA Section */}
-          <div className="mt-16 text-center bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-2xl p-12">
+          <div className="mt-16 text-center bg-gradient-to-br from-blue-500/10 to-green-500/10 border border-blue-500/20 rounded-2xl p-12">
             <h2 className="text-3xl font-bold text-white mb-4">Ready to Transform Your Learning Experience?</h2>
             <p className="text-slate-400 mb-8 max-w-2xl mx-auto">
               Get in touch with our team to discuss how we can help you achieve your educational and training goals.
             </p>
             <a
               href="/contact"
-              className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-medium transition-colors"
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-medium transition-colors"
             >
               Contact Us
             </a>

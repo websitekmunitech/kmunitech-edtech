@@ -230,7 +230,7 @@ export default function AdminUsers() {
               <tr key={user.id} className="hover:bg-white/2 transition-all">
                 <td className="px-5 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                    <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
                       {user.name.charAt(0)}
                     </div>
                     <div><p className="text-white text-sm font-medium">{user.name}</p><p className="text-slate-500 text-xs">{user.email}</p></div>
@@ -257,7 +257,7 @@ export default function AdminUsers() {
                       </button>
                     )}
                     <button onClick={() => { setResetModal(user.id); setNewPwd(''); }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 hover:border-indigo-500/40 rounded-lg text-indigo-400 text-xs font-medium transition-all">
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 hover:border-blue-500/40 rounded-lg text-blue-400 text-xs font-medium transition-all">
                       <Key size={12} /> Reset PWD
                     </button>
                     <button
@@ -309,7 +309,7 @@ export default function AdminUsers() {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="card p-6 w-full max-w-md animate-slide-up">
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 bg-indigo-500/15 border border-indigo-500/20 rounded-xl flex items-center justify-center"><Edit3 size={18} className="text-indigo-400" /></div>
+              <div className="w-10 h-10 bg-blue-500/15 border border-blue-500/20 rounded-xl flex items-center justify-center"><Edit3 size={18} className="text-blue-400" /></div>
               <div><h3 className="text-white font-bold">Edit User</h3><p className="text-slate-500 text-sm">{editingUser?.email}</p></div>
             </div>
 

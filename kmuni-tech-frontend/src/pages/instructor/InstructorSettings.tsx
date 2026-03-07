@@ -14,7 +14,7 @@ export default function InstructorSettings() {
       <div className="mb-8"><h1 className="text-2xl font-bold text-white">Settings</h1></div>
       <div className="max-w-2xl space-y-6">
         <div className="card p-6">
-          <div className="flex items-center gap-2.5 mb-5"><User size={18} className="text-indigo-400" /><h2 className="text-white font-semibold">Instructor Profile</h2></div>
+          <div className="flex items-center gap-2.5 mb-5"><User size={18} className="text-blue-400" /><h2 className="text-white font-semibold">Instructor Profile</h2></div>
           <div className="space-y-4">
             <div><label className="block text-slate-300 text-sm font-medium mb-2">Full Name</label><input value={name} onChange={e => setName(e.target.value)} className="input-field" /></div>
             <div><label className="block text-slate-300 text-sm font-medium mb-2">Email</label><input value={user?.email || ''} disabled className="input-field opacity-50" /></div>
@@ -27,7 +27,7 @@ export default function InstructorSettings() {
           </button>
         </div>
         <div className="card p-6">
-          <div className="flex items-center gap-2.5 mb-5"><Lock size={18} className="text-indigo-400" /><h2 className="text-white font-semibold">Change Password</h2></div>
+          <div className="flex items-center gap-2.5 mb-5"><Lock size={18} className="text-blue-400" /><h2 className="text-white font-semibold">Change Password</h2></div>
           <div className="space-y-4">
             <div><label className="block text-slate-300 text-sm font-medium mb-2">Current Password</label><input type="password" placeholder="••••••••" className="input-field" /></div>
             <div><label className="block text-slate-300 text-sm font-medium mb-2">New Password</label><input type="password" className="input-field" /></div>

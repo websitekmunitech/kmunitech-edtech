@@ -244,7 +244,7 @@ export default function CreateCourse() {
                   <GripVertical size={18} className="text-slate-600 mt-3 cursor-grab flex-shrink-0" />
                   <div className="flex-1 space-y-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-7 h-7 bg-indigo-500/20 rounded-lg flex items-center justify-center text-indigo-400 text-xs font-bold flex-shrink-0">{i + 1}</div>
+                      <div className="w-7 h-7 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 text-xs font-bold flex-shrink-0">{i + 1}</div>
                       <input
                         className="input-field py-2 text-sm"
                         placeholder={`Lesson ${i + 1} title`}

@@ -10,11 +10,11 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+              <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-green-600 rounded-xl flex items-center justify-center">
                 <BookOpen size={18} className="text-white" />
               </div>
               <span className="text-white font-bold text-lg">
-                KM <span className="text-indigo-400">UniTech</span>
+                <span className="text-blue-400">Uni</span><span className="text-green-400">Verse</span>
               </span>
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed">
@@ -32,7 +32,7 @@ export default function Footer() {
                   href={href}
                   target={href !== '#' ? '_blank' : undefined}
                   rel={href !== '#' ? 'noopener noreferrer' : undefined}
-                  className="w-9 h-9 bg-white/5 hover:bg-indigo-500/20 border border-white/8 hover:border-indigo-500/30 rounded-lg flex items-center justify-center text-slate-400 hover:text-indigo-400 transition-all"
+                  className="w-9 h-9 bg-white/5 hover:bg-blue-500/20 border border-white/8 hover:border-blue-500/30 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-400 transition-all"
                 >
                   <Icon size={16} />
                 </a>
@@ -42,12 +42,13 @@ export default function Footer() {
 
           {/* Links */}
           <div>
-            <h4 className="text-white font-semibold text-sm mb-4">Platform</h4>
+            <h4 className="text-white font-semibold text-sm mb-4">Universe</h4>
             <ul className="space-y-2.5">
               {[
                 ['Courses', '/courses'],
-                ['Instructors', '/instructors'],
-                ['Pricing', '/pricing'],
+                ['Self Learn', '/self-learn'],
+                ['UniLink Events', '/unilink'],
+                ['UniSpace', '/unispace'],
               ].map(([label, path]) => (
                 <li key={path}>
                   <Link
@@ -66,9 +67,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {[
                 ['About Us', '/about'],
-                ['Collaborations', '/collaborations'],
-                ['Careers', '/careers'],
-                ['Blog', '/blog'],
+                ['Contact', '/contact'],
                 ['Privacy Policy', '/privacy'],
               ].map(([label, path]) => (
                 <li key={path}>
@@ -95,8 +94,8 @@ export default function Footer() {
               <p className="text-slate-500 text-xs flex items-center gap-2">
                 <Globe size={12} /> Chennai, TamilNadu, IN
               </p>
-              <div className="mt-4 p-3 bg-indigo-500/10 border border-indigo-500/20 rounded-xl">
-                <p className="text-indigo-300 text-xs font-medium">
+              <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl">
+                <p className="text-blue-300 text-xs font-medium">
                   Admin Access
                 </p>
                 <p className="text-slate-400 text-xs mt-1">
@@ -110,13 +109,13 @@ export default function Footer() {
 
         <div className="border-t border-white/5 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-slate-500 text-sm">
-            © 2026 KM UniTech. All rights reserved.
+            © 2026 UniVerse. All rights reserved.
           </p>
           <p className="text-slate-500 text-sm">
             Built with ❤️ by{' '}
             <a
               href="https://isqre.tech/"
-              className="text-indigo-400 hover:text-indigo-300"
+              className="text-blue-400 hover:text-blue-300"
               target="_blank"
             >
               ISquare Tech Solutions

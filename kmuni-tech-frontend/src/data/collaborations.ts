@@ -8,7 +8,7 @@ export const collaborations = [
       'Delivering innovative technological solutions for modern business challenges.',
     image: `/assetskmuni/Isqre.jpeg`,
     icon: Zap,
-    color: 'from-indigo-400 to-purple-600',
+    color: 'from-blue-400 to-green-600',
   },
   {
     title: 'Alpha World',
@@ -26,7 +26,7 @@ export const collaborations = [
       'United to scale impact through technology-driven initiatives and robust digital infrastructures.',
     image: `/assetskmuni/hyper-hub.jpg`,
     icon: Globe,
-    color: 'from-purple-500 to-indigo-500',
+    color: 'from-green-500 to-blue-500',
   },
   {
     title: 'Wyntrix',

@@ -110,7 +110,7 @@ export default function CoursesPage() {
               {['all', 'free', 'paid'].map(p => (
                 <button key={p} onClick={() => setPriceFilter(p)}
                   className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all border capitalize ${
-                    priceFilter === p ? 'bg-indigo-600 text-white border-indigo-500' : 'border-white/10 bg-white/5 text-slate-300 hover:border-white/20'
+                    priceFilter === p ? 'bg-blue-600 text-white border-blue-500' : 'border-white/10 bg-white/5 text-slate-300 hover:border-white/20'
                   }`}>{p}</button>
               ))}
             </div>

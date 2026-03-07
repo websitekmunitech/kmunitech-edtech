@@ -95,7 +95,7 @@ export default function AdminCourses() {
         ) : courses.map(course => (
           <div key={course.id} className="card p-4 hover:border-white/15 transition-all">
             <div className="flex flex-col md:flex-row md:items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
                 {course.title.charAt(0)}
               </div>
               <div className="flex-1 min-w-0">

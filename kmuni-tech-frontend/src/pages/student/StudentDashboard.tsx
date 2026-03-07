@@ -65,7 +65,7 @@ export default function StudentDashboard() {
   const activityIcon = (type: Activity['type']) => {
     if (type === 'completion') return { icon: '📘', color: 'text-emerald-400' };
     if (type === 'achievement') return { icon: '🏆', color: 'text-amber-400' };
-    return { icon: '🎯', color: 'text-indigo-400' };
+    return { icon: '🎯', color: 'text-blue-400' };
   };
 
   const recentEnrollments = useMemo(() => enrollments.slice(0, 3), [enrollments]);
@@ -82,7 +82,7 @@ export default function StudentDashboard() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard icon={<BookMarked size={18} />} label="Enrolled Courses" value={enrollments.length} color="from-indigo-500 to-purple-500" />
+        <StatCard icon={<BookMarked size={18} />} label="Enrolled Courses" value={enrollments.length} color="from-blue-500 to-green-500" />
         <StatCard icon={<CheckCircle size={18} />} label="Completed" value={completedCount} color="from-emerald-500 to-teal-500" />
         <StatCard icon={<Clock size={18} />} label="Hours Learned" value="—" color="from-blue-500 to-cyan-500" sub="Not available" />
         <StatCard icon={<Award size={18} />} label="Certificates" value="—" color="from-orange-500 to-red-500" />
@@ -93,7 +93,7 @@ export default function StudentDashboard() {
         <div className="lg:col-span-2 card p-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-white font-bold text-lg">My Courses</h2>
-            <Link to="/student/courses" className="text-indigo-400 hover:text-indigo-300 text-sm flex items-center gap-1">
+            <Link to="/student/courses" className="text-blue-400 hover:text-blue-300 text-sm flex items-center gap-1">
               View all <ArrowRight size={13} />
             </Link>
           </div>
@@ -109,7 +109,7 @@ export default function StudentDashboard() {
             ) : recentEnrollments.map((enrollment, i) => (
               <div key={enrollment.id} className="flex items-center gap-4 p-4 bg-white/3 rounded-2xl hover:bg-white/5 transition-all group">
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold flex-shrink-0 bg-gradient-to-br ${
-                  ['from-indigo-500 to-purple-500','from-blue-500 to-cyan-500','from-orange-500 to-red-500'][i]
+                  ['from-blue-500 to-green-500','from-blue-500 to-cyan-500','from-orange-500 to-red-500'][i]
                 }`}>{enrollment.courseTitle.charAt(0)}</div>
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-medium text-sm truncate">{enrollment.courseTitle}</p>
@@ -120,7 +120,7 @@ export default function StudentDashboard() {
                   <p className="text-xs text-slate-500 mt-1">{enrollment.progress}% complete</p>
                 </div>
                 <Link to={`/courses/${enrollment.courseId}`}>
-                  <button className="w-9 h-9 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 hover:border-indigo-500/40 rounded-xl flex items-center justify-center text-indigo-400 transition-all group-hover:scale-110">
+                  <button className="w-9 h-9 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 hover:border-blue-500/40 rounded-xl flex items-center justify-center text-blue-400 transition-all group-hover:scale-110">
                     <Play size={14} className="ml-0.5" />
                   </button>
                 </Link>
@@ -160,7 +160,7 @@ export default function StudentDashboard() {
             <div className="space-y-3">
               {recommended.map(c => (
                 <Link key={c.id} to={`/courses/${c.id}`} className="flex items-center gap-3 p-3 bg-white/3 rounded-xl hover:bg-white/5 transition-all">
-                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white text-sm font-bold">{c.title.charAt(0)}</div>
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-pink-500 rounded-lg flex items-center justify-center text-white text-sm font-bold">{c.title.charAt(0)}</div>
                   <div className="flex-1 min-w-0">
                     <p className="text-white text-xs font-medium truncate">{c.title}</p>
                     <div className="flex items-center gap-1 mt-0.5">

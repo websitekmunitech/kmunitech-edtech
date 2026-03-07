@@ -34,7 +34,7 @@ const features = [
     icon: Shield,
     title: 'Industry Experts',
     desc: 'Learn from practitioners with real-world experience in top companies.',
-    color: 'from-blue-500 to-indigo-500',
+    color: 'from-blue-500 to-blue-500',
   },
   {
     icon: Award,
@@ -46,7 +46,7 @@ const features = [
     icon: TrendingUp,
     title: 'Career Growth',
     desc: 'Gain skills that employers actually need in the modern tech landscape.',
-    color: 'from-purple-500 to-pink-500',
+    color: 'from-green-500 to-pink-500',
   },
 ];
 
@@ -154,9 +154,9 @@ export default function HomePage() {
       {/* ─── Hero (Original) ───────────────────────────────────────────── */}
       <section className="hero-gradient relative min-h-screen flex items-center pt-16 overflow-hidden">
         {/* Floating orbs */}
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-indigo-600/10 rounded-full blur-3xl animate-pulse-slow pointer-events-none" />
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl animate-pulse-slow pointer-events-none" />
         <div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/8 rounded-full blur-3xl animate-pulse-slow pointer-events-none"
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-green-600/8 rounded-full blur-3xl animate-pulse-slow pointer-events-none"
           style={{ animationDelay: '2s' }}
         />
 
@@ -166,9 +166,9 @@ export default function HomePage() {
             <div className="max-w-3xl">
               {/* Badges */}
               <div className="flex flex-wrap items-center gap-2 mb-7 animate-slide-up stagger-1">
-                <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full px-4 py-1.5">
-                  <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse" />
-                  <span className="text-indigo-300 text-sm font-medium">
+                <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-1.5">
+                  <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" />
+                  <span className="text-blue-300 text-sm font-medium">
                     Now featuring 200+ expert courses
                   </span>
                 </div>
@@ -186,12 +186,12 @@ export default function HomePage() {
                 <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex items-center justify-center">
                   <img
                     src={logoSrc}
-                    alt="KM UniTech"
+                    alt="UniVerse"
                     className="w-full h-full object-contain"
                   />
                 </div>
                 <div className="text-slate-300 text-sm leading-snug">
-                  <p className="text-white font-semibold text-base">KM UniTech</p>
+                  <p className="text-white font-semibold text-base">UniVerse</p>
                   <p>Universal Tech Solutions — learn, build, scale.</p>
                 </div>
               </div>
@@ -204,7 +204,7 @@ export default function HomePage() {
 
               <p className="text-slate-400 text-xl leading-relaxed mb-10 max-w-2xl animate-slide-up stagger-3">
                 Access world-class education from expert instructors. Whether you're starting out or leveling up —
-                KM UniTech has the right learning path for you.
+                UniVerse has the right learning path for you.
               </p>
 
               {/* CTA Buttons */}
@@ -219,7 +219,7 @@ export default function HomePage() {
                   onClick={() => navigate('/courses')}
                   className="btn-secondary flex items-center justify-center gap-2 text-base py-3.5"
                 >
-                  <Play size={16} className="text-indigo-400" />
+                  <Play size={16} className="text-blue-400" />
                   Browse Courses
                 </button>
               </div>
@@ -257,11 +257,11 @@ export default function HomePage() {
 
             {/* Right */}
             <div className="relative">
-              <div className="absolute -top-10 -left-10 w-52 h-52 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-12 -right-12 w-72 h-72 bg-purple-600/8 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -top-10 -left-10 w-52 h-52 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-12 -right-12 w-72 h-72 bg-green-600/8 rounded-full blur-3xl pointer-events-none" />
 
               <div className="card p-6 md:p-8">
-                <p className="text-indigo-300 text-xs font-bold uppercase tracking-widest mb-5">
+                <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-5">
                   Start Here
                 </p>
 
@@ -295,7 +295,7 @@ export default function HomePage() {
 
                   <Link
                     to="/unilink"
-                    className="group block bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-indigo-500/30 transition-all"
+                    className="group block bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-blue-500/30 transition-all"
                   >
                     <div className="flex items-center justify-between gap-4">
                       <div>
@@ -304,7 +304,7 @@ export default function HomePage() {
                       </div>
                       <span className="badge-level">Free</span>
                     </div>
-                    <div className="mt-4 inline-flex items-center gap-2 text-indigo-300 font-semibold text-sm">
+                    <div className="mt-4 inline-flex items-center gap-2 text-blue-300 font-semibold text-sm">
                       Join now <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
                     </div>
                   </Link>
@@ -321,8 +321,8 @@ export default function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map(({ value, label, icon: Icon }) => (
               <div key={label} className="text-center group">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-indigo-500/10 rounded-2xl mb-3 group-hover:bg-indigo-500/20 transition-all">
-                  <Icon size={22} className="text-indigo-400" />
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-500/10 rounded-2xl mb-3 group-hover:bg-blue-500/20 transition-all">
+                  <Icon size={22} className="text-blue-400" />
                 </div>
                 <p className="text-3xl font-bold text-white mb-1">{value}</p>
                 <p className="text-slate-500 text-sm">{label}</p>
@@ -336,7 +336,7 @@ export default function HomePage() {
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-indigo-400 text-sm font-semibold tracking-wider uppercase mb-2">
+            <p className="text-blue-400 text-sm font-semibold tracking-wider uppercase mb-2">
               Featured Courses
             </p>
             <h2 className="section-title">Learn From The Best</h2>
@@ -347,7 +347,7 @@ export default function HomePage() {
           </div>
           <Link
             to="/courses"
-            className="hidden md:flex items-center gap-1.5 text-indigo-400 hover:text-indigo-300 font-medium text-sm transition-colors"
+            className="hidden md:flex items-center gap-1.5 text-blue-400 hover:text-blue-300 font-medium text-sm transition-colors"
           >
             View all courses <ChevronRight size={16} />
           </Link>
@@ -380,7 +380,7 @@ export default function HomePage() {
       <section className="py-20 bg-[#0b0c15] border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <p className="text-indigo-400 text-sm font-semibold tracking-wider uppercase mb-2">
+            <p className="text-blue-400 text-sm font-semibold tracking-wider uppercase mb-2">
               Our Network
             </p>
             <h2 className="section-title">Strategic Collaborations</h2>
@@ -391,7 +391,7 @@ export default function HomePage() {
           </div>
           <Link
             to="/community"
-            className="hidden sm:inline-flex items-center gap-2 bg-indigo-600/10 border border-indigo-500/20 hover:bg-indigo-600/20 hover:border-indigo-500/40 px-5 py-2.5 rounded-xl text-indigo-300 font-semibold text-sm transition-all"
+            className="hidden sm:inline-flex items-center gap-2 bg-blue-600/10 border border-blue-500/20 hover:bg-blue-600/20 hover:border-blue-500/40 px-5 py-2.5 rounded-xl text-blue-300 font-semibold text-sm transition-all"
           >
             View All Partners <ArrowRight size={15} />
           </Link>
@@ -411,7 +411,7 @@ export default function HomePage() {
                   key={index}
                   className="w-[260px] sm:w-[300px] flex-shrink-0"
                 >
-                  <div className="group flex flex-col rounded-2xl overflow-hidden border border-white/[0.07] hover:border-indigo-500/40 transition-all duration-300 hover:-translate-y-1.5 shadow-lg shadow-black/20 bg-[#0d0e1c]">
+                  <div className="group flex flex-col rounded-2xl overflow-hidden border border-white/[0.07] hover:border-blue-500/40 transition-all duration-300 hover:-translate-y-1.5 shadow-lg shadow-black/20 bg-[#0d0e1c]">
                     {/* Image area — portrait, no overlay, fully readable */}
                     <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#0d0e1c]">
                       <img
@@ -428,7 +428,7 @@ export default function HomePage() {
                         <collab.icon size={14} className="text-white" />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-white font-bold text-sm leading-tight truncate group-hover:text-indigo-200 transition-colors">
+                        <p className="text-white font-bold text-sm leading-tight truncate group-hover:text-blue-200 transition-colors">
                           {collab.title}
                         </p>
                         <p className="text-slate-500 text-[11px] truncate">
@@ -437,7 +437,7 @@ export default function HomePage() {
                       </div>
                       <ExternalLink
                         size={13}
-                        className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors ml-auto flex-shrink-0"
+                        className="text-blue-400/50 group-hover:text-blue-400 transition-colors ml-auto flex-shrink-0"
                       />
                     </div>
                   </div>
@@ -453,16 +453,16 @@ export default function HomePage() {
         <div className="text-center mt-8 sm:hidden">
           <Link
             to="/community"
-            className="inline-flex items-center gap-2 text-indigo-400 hover:text-indigo-300 font-semibold text-sm transition-colors"
+            className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-semibold text-sm transition-colors"
           >
             View All Partners <ArrowRight size={15} />
           </Link>
         </div>
 
         <div className="mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden bg-gradient-to-r from-indigo-600/15 to-purple-600/15 border border-indigo-500/20 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
-            <div className="absolute -top-10 -left-10 w-48 h-48 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-10 -right-10 w-56 h-56 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative overflow-hidden bg-gradient-to-r from-blue-600/15 to-green-600/15 border border-blue-500/20 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+            <div className="absolute -top-10 -left-10 w-48 h-48 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-10 -right-10 w-56 h-56 bg-green-600/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative">
               <div className="inline-flex items-center gap-2 mb-2">
@@ -488,8 +488,8 @@ export default function HomePage() {
       <section className="py-20 bg-[#0f1120]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <p className="text-indigo-400 text-sm font-semibold tracking-wider uppercase mb-2">
-              Why KM UniTech?
+            <p className="text-blue-400 text-sm font-semibold tracking-wider uppercase mb-2">
+              Why UniVerse?
             </p>
             <h2 className="section-title">Everything You Need to Succeed</h2>
           </div>
@@ -528,7 +528,7 @@ export default function HomePage() {
             </h2>
             <p className="text-slate-400 leading-relaxed mb-8">
               Join our growing community of expert instructors. Create courses,
-              reach thousands of students, and build your brand on KM UniTech.
+              reach thousands of students, and build your brand on UniVerse.
             </p>
             {[
               'Create and publish courses easily',
@@ -555,7 +555,7 @@ export default function HomePage() {
           <div className="relative">
             <div className="card p-6 space-y-4">
               <div className="flex items-center gap-3 p-4 bg-white/3 rounded-xl">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-500 rounded-xl flex items-center justify-center">
                   <BookOpen size={18} className="text-white" />
                 </div>
                 <div>
@@ -604,8 +604,8 @@ export default function HomePage() {
       {/* ─── CTA ──────────────────────────────────────────────────────── */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-indigo-600/20 to-purple-600/20 border border-indigo-500/20 rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-radial from-indigo-600/10 to-transparent" />
+          <div className="bg-gradient-to-r from-blue-600/20 to-green-600/20 border border-blue-500/20 rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-radial from-blue-600/10 to-transparent" />
             <div className="relative z-10">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
                 Start Your Journey Today

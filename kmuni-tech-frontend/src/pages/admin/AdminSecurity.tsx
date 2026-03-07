@@ -14,7 +14,7 @@ export default function AdminSecurity() {
     <DashboardLayout>
       <div className="mb-8"><h1 className="text-2xl font-bold text-white">Security Center</h1><p className="text-slate-400 mt-1">Monitor platform security and access logs</p></div>
       <div className="grid md:grid-cols-3 gap-4 mb-6">
-        {[{icon:ShieldCheck,label:'Security Score',value:'98/100',color:'from-emerald-500 to-teal-500'},{icon:AlertTriangle,label:'Active Alerts',value:'1',color:'from-amber-500 to-orange-500'},{icon:Key,label:'Password Resets',value:'3',color:'from-indigo-500 to-purple-500'}].map(s => (
+        {[{icon:ShieldCheck,label:'Security Score',value:'98/100',color:'from-emerald-500 to-teal-500'},{icon:AlertTriangle,label:'Active Alerts',value:'1',color:'from-amber-500 to-orange-500'},{icon:Key,label:'Password Resets',value:'3',color:'from-blue-500 to-green-500'}].map(s => (
           <div key={s.label} className="card p-5 flex items-center gap-4">
             <div className={`w-12 h-12 bg-gradient-to-br ${s.color} rounded-xl flex items-center justify-center`}><s.icon size={20} className="text-white" /></div>
             <div><p className="text-2xl font-bold text-white">{s.value}</p><p className="text-slate-400 text-sm">{s.label}</p></div>

@@ -43,15 +43,15 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#0d0f1a] flex">
       {/* Left Panel */}
-      <div className="hidden lg:flex flex-col w-1/2 bg-gradient-to-br from-indigo-900/40 via-[#0d0f1a] to-purple-900/20 border-r border-white/5 p-12 relative overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="hidden lg:flex flex-col w-1/2 bg-gradient-to-br from-blue-900/40 via-[#0d0f1a] to-green-900/20 border-r border-white/5 p-12 relative overflow-hidden">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
         <Link to="/" className="flex items-center gap-3 transition-all group mb-12">
-          <div className="w-11 h-11 rounded-xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:shadow-indigo-500/40 transition-all">
-            <img src={logoSrc} alt="KM UniTech logo" className="w-full h-full object-contain" />
+          <div className="w-11 h-11 rounded-xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center shadow-lg shadow-blue-500/25 group-hover:shadow-blue-500/40 transition-all">
+            <img src={logoSrc} alt="UniVerse logo" className="w-full h-full object-contain" />
           </div>
           <div>
-            <span className="text-white font-bold text-lg">KM </span>
-            <span className="text-indigo-400 font-bold text-lg">UniTech</span>
+            <span className="text-blue-400 font-bold text-lg">Uni</span>
+            <span className="text-green-400 font-bold text-lg">Verse</span>
           </div>
         </Link>
 
@@ -286,13 +286,13 @@ export default function LoginPage() {
           </p>
 
           {notice && (
-            <div className="flex items-start gap-2.5 p-4 bg-indigo-500/10 border border-indigo-500/20 rounded-xl mb-5 text-indigo-300 text-sm">
+            <div className="flex items-start gap-2.5 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl mb-5 text-blue-300 text-sm">
               <BookOpen size={16} className="flex-shrink-0 mt-0.5" />
               <div className="flex-1">{notice}</div>
               <button
                 type="button"
                 onClick={() => setNotice('')}
-                className="text-indigo-300/70 hover:text-indigo-200 text-xs"
+                className="text-blue-300/70 hover:text-blue-200 text-xs"
               >
                 Dismiss
               </button>
@@ -347,7 +347,7 @@ export default function LoginPage() {
               </label>
               <button
                 type="button"
-                className="text-indigo-400 hover:text-indigo-300 text-sm transition-colors"
+                className="text-blue-400 hover:text-blue-300 text-sm transition-colors"
               >
                 Forgot password?
               </button>
@@ -373,7 +373,7 @@ export default function LoginPage() {
             Don't have an account?{' '}
             <Link
               to="/signup"
-              className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+              className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
             >
               Create one free
             </Link>

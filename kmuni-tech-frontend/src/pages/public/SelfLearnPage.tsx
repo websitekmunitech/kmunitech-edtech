@@ -162,9 +162,9 @@ export default function SelfLearnPage() {
       <main className="pt-24 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <header className="mb-10">
-            <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full px-4 py-1.5 mb-5">
-              <Code2 size={14} className="text-indigo-300" />
-              <span className="text-indigo-300 text-xs font-bold uppercase tracking-widest">Self Learn Courses</span>
+            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-5">
+              <Code2 size={14} className="text-blue-300" />
+              <span className="text-blue-300 text-xs font-bold uppercase tracking-widest">Self Learn Courses</span>
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">Learn by Yourself, Step by Step</h1>
@@ -191,22 +191,22 @@ export default function SelfLearnPage() {
                       onClick={() => setActiveDomainKey(d.key)}
                       className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all border ${
                         isActive
-                          ? 'bg-indigo-600/20 border-indigo-500/30 text-white'
+                          ? 'bg-blue-600/20 border-blue-500/30 text-white'
                           : 'border-white/10 bg-white/5 text-slate-300 hover:border-white/20'
                       } ${disabled ? 'opacity-50 cursor-not-allowed hover:border-white/10' : ''}`}
                     >
                       <div
                         className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-                          isActive ? 'bg-indigo-500/15' : 'bg-white/5'
+                          isActive ? 'bg-blue-500/15' : 'bg-white/5'
                         }`}
                       >
-                        <Icon size={16} className={isActive ? 'text-indigo-300' : 'text-slate-400'} />
+                        <Icon size={16} className={isActive ? 'text-blue-300' : 'text-slate-400'} />
                       </div>
                       <div className="min-w-0">
                         <p className="font-semibold text-sm truncate">{d.title}</p>
                         <p className="text-xs text-slate-500 mt-0.5">{d.enabled ? `${d.topics.length} topics` : 'Coming soon'}</p>
                       </div>
-                      <ChevronRight size={16} className={`ml-auto ${isActive ? 'text-indigo-300' : 'text-slate-500'}`} />
+                      <ChevronRight size={16} className={`ml-auto ${isActive ? 'text-blue-300' : 'text-slate-500'}`} />
                     </button>
                   );
                 })}
@@ -244,7 +244,7 @@ export default function SelfLearnPage() {
                           type="button"
                           onClick={() => setActiveTopicKey(t.key)}
                           className={`text-left bg-white/5 border rounded-2xl p-6 transition-all ${
-                            isActive ? 'border-indigo-500/30' : 'border-white/10 hover:border-white/20'
+                            isActive ? 'border-blue-500/30' : 'border-white/10 hover:border-white/20'
                           }`}
                         >
                           <div className="flex items-start justify-between gap-4">
@@ -255,7 +255,7 @@ export default function SelfLearnPage() {
                             <span
                               className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${
                                 isActive
-                                  ? 'bg-indigo-600/10 border-indigo-500/20 text-indigo-200'
+                                  ? 'bg-blue-600/10 border-blue-500/20 text-blue-200'
                                   : 'bg-white/5 border-white/10 text-slate-300'
                               }`}
                             >
@@ -269,7 +269,7 @@ export default function SelfLearnPage() {
                               {t.levels.map((lvl) => (
                                 <span
                                   key={lvl}
-                                  className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600/10 border border-indigo-500/20 text-indigo-200"
+                                  className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-blue-600/10 border border-blue-500/20 text-blue-200"
                                 >
                                   {lvl}
                                 </span>
@@ -299,7 +299,7 @@ export default function SelfLearnPage() {
                                 onClick={() => setActiveLevel(lvl)}
                                 className={`px-4 py-2 rounded-xl text-sm font-bold border transition-all ${
                                   selected
-                                    ? 'bg-indigo-600/20 border-indigo-500/30 text-white'
+                                    ? 'bg-blue-600/20 border-blue-500/30 text-white'
                                     : 'bg-white/5 border-white/10 text-slate-300 hover:border-white/20'
                                 }`}
                               >
@@ -368,7 +368,7 @@ export default function SelfLearnPage() {
                               key={c.id}
                               className={`rounded-2xl border p-4 flex items-start gap-3 ${
                                 selected
-                                  ? 'bg-indigo-600/10 border-indigo-500/20'
+                                  ? 'bg-blue-600/10 border-blue-500/20'
                                   : 'bg-white/5 border-white/10 hover:border-white/20'
                               }`}
                             >
@@ -399,14 +399,14 @@ export default function SelfLearnPage() {
                   {/* Lesson content */}
                   {activeChapter ? (
                     <div
-                      className={`bg-gradient-to-br from-indigo-600/10 to-purple-600/5 border border-indigo-500/20 rounded-3xl p-6 md:p-8 transition-all duration-300 ${
-                        chapterPulse ? 'ring-2 ring-indigo-500/30' : ''
+                      className={`bg-gradient-to-br from-blue-600/10 to-green-600/5 border border-blue-500/20 rounded-3xl p-6 md:p-8 transition-all duration-300 ${
+                        chapterPulse ? 'ring-2 ring-blue-500/30' : ''
                       }`}
                     >
                       <div ref={lessonTopRef} />
                       <div className="flex items-center justify-between gap-4 mb-6">
                         <div>
-                          <p className="text-indigo-300 text-xs font-bold uppercase tracking-widest">
+                          <p className="text-blue-300 text-xs font-bold uppercase tracking-widest">
                             {activeLevel} • {activeTopic?.title}
                           </p>
                           <h3 className="text-white font-bold text-2xl md:text-3xl mt-2">Lesson Guide</h3>
@@ -438,7 +438,7 @@ export default function SelfLearnPage() {
                               <ul className="mt-3 space-y-1.5">
                                 {s.bullets.map((b) => (
                                   <li key={b} className="text-slate-300 text-sm flex gap-2">
-                                    <span className="text-indigo-300">•</span>
+                                    <span className="text-blue-300">•</span>
                                     <span>{b}</span>
                                   </li>
                                 ))}
@@ -477,7 +477,7 @@ export default function SelfLearnPage() {
                           <ol className="mt-4 space-y-2">
                             {activeChapter.miniProject.steps.map((st, idx) => (
                               <li key={st} className="text-slate-300 text-sm flex gap-2">
-                                <span className="text-indigo-300 font-bold">{idx + 1}.</span>
+                                <span className="text-blue-300 font-bold">{idx + 1}.</span>
                                 <span>{st}</span>
                               </li>
                             ))}
@@ -534,7 +534,7 @@ export default function SelfLearnPage() {
                                             onClick={() => setActivitySelections((prev) => ({ ...prev, [question.id]: optIndex }))}
                                             className={`w-full text-left px-4 py-3 rounded-xl border transition-all ${
                                               selected
-                                                ? 'bg-indigo-600/20 border-indigo-500/30 text-white'
+                                                ? 'bg-blue-600/20 border-blue-500/30 text-white'
                                                 : 'bg-white/5 border-white/10 text-slate-300 hover:border-white/20'
                                             }`}
                                           >
@@ -601,7 +601,7 @@ export default function SelfLearnPage() {
                                       setActivitySubmitting(false);
                                     }
                                   }}
-                                  className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-bold border bg-indigo-600/20 border-indigo-500/30 text-white hover:bg-indigo-600/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                  className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-bold border bg-blue-600/20 border-blue-500/30 text-white hover:bg-blue-600/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                   {activitySubmitting ? 'Submitting…' : activityAttempts.length >= 3 ? 'Attempt Limit Reached' : 'Submit Attempt'}
                                 </button>

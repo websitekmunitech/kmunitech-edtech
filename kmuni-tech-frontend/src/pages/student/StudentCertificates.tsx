@@ -32,7 +32,7 @@ export default function StudentCertificates() {
         <div className="grid md:grid-cols-2 gap-5">
           {certs.map(cert => (
             <div key={cert.id} className="card p-6 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full -translate-y-1/2 translate-x-1/2" />
               <div className="flex items-start justify-between mb-5">
                 <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center"><Award size={22} className="text-white" /></div>
                 <span className="text-emerald-400 text-xs font-bold bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full">Completed</span>

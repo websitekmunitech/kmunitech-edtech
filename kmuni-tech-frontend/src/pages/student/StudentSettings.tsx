@@ -26,7 +26,7 @@ export default function StudentSettings() {
         {/* Profile */}
         <div className="card p-6">
           <div className="flex items-center gap-2.5 mb-5">
-            <User size={18} className="text-indigo-400" />
+            <User size={18} className="text-blue-400" />
             <h2 className="text-white font-semibold">Profile Information</h2>
           </div>
           <div className="flex items-center gap-4 mb-6">
@@ -56,7 +56,7 @@ export default function StudentSettings() {
 
         {/* Password */}
         <div className="card p-6">
-          <div className="flex items-center gap-2.5 mb-5"><Lock size={18} className="text-indigo-400" /><h2 className="text-white font-semibold">Change Password</h2></div>
+          <div className="flex items-center gap-2.5 mb-5"><Lock size={18} className="text-blue-400" /><h2 className="text-white font-semibold">Change Password</h2></div>
           <div className="space-y-4">
             <div><label className="block text-slate-300 text-sm font-medium mb-2">Current Password</label><input type="password" placeholder="••••••••" className="input-field" /></div>
             <div><label className="block text-slate-300 text-sm font-medium mb-2">New Password</label><input type="password" placeholder="Min 8 characters" className="input-field" /></div>
@@ -67,12 +67,12 @@ export default function StudentSettings() {
 
         {/* Notifications */}
         <div className="card p-6">
-          <div className="flex items-center gap-2.5 mb-5"><Bell size={18} className="text-indigo-400" /><h2 className="text-white font-semibold">Notifications</h2></div>
+          <div className="flex items-center gap-2.5 mb-5"><Bell size={18} className="text-blue-400" /><h2 className="text-white font-semibold">Notifications</h2></div>
           <div className="space-y-4">
             {['Course updates and new content', 'New course recommendations', 'Weekly progress reports', 'Certificate achievements'].map(item => (
               <div key={item} className="flex items-center justify-between py-2">
                 <span className="text-slate-300 text-sm">{item}</span>
-                <button className="w-10 h-5 bg-indigo-600 rounded-full relative transition-all">
+                <button className="w-10 h-5 bg-blue-600 rounded-full relative transition-all">
                   <div className="w-4 h-4 bg-white rounded-full absolute right-0.5 top-0.5 shadow-sm" />
                 </button>
               </div>

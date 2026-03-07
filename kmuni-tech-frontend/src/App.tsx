@@ -10,10 +10,7 @@ const HomePage = React.lazy(() => import('./pages/public/HomePage'));
 const AboutPage = React.lazy(() => import('./pages/public/AboutPage'));
 const VisionMissionPage = React.lazy(() => import('./pages/public/VisionMissionPage'));
 const ProductsPage = React.lazy(() => import('./pages/public/ProductsPage'));
-const ServicesPage = React.lazy(() => import('./pages/public/ServicesPage'));
-const CommunityPage = React.lazy(() => import('./pages/public/CommunityPage'));
-const BlogPage = React.lazy(() => import('./pages/public/BlogPage'));
-const RoadmapPage = React.lazy(() => import('./pages/public/RoadmapPage'));
+
 const ContactPage = React.lazy(() => import('./pages/public/ContactPage'));
 // Universe Product Pages
 const UniversePage = React.lazy(() => import('./pages/public/UniversePage'));
@@ -57,10 +54,10 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/vision-mission" element={<VisionMissionPage />} />
             <Route path="/products" element={<ProductsPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/community" element={<CommunityPage />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/roadmap" element={<RoadmapPage />} />
+            <Route path="/services" element={<Navigate to="/universe" replace />} />
+            <Route path="/community" element={<Navigate to="/unispace" replace />} />
+            <Route path="/blog" element={<Navigate to="/" replace />} />
+            <Route path="/roadmap" element={<Navigate to="/universe" replace />} />
             <Route path="/contact" element={<ContactPage />} />
             
             {/* ── Universe Product (EdTech Platform) ──────────────── */}

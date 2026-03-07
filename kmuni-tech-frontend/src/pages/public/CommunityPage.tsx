@@ -22,7 +22,7 @@ const socialInitiatives = [
       'Partnering with verified NGOs to create meaningful social impact across India.',
     image: `${baseUrl}assetskmuni/ngo-collaboration.jpeg`,
     tag: 'Impact',
-    color: 'from-purple-500 to-indigo-600',
+    color: 'from-green-500 to-blue-600',
   },
   {
     title: 'Technical Workshops',
@@ -46,9 +46,9 @@ export default function CommunityPage() {
       <main className="pt-24 pb-20">
         {/* ── Hero Header ─────────────────────────────────────────────── */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 text-center">
-          <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full px-4 py-1.5 mb-6">
-            <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse" />
-            <span className="text-indigo-300 text-xs font-bold uppercase tracking-widest">
+          <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-6">
+            <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" />
+            <span className="text-blue-300 text-xs font-bold uppercase tracking-widest">
               Where Ideas Evolve Into Impact
             </span>
           </div>
@@ -72,8 +72,8 @@ export default function CommunityPage() {
               { icon: Star, value: 'Pan-India', label: 'Operations' },
             ].map(({ icon: Icon, value, label }) => (
               <div key={label} className="flex items-center gap-3">
-                <div className="w-11 h-11 bg-indigo-500/10 border border-indigo-500/20 rounded-xl flex items-center justify-center">
-                  <Icon size={18} className="text-indigo-400" />
+                <div className="w-11 h-11 bg-blue-500/10 border border-blue-500/20 rounded-xl flex items-center justify-center">
+                  <Icon size={18} className="text-blue-400" />
                 </div>
                 <div className="text-left">
                   <p className="text-white font-bold text-lg leading-none">
@@ -90,7 +90,7 @@ export default function CommunityPage() {
         <section className="mb-28">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div>
-              <p className="text-indigo-400 text-sm font-semibold tracking-wider uppercase mb-2">
+              <p className="text-blue-400 text-sm font-semibold tracking-wider uppercase mb-2">
                 Community Partners
               </p>
               <h2 className="text-3xl font-bold text-white">
@@ -99,7 +99,7 @@ export default function CommunityPage() {
             </div>
             <button
               onClick={openLinkedIn}
-              className="inline-flex items-center gap-2 self-start bg-indigo-600/10 border border-indigo-500/30 text-indigo-200 hover:bg-indigo-600/20 hover:border-indigo-500/50 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
+              className="inline-flex items-center gap-2 self-start bg-blue-600/10 border border-blue-500/30 text-blue-200 hover:bg-blue-600/20 hover:border-blue-500/50 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
             >
               Connect on LinkedIn <ExternalLink size={14} />
             </button>
@@ -116,7 +116,7 @@ export default function CommunityPage() {
                   <div
                     key={index}
                     onClick={openLinkedIn}
-                    className="group cursor-pointer flex flex-col rounded-2xl overflow-hidden border border-white/[0.07] hover:border-indigo-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-900/25 bg-[#0d0e1c]"
+                    className="group cursor-pointer flex flex-col rounded-2xl overflow-hidden border border-white/[0.07] hover:border-blue-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-900/25 bg-[#0d0e1c]"
                   >
                     {/* Image area — portrait, no overlay, fully readable */}
                     <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#0d0e1c]">
@@ -134,7 +134,7 @@ export default function CommunityPage() {
                         <collab.icon size={14} className="text-white" />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-white font-bold text-sm leading-tight truncate group-hover:text-indigo-200 transition-colors">
+                        <p className="text-white font-bold text-sm leading-tight truncate group-hover:text-blue-200 transition-colors">
                           {collab.title}
                         </p>
                         <p className="text-slate-500 text-[11px] truncate">
@@ -143,7 +143,7 @@ export default function CommunityPage() {
                       </div>
                       <ExternalLink
                         size={13}
-                        className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors ml-auto flex-shrink-0"
+                        className="text-blue-400/50 group-hover:text-blue-400 transition-colors ml-auto flex-shrink-0"
                       />
                     </div>
                   </div>
@@ -208,17 +208,17 @@ export default function CommunityPage() {
 
         {/* ── Vision ──────────────────────────────────────────────────── */}
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-          <div className="relative bg-gradient-to-br from-indigo-600/10 to-purple-600/5 border border-indigo-500/20 rounded-3xl p-10 md:p-14 text-center overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative bg-gradient-to-br from-blue-600/10 to-green-600/5 border border-blue-500/20 rounded-3xl p-10 md:p-14 text-center overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-green-500/5 rounded-full blur-3xl pointer-events-none" />
             <div className="relative z-10">
-              <p className="text-indigo-400 text-xs font-bold uppercase tracking-widest mb-4">
+              <p className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-4">
                 Our Vision
               </p>
               <p className="text-white text-xl md:text-2xl font-light leading-relaxed mb-8 italic">
                 "To build a unified platform for learning, innovation, and
                 impact across diverse technology domains. All Domains, One
-                Destination – KM UniTech."
+                Destination – UniVerse."
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 {[
@@ -249,7 +249,7 @@ export default function CommunityPage() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <button
               onClick={openLinkedIn}
-              className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-bold text-sm transition-all shadow-lg shadow-indigo-500/20"
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold text-sm transition-all shadow-lg shadow-blue-500/20"
             >
               Get in Touch <ArrowRight size={15} />
             </button>
@@ -257,7 +257,7 @@ export default function CommunityPage() {
               <span>or email us at</span>
               <a
                 href="mailto:kmunitech@gmail.com"
-                className="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors"
+                className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
               >
                 kmunitech@gmail.com
               </a>

@@ -118,7 +118,7 @@ export default function SocialConnectPage() {
                         onClick={() => setRoleFilter(chip.key)}
                         className={`px-4 py-2 rounded-xl text-sm font-bold border transition-all ${
                           active
-                            ? 'bg-indigo-600/20 border-indigo-500/30 text-white'
+                            ? 'bg-blue-600/20 border-blue-500/30 text-white'
                             : 'bg-white/5 border-white/10 text-slate-300 hover:border-white/20'
                         }`}
                       >
@@ -152,7 +152,7 @@ export default function SocialConnectPage() {
                 {filteredUsers.map((u) => (
                 <div key={u.id} className="card p-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-xl font-black flex-shrink-0">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-green-500 flex items-center justify-center text-white text-xl font-black flex-shrink-0">
                       {u.name?.charAt(0) || 'U'}
                     </div>
                     <div className="flex-1 min-w-0">

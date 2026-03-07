@@ -28,7 +28,7 @@ export default function ContactPage() {
           {/* Header */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Get in <span className="text-indigo-400">Touch</span>
+              Get in <span className="text-blue-400">Touch</span>
             </h1>
             <p className="text-xl text-slate-400 max-w-3xl mx-auto">
               Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
@@ -40,8 +40,8 @@ export default function ContactPage() {
             <div className="lg:col-span-1 space-y-6">
               <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Mail className="text-indigo-400" size={24} />
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Mail className="text-blue-400" size={24} />
                   </div>
                   <div>
                     <h3 className="text-white font-semibold mb-1">Email</h3>
@@ -53,8 +53,8 @@ export default function ContactPage() {
 
               <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Phone className="text-indigo-400" size={24} />
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Phone className="text-blue-400" size={24} />
                   </div>
                   <div>
                     <h3 className="text-white font-semibold mb-1">Phone</h3>
@@ -66,8 +66,8 @@ export default function ContactPage() {
 
               <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <MapPin className="text-indigo-400" size={24} />
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <MapPin className="text-blue-400" size={24} />
                   </div>
                   <div>
                     <h3 className="text-white font-semibold mb-1">Office</h3>
@@ -79,13 +79,13 @@ export default function ContactPage() {
 
               <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <MessageSquare className="text-indigo-400" size={24} />
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <MessageSquare className="text-blue-400" size={24} />
                   </div>
                   <div>
                     <h3 className="text-white font-semibold mb-1">Live Chat</h3>
                     <p className="text-slate-400 text-sm mb-2">Get instant support</p>
-                    <button className="text-indigo-400 hover:text-indigo-300 text-sm font-medium">
+                    <button className="text-blue-400 hover:text-blue-300 text-sm font-medium">
                       Start Chat →
                     </button>
                   </div>
@@ -109,7 +109,7 @@ export default function ContactPage() {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
                       placeholder="John Doe"
                     />
                   </div>
@@ -124,7 +124,7 @@ export default function ContactPage() {
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
                       placeholder="john@example.com"
                     />
                   </div>
@@ -139,7 +139,7 @@ export default function ContactPage() {
                       required
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
                       placeholder="How can we help?"
                     />
                   </div>
@@ -154,14 +154,14 @@ export default function ContactPage() {
                       rows={6}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors resize-none"
                       placeholder="Tell us more about your inquiry..."
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
                   >
                     <Send size={18} />
                     Send Message

@@ -142,7 +142,7 @@ export default function InstructorCourses() {
         ) : courses.map((course, i) => (
           <div key={course.id} className="card p-5 hover:border-white/15 transition-all">
             <div className="flex flex-col md:flex-row md:items-center gap-4">
-              <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-white text-xl font-bold flex-shrink-0 bg-gradient-to-br ${['from-indigo-500 to-purple-500','from-orange-500 to-red-500'][i]}`}>
+              <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-white text-xl font-bold flex-shrink-0 bg-gradient-to-br ${['from-blue-500 to-green-500','from-orange-500 to-red-500'][i]}`}>
                 {course.title.charAt(0)}
               </div>
               <div className="flex-1 min-w-0">
@@ -159,7 +159,7 @@ export default function InstructorCourses() {
                 <button
                   disabled={isWorking}
                   onClick={() => openEdit(course)}
-                  className="w-9 h-9 bg-white/5 hover:bg-indigo-500/20 border border-white/10 hover:border-indigo-500/30 rounded-xl flex items-center justify-center text-slate-400 hover:text-indigo-400 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-9 h-9 bg-white/5 hover:bg-blue-500/20 border border-white/10 hover:border-blue-500/30 rounded-xl flex items-center justify-center text-slate-400 hover:text-blue-400 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
                 ><Edit3 size={15} /></button>
                 <button
                   disabled={isWorking}
@@ -177,7 +177,7 @@ export default function InstructorCourses() {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="card p-6 w-full max-w-lg animate-slide-up">
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 bg-indigo-500/15 border border-indigo-500/20 rounded-xl flex items-center justify-center"><Edit3 size={18} className="text-indigo-400" /></div>
+              <div className="w-10 h-10 bg-blue-500/15 border border-blue-500/20 rounded-xl flex items-center justify-center"><Edit3 size={18} className="text-blue-400" /></div>
               <div><h3 className="text-white font-bold">Edit Course</h3><p className="text-slate-500 text-sm">Update course details</p></div>
             </div>
 

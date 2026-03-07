@@ -54,7 +54,7 @@ export default function StudentCourses() {
           </div>
         ) : enrollments.map((enrollment, i) => (
           <div key={enrollment.id} className="card-hover overflow-hidden">
-            <div className={`h-36 bg-gradient-to-br ${['from-indigo-600 to-purple-700','from-blue-600 to-cyan-600','from-orange-600 to-red-600'][i]} relative`}>
+            <div className={`h-36 bg-gradient-to-br ${['from-blue-600 to-green-700','from-blue-600 to-cyan-600','from-orange-600 to-red-600'][i]} relative`}>
               <div className="absolute bottom-3 right-3">
                 <span className="bg-black/50 backdrop-blur-sm text-white text-xs px-2 py-0.5 rounded-lg">{enrollment.progress}%</span>
               </div>
@@ -75,9 +75,9 @@ export default function StudentCourses() {
             </div>
           </div>
         ))}
-        <Link to="/courses" className="card border-dashed border-white/10 flex flex-col items-center justify-center py-12 hover:border-indigo-500/30 transition-all group">
-          <div className="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-3 group-hover:bg-indigo-500/20 transition-all">
-            <span className="text-2xl text-indigo-400">+</span>
+        <Link to="/courses" className="card border-dashed border-white/10 flex flex-col items-center justify-center py-12 hover:border-blue-500/30 transition-all group">
+          <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-3 group-hover:bg-blue-500/20 transition-all">
+            <span className="text-2xl text-blue-400">+</span>
           </div>
           <p className="text-white font-medium text-sm">Browse More Courses</p>
           <p className="text-slate-500 text-xs mt-1">200+ courses available</p>
