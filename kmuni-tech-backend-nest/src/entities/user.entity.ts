@@ -29,6 +29,9 @@ export class User {
   @Column({ type: 'boolean', default: true })
   isApproved!: boolean;
 
+  @Column({ type: 'text', nullable: true })
+  bio?: string | null;
+
   @CreateDateColumn()
   createdAt!: Date;
 
