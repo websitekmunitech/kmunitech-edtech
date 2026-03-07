@@ -23,9 +23,9 @@ function memberSince(createdAt: string): string {
 }
 
 function roleConfig(role: string) {
-  if (role === 'instructor') return { label: 'Instructor',      icon: 'ðŸŽ“', bar: '#16a34a' };
-  if (role === 'admin')      return { label: 'Platform Admin',  icon: 'âš™ï¸', bar: '#ea580c' };
-  return                            { label: 'Student Developer', icon: 'âŒ¨', bar: '#2563eb' };
+  if (role === 'instructor') return { label: 'Instructor',       icon: '🎓', bar: '#16a34a', canvasLabel: 'Instructor' };
+  if (role === 'admin')      return { label: 'Platform Admin',  icon: '⚙️', bar: '#ea580c', canvasLabel: 'Platform Admin' };
+  return                            { label: 'Student Developer', icon: '💻', bar: '#2563eb', canvasLabel: 'Student Developer' };
 }
 
 /** Draw a rounded rectangle path */
@@ -189,9 +189,7 @@ export default function UniverseIDCard({ id, name, role, createdAt, avatarUrl }:
     // Subtitle
     ctx.font = '600 9px Inter, Segoe UI, system-ui, sans-serif';
     ctx.fillStyle = '#94a3b8';
-    ctx.letterSpacing = '2px';
     ctx.fillText('UNIFIED LEARNING ECOSYSTEM', 62, 53);
-    ctx.letterSpacing = '0px';
 
     // UID right-aligned in header
     ctx.textAlign = 'right';
@@ -260,16 +258,23 @@ export default function UniverseIDCard({ id, name, role, createdAt, avatarUrl }:
     ctx.fillStyle = 'white';
     ctx.fillText(badgeText, TX + 10, BADGE_Y + 13.5);
 
-    // Role badge
+    // Role badge — use only plain ASCII text so canvas renders it reliably
     const ROLE_Y = BADGE_Y + 30;
-    const roleText = `${cfg.icon}  ${cfg.label}`;
-    ctx.font = '800 12px Inter, Segoe UI, system-ui, sans-serif';
-    const rW = ctx.measureText(roleText).width + 24;
-    roundRect(ctx, TX, ROLE_Y, rW, 24, 12);
+    const roleLabel = cfg.canvasLabel;
+    ctx.font = '800 13px Inter, Segoe UI, system-ui, sans-serif';
+    const labelW = ctx.measureText(roleLabel).width;
+    const rW = labelW + 36; // padding + dot indicator
+    roundRect(ctx, TX, ROLE_Y, rW, 26, 13);
     ctx.fillStyle = cfg.bar;
     ctx.fill();
+    // White dot indicator
+    ctx.beginPath();
+    ctx.arc(TX + 14, ROLE_Y + 13, 4, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.75)';
+    ctx.fill();
+    // Label text
     ctx.fillStyle = 'white';
-    ctx.fillText(roleText, TX + 12, ROLE_Y + 16);
+    ctx.fillText(roleLabel, TX + 24, ROLE_Y + 17.5);
 
     // Member since
     ctx.font = '600 10px Inter, Segoe UI, system-ui, sans-serif';
