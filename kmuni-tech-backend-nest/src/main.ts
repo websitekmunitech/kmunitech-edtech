@@ -5,6 +5,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
+import type { NextFunction, Request, Response } from 'express';
 
 async function bootstrap() {
   // Helpful on platforms like Render where a DB connection hang can prevent port binding.
@@ -19,7 +20,8 @@ async function bootstrap() {
     const allowedOrigins = raw
       .split(',')
       .map((s) => s.trim())
-      .filter(Boolean);
+      .filter(Boolean)
+      .map((s) => s.replace(/\/$/, ''));
 
     // In prod, prefer a strict allow-list when configured.
     // If no env is provided (common misconfig on deploy), fall back to reflecting the request origin
@@ -28,7 +30,8 @@ async function bootstrap() {
       origin: allowedOrigins.length
         ? (origin, cb) => {
             if (!origin) return cb(null, true);
-            return allowedOrigins.includes(origin) ? cb(null, true) : cb(null, false);
+            const normalizedOrigin = origin.replace(/\/$/, '');
+            return allowedOrigins.includes(normalizedOrigin) ? cb(null, true) : cb(null, false);
           }
         : true,
       credentials: true,
@@ -44,6 +47,16 @@ async function bootstrap() {
       allowedHeaders: ['Content-Type', 'Authorization'],
     });
   }
+
+  // Some proxies/platforms can surface 404 on preflight if OPTIONS isn't short-circuited.
+  // End all OPTIONS requests early (CORS headers already applied by enableCors above).
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    if (req.method === 'OPTIONS') {
+      res.status(204).end();
+      return;
+    }
+    next();
+  });
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 

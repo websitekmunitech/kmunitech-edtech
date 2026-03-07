@@ -152,8 +152,14 @@ export type HomeStats = {
 
 async function apiFetch<T>(path: string, options: RequestInit = {}, token?: string): Promise<T> {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+
+  const method = (options.method ?? 'GET').toString().toUpperCase();
+  const body = options.body;
+  const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
+  const shouldSetJsonContentType = body != null && method !== 'GET' && method !== 'HEAD' && !isFormData;
+
   const headers = {
-    'Content-Type': 'application/json',
+    ...(shouldSetJsonContentType ? { 'Content-Type': 'application/json' } : {}),
     ...(options.headers ?? {}),
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
