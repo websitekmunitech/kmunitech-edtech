@@ -390,7 +390,7 @@ export default function HomePage() {
             </p>
           </div>
           <Link
-            to="/collaborations"
+            to="/community"
             className="hidden sm:inline-flex items-center gap-2 bg-indigo-600/10 border border-indigo-500/20 hover:bg-indigo-600/20 hover:border-indigo-500/40 px-5 py-2.5 rounded-xl text-indigo-300 font-semibold text-sm transition-all"
           >
             View All Partners <ArrowRight size={15} />
@@ -452,7 +452,7 @@ export default function HomePage() {
 
         <div className="text-center mt-8 sm:hidden">
           <Link
-            to="/collaborations"
+            to="/community"
             className="inline-flex items-center gap-2 text-indigo-400 hover:text-indigo-300 font-semibold text-sm transition-colors"
           >
             View All Partners <ArrowRight size={15} />

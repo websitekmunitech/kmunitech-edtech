@@ -7,16 +7,25 @@ import LoadingSpinner from './components/common/LoadingSpinner';
 
 // Lazy load page components
 const HomePage = React.lazy(() => import('./pages/public/HomePage'));
+const AboutPage = React.lazy(() => import('./pages/public/AboutPage'));
+const VisionMissionPage = React.lazy(() => import('./pages/public/VisionMissionPage'));
+const ProductsPage = React.lazy(() => import('./pages/public/ProductsPage'));
+const ServicesPage = React.lazy(() => import('./pages/public/ServicesPage'));
+const CommunityPage = React.lazy(() => import('./pages/public/CommunityPage'));
+const BlogPage = React.lazy(() => import('./pages/public/BlogPage'));
+const RoadmapPage = React.lazy(() => import('./pages/public/RoadmapPage'));
+const ContactPage = React.lazy(() => import('./pages/public/ContactPage'));
+// Universe Product Pages
+const UniversePage = React.lazy(() => import('./pages/public/UniversePage'));
 const CoursesPage = React.lazy(() => import('./pages/public/CoursesPage'));
 const CourseDetailPage = React.lazy(() => import('./pages/public/CourseDetailPage'));
-const LoginPage = React.lazy(() => import('./pages/public/LoginPage'));
-const SignupPage = React.lazy(() => import('./pages/public/SignupPage'));
-const CollaborationsPage = React.lazy(() => import('./pages/public/CollaborationsPage'));
-const AboutPage = React.lazy(() => import('./pages/public/AboutPage'));
 const UnilinkPage = React.lazy(() => import('./pages/public/UnilinkPage'));
 const SelfLearnPage = React.lazy(() => import('./pages/public/SelfLearnPage'));
-const UserProfilePage = React.lazy(() => import('./pages/public/UserProfilePage'));
 const SocialConnectPage = React.lazy(() => import('./pages/public/SocialConnectPage'));
+// Auth Pages
+const LoginPage = React.lazy(() => import('./pages/public/LoginPage'));
+const SignupPage = React.lazy(() => import('./pages/public/SignupPage'));
+const UserProfilePage = React.lazy(() => import('./pages/public/UserProfilePage'));
 
 const StudentDashboard = React.lazy(() => import('./pages/student/StudentDashboard'));
 const StudentCourses = React.lazy(() => import('./pages/student/StudentCourses'));
@@ -43,19 +52,33 @@ function App() {
       <AuthProvider>
         <React.Suspense fallback={<LoadingSpinner />}>
           <Routes>
-            {/* ── Public ──────────────────────────────────────────── */}
+            {/* ── Public - Main Company Site ──────────────────────── */}
             <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/vision-mission" element={<VisionMissionPage />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/roadmap" element={<RoadmapPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            
+            {/* ── Universe Product (EdTech Platform) ──────────────── */}
+            <Route path="/universe" element={<UniversePage />} />
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/courses/:id" element={<CourseDetailPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/collaborations" element={<CollaborationsPage />} />
-            <Route path="/about" element={<AboutPage />} />
             <Route path="/unilink" element={<UnilinkPage />} />
             <Route path="/self-learn" element={<SelfLearnPage />} />
-            <Route path="/profile/:id" element={<UserProfilePage />} />
             <Route path="/unispace" element={<SocialConnectPage />} />
             <Route path="/social-connect" element={<Navigate to="/unispace" replace />} />
+            
+            {/* ── Auth & Profile ───────────────────────────────────── */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/profile/:id" element={<UserProfilePage />} />
+            
+            {/* ── Legacy Redirects ─────────────────────────────────── */}
+            <Route path="/collaborations" element={<Navigate to="/community" replace />} />
 
             {/* ── Student (protected) ─────────────────────────────── */}
             <Route path="/student/dashboard" element={
