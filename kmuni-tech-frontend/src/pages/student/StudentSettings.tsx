@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import DashboardLayout from '../../components/layout/DashboardLayout';
-import { User, Lock, Bell, Save } from 'lucide-react';
+import UniverseIDCard from '../../components/common/UniverseIDCard';
+import { User, Lock, Bell, Save, CreditCard } from 'lucide-react';
 
 export default function StudentSettings() {
   const { user, updateUser } = useAuth();
@@ -23,7 +24,23 @@ export default function StudentSettings() {
       </div>
 
       <div className="max-w-2xl space-y-6">
-        {/* Profile */}
+        {/* Universe ID Card */}
+        {user && (
+          <div className="card p-6">
+            <div className="flex items-center gap-2.5 mb-5">
+              <CreditCard size={18} className="text-blue-400" />
+              <h2 className="text-white font-semibold">My UniVerse ID Card</h2>
+            </div>
+            <div className="flex justify-center">
+              <UniverseIDCard
+                id={user.id}
+                name={user.name}
+                role={user.role as 'student' | 'instructor' | 'admin'}
+                createdAt={user.createdAt}
+              />
+            </div>
+          </div>
+        )}
         <div className="card p-6">
           <div className="flex items-center gap-2.5 mb-5">
             <User size={18} className="text-blue-400" />

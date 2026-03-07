@@ -5,6 +5,7 @@ import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import CourseCard from '../../components/common/CourseCard';
+import UniverseIDCard from '../../components/common/UniverseIDCard';
 import { fetchPublicUserProfile, PublicUserProfile } from '../../utils/api';
 
 export default function UserProfilePage() {
@@ -47,12 +48,6 @@ export default function UserProfilePage() {
     if (Number.isNaN(date.getTime())) return '—';
     return date.toLocaleDateString();
   }, [profile?.createdAt]);
-
-  const roleLabel = (role: string) => {
-    if (role === 'admin') return 'Admin';
-    if (role === 'instructor') return 'Instructor';
-    return 'Student';
-  };
 
   const handleShare = async () => {
     try {
@@ -100,45 +95,59 @@ export default function UserProfilePage() {
             </div>
           ) : (
             <>
-              <div className="card p-6 md:p-8">
-                <div className="flex flex-col md:flex-row md:items-center gap-6">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-green-500 flex items-center justify-center text-white text-2xl font-black flex-shrink-0">
-                    {profile.name?.charAt(0) || 'U'}
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <h1 className="text-2xl md:text-3xl font-bold text-white truncate">{profile.name}</h1>
-                    <div className="flex flex-wrap items-center gap-3 mt-2">
-                      <span className="badge bg-white/5 text-slate-300 border border-white/10 text-xs">
-                        {roleLabel(profile.role)}
-                      </span>
-                      <span className="text-slate-500 text-sm">Joined {joinedLabel}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <button onClick={handleShare} className="btn-secondary flex items-center gap-2 text-sm px-4 py-2.5">
-                      <Share2 size={16} /> Share Profile
-                    </button>
-                  </div>
+              {/* ── ID Card + Info row ── */}
+              <div className="flex flex-col xl:flex-row gap-8 items-start">
+                {/* Left – ID Card */}
+                <div className="flex-shrink-0">
+                  <UniverseIDCard
+                    id={profile.id}
+                    name={profile.name}
+                    role={profile.role as 'student' | 'instructor' | 'admin'}
+                    createdAt={profile.createdAt}
+                  />
                 </div>
-                {shareStatus && <p className="text-slate-400 text-sm mt-4">{shareStatus}</p>}
-              </div>
 
-              {profile.role === 'instructor' && (
-                <div className="mt-8">
-                  <h2 className="text-white font-bold text-xl mb-4">Courses</h2>
-                  {profile.courses && profile.courses.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {profile.courses.map((course) => (
-                        <CourseCard key={course.id} course={course} />
-                      ))}
+                {/* Right – Profile details */}
+                <div className="flex-1 w-full">
+                  <div className="card p-6 md:p-8">
+                    <div className="flex flex-col md:flex-row md:items-center gap-6">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-green-500 flex items-center justify-center text-white text-2xl font-black flex-shrink-0">
+                        {profile.name?.charAt(0) || 'U'}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h1 className="text-2xl md:text-3xl font-bold text-white truncate">{profile.name}</h1>
+                        <div className="flex flex-wrap items-center gap-3 mt-2">
+                          <span className="badge bg-white/5 text-slate-300 border border-white/10 text-xs capitalize">
+                            {profile.role}
+                          </span>
+                          <span className="text-slate-500 text-sm">Joined {joinedLabel}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <button onClick={handleShare} className="btn-secondary flex items-center gap-2 text-sm px-4 py-2.5">
+                          <Share2 size={16} /> Share Profile
+                        </button>
+                      </div>
                     </div>
-                  ) : (
-                    <p className="text-slate-400 text-sm">No courses yet.</p>
+                    {shareStatus && <p className="text-slate-400 text-sm mt-4">{shareStatus}</p>}
+                  </div>
+
+                  {profile.role === 'instructor' && (
+                    <div className="mt-6">
+                      <h2 className="text-white font-bold text-xl mb-4">Courses</h2>
+                      {profile.courses && profile.courses.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {profile.courses.map((course) => (
+                            <CourseCard key={course.id} course={course} />
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-slate-400 text-sm">No courses yet.</p>
+                      )}
+                    </div>
                   )}
                 </div>
-              )}
+              </div>
             </>
           )}
         </div>
