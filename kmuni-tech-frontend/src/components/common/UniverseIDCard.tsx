@@ -1,6 +1,5 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { ShieldCheck, Download, BookOpen, Code2, GraduationCap, Settings2, Briefcase, FileText, Award } from 'lucide-react';
 
 interface Props {
   id: string;
@@ -12,43 +11,33 @@ interface Props {
 
 function uvId(id: string, createdAt: string): string {
   const year = createdAt ? new Date(createdAt).getFullYear() : new Date().getFullYear();
-  // Use last 4 hex chars of id as numeric seed
   const seed = parseInt(id.replace(/-/g, '').slice(-4), 16) % 9000 + 1000;
   return `UV-${year}-${seed}`;
 }
 
-function roleConfig(role: string) {
-  if (role === 'instructor')
-    return { label: 'Instructor', Icon: GraduationCap, color: 'from-green-500 to-teal-500' };
-  if (role === 'admin')
-    return { label: 'Platform Admin', Icon: Settings2, color: 'from-orange-500 to-red-500' };
-  return { label: 'Student Developer', Icon: Code2, color: 'from-blue-500 to-blue-600' };
+function memberSince(createdAt: string): string {
+  if (!createdAt) return '—';
+  const d = new Date(createdAt);
+  if (isNaN(d.getTime())) return '—';
+  return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
+
+function roleConfig(role: string) {
+  if (role === 'instructor') return { label: 'Instructor', icon: '🎓', bar: '#16a34a' };
+  if (role === 'admin') return { label: 'Platform Admin', icon: '⚙️', bar: '#ea580c' };
+  return { label: 'Student Developer', icon: '</>', bar: '#2563eb' };
+}
+
+/* ─── Dot-mesh SVG pattern used as background overlay ─── */
+const meshPattern = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Ccircle cx='2' cy='2' r='1.2' fill='rgba(255,255,255,0.08)'/%3E%3C/svg%3E")`;
 
 export default function UniverseIDCard({ id, name, role, createdAt, avatarUrl }: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [downloading, setDownloading] = useState(false);
   const cfg = roleConfig(role);
   const uid = uvId(id, createdAt);
+  const since = memberSince(createdAt);
   const profileUrl = `${window.location.origin}/profile/${id}`;
-
-  const handleDownload = useCallback(async () => {
-    if (!cardRef.current) return;
-    try {
-      const { default: html2canvas } = await import('html2canvas');
-      const canvas = await html2canvas(cardRef.current, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: null,
-        logging: false,
-      });
-      const link = document.createElement('a');
-      link.download = `UniVerse-ID-${name.replace(/\s+/g, '-')}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    } catch (e) {
-      console.error('Card download failed', e);
-    }
-  }, [name]);
 
   const initials = name
     .split(' ')
@@ -57,102 +46,237 @@ export default function UniverseIDCard({ id, name, role, createdAt, avatarUrl }:
     .join('')
     .toUpperCase();
 
+  const handleDownload = useCallback(async () => {
+    if (!cardRef.current || downloading) return;
+    setDownloading(true);
+    try {
+      const { default: html2canvas } = await import('html2canvas');
+      const canvas = await html2canvas(cardRef.current, {
+        scale: 4,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: null,
+        logging: false,
+        removeContainer: true,
+      });
+      const link = document.createElement('a');
+      link.download = `UniVerse-ID-${name.replace(/\s+/g, '-')}.png`;
+      link.href = canvas.toDataURL('image/png', 1.0);
+      link.click();
+    } catch (e) {
+      console.error('Card download failed', e);
+    } finally {
+      setDownloading(false);
+    }
+  }, [name, downloading]);
+
   return (
-    <div className="flex flex-col items-center gap-4">
-      {/* ── Card ── */}
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}>
+
+      {/* ════════════════════ CARD 500×300 px ════════════════════ */}
       <div
         ref={cardRef}
-        className="relative w-[420px] rounded-3xl overflow-hidden shadow-2xl shadow-blue-500/30 select-none"
-        style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
+        style={{
+          position: 'relative',
+          width: 500,
+          height: 300,
+          borderRadius: 24,
+          overflow: 'hidden',
+          fontFamily: "'Inter','Segoe UI',system-ui,sans-serif",
+          boxShadow: '0 28px 72px rgba(37,99,235,0.45), 0 8px 24px rgba(0,0,0,0.45)',
+          userSelect: 'none',
+        }}
       >
         {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-blue-400 to-green-400" />
-        {/* Sparkle accents */}
-        <div className="absolute top-6 right-8 text-white/20 text-4xl leading-none">✦</div>
-        <div className="absolute bottom-14 left-6 text-white/10 text-2xl leading-none">✦</div>
-        <div className="absolute top-24 right-20 text-white/15 text-xl leading-none">✦</div>
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(135deg,#1a3fc9 0%,#2563eb 28%,#059669 72%,#064e3b 100%)',
+        }} />
 
-        {/* ── Header ── */}
-        <div className="relative bg-white/95 backdrop-blur-sm px-5 py-3.5 flex items-center gap-3 border-b border-blue-100">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-400/30">
-            <BookOpen size={20} className="text-white" />
+        {/* Dot-mesh overlay */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: meshPattern }} />
+
+        {/* Soft glow orbs */}
+        <div style={{
+          position: 'absolute', top: -70, right: -70,
+          width: 240, height: 240, borderRadius: '50%',
+          background: 'radial-gradient(circle,rgba(134,239,172,0.28) 0%,transparent 70%)',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: -90, left: -50,
+          width: 260, height: 260, borderRadius: '50%',
+          background: 'radial-gradient(circle,rgba(96,165,250,0.22) 0%,transparent 70%)',
+        }} />
+
+        {/* Holographic rainbow strip */}
+        <div style={{
+          position: 'absolute', top: 0, left: 0, right: 0, height: 5,
+          background: 'linear-gradient(90deg,#60a5fa 0%,#34d399 25%,#a78bfa 50%,#f472b6 75%,#60a5fa 100%)',
+          opacity: 0.95,
+        }} />
+
+        {/* Sparkles */}
+        {([
+          { top: 22,  right: 145, size: 20, opacity: 0.22 },
+          { top: 58,  right: 94,  size: 12, opacity: 0.16 },
+          { bottom: 38,  left: 26,  size: 15, opacity: 0.18 },
+          { top: 108, right: 218, size: 10, opacity: 0.14 },
+        ] as const).map((s, i) => (
+          <div key={i} style={{
+            position: 'absolute',
+            top: 'top' in s ? s.top : undefined,
+            bottom: 'bottom' in s ? s.bottom : undefined,
+            right: 'right' in s ? s.right : undefined,
+            left: 'left' in s ? s.left : undefined,
+            color: `rgba(255,255,255,${s.opacity})`,
+            fontSize: s.size, lineHeight: 1, pointerEvents: 'none',
+          }}>✦</div>
+        ))}
+
+        {/* ══════ HEADER ══════ */}
+        <div style={{
+          position: 'relative',
+          background: 'rgba(255,255,255,0.97)',
+          padding: '10px 18px',
+          display: 'flex', alignItems: 'center', gap: 12,
+          borderBottom: '1px solid rgba(219,234,254,0.9)',
+        }}>
+          {/* Logo circle */}
+          <div style={{
+            width: 38, height: 38, borderRadius: 11, flexShrink: 0,
+            background: 'linear-gradient(135deg,#2563eb,#16a34a)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 4px 14px rgba(37,99,235,0.40)',
+          }}>
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
           </div>
+
+          {/* Brand name */}
           <div>
-            <div className="flex items-baseline gap-0.5 leading-none">
-              <span className="text-blue-500 font-black text-2xl tracking-tight">Uni</span>
-              <span className="text-green-500 font-black text-2xl tracking-tight">Verse</span>
+            <div style={{ display:'flex', alignItems:'baseline', gap: 1, lineHeight: 1 }}>
+              <span style={{ color:'#2563eb', fontWeight:900, fontSize:22, letterSpacing:-0.5 }}>Uni</span>
+              <span style={{ color:'#16a34a', fontWeight:900, fontSize:22, letterSpacing:-0.5 }}>Verse</span>
             </div>
-            <p className="text-slate-400 text-[11px] font-medium tracking-widest uppercase mt-0.5">
+            <div style={{ color:'#94a3b8', fontSize:9, fontWeight:600, letterSpacing:2.2, textTransform:'uppercase', marginTop:2 }}>
               Unified Learning Ecosystem
-            </p>
+            </div>
+          </div>
+
+          {/* UID right side */}
+          <div style={{ marginLeft:'auto', textAlign:'right' }}>
+            <div style={{ color:'#94a3b8', fontSize:8, fontWeight:700, letterSpacing:2, textTransform:'uppercase' }}>Member ID</div>
+            <div style={{ color:'#1e3a5f', fontSize:12, fontWeight:800, fontFamily:'monospace', letterSpacing:1 }}>{uid}</div>
           </div>
         </div>
 
-        {/* ── Body ── */}
-        <div className="relative px-5 pt-5 pb-0">
-          <div className="flex items-start gap-4">
+        {/* ══════ BODY ══════ */}
+        <div style={{ position:'relative', padding:'16px 18px 12px' }}>
+          <div style={{ display:'flex', alignItems:'flex-start', gap: 16 }}>
+
             {/* Avatar */}
-            <div className="flex-shrink-0">
-              <div className="w-[76px] h-[76px] rounded-full border-[3px] border-white shadow-xl shadow-black/30 overflow-hidden bg-gradient-to-br from-blue-600 to-green-500 flex items-center justify-center">
-                {avatarUrl ? (
-                  <img src={avatarUrl} alt={name} className="w-full h-full object-cover" />
-                ) : (
-                  <span className="text-white text-2xl font-black">{initials}</span>
-                )}
+            <div style={{ flexShrink:0 }}>
+              <div style={{
+                width: 84, height: 84, borderRadius:'50%',
+                border:'3.5px solid rgba(255,255,255,0.92)',
+                boxShadow:'0 8px 28px rgba(0,0,0,0.38)',
+                overflow:'hidden',
+                background:'linear-gradient(135deg,#1d4ed8,#15803d)',
+                display:'flex', alignItems:'center', justifyContent:'center',
+              }}>
+                {avatarUrl
+                  ? <img src={avatarUrl} alt={name} style={{ width:'100%', height:'100%', objectFit:'cover' }}/>
+                  : <span style={{ color:'white', fontSize:30, fontWeight:900 }}>{initials}</span>
+                }
               </div>
             </div>
 
-            {/* Info */}
-            <div className="flex-1 min-w-0 pt-1">
-              <h2 className="text-white font-black text-xl leading-tight truncate drop-shadow-md">
-                {name}
-              </h2>
-              <p className="text-white/80 font-mono text-sm font-semibold mt-0.5">{uid}</p>
-              <div className="flex items-center gap-1.5 mt-2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 w-fit">
-                <ShieldCheck size={13} className="text-white" />
-                <span className="text-white text-xs font-semibold">
-                  Verified Member of{' '}
-                  <span className="font-black text-white">UniVerse</span>
+            {/* Info column */}
+            <div style={{ flex:1, minWidth:0 }}>
+              {/* Name */}
+              <div style={{
+                color:'white', fontWeight:900, fontSize:20,
+                textShadow:'0 2px 10px rgba(0,0,0,0.32)',
+                lineHeight:1.2, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis',
+              }}>{name}</div>
+
+              {/* Verified pill */}
+              <div style={{
+                display:'inline-flex', alignItems:'center', gap:5,
+                background:'rgba(255,255,255,0.18)',
+                border:'1px solid rgba(255,255,255,0.32)',
+                borderRadius:20, padding:'4px 11px', marginTop:8,
+              }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <polyline points="9 12 11 14 15 10"/>
+                </svg>
+                <span style={{ color:'white', fontSize:10, fontWeight:700 }}>
+                  Verified Member of <strong>UniVerse</strong>
                 </span>
               </div>
+
+              {/* Role badge */}
+              <div style={{ marginTop:10 }}>
+                <div style={{
+                  display:'inline-flex', alignItems:'center', gap:7,
+                  background: cfg.bar,
+                  borderRadius:20, padding:'5px 15px',
+                  boxShadow:`0 4px 16px ${cfg.bar}70`,
+                }}>
+                  <span style={{ fontSize:13 }}>{cfg.icon}</span>
+                  <span style={{ color:'white', fontSize:12, fontWeight:800, letterSpacing:0.3 }}>{cfg.label}</span>
+                </div>
+              </div>
+
+              {/* Member since */}
+              <div style={{ marginTop:9, color:'rgba(255,255,255,0.60)', fontSize:10, fontWeight:600, letterSpacing:0.5 }}>
+                MEMBER SINCE&nbsp;&nbsp;
+                <span style={{ color:'rgba(255,255,255,0.92)', fontWeight:800 }}>{since}</span>
+              </div>
             </div>
 
-            {/* QR Code */}
-            <div className="flex-shrink-0 bg-white rounded-xl p-1.5 shadow-lg shadow-black/20">
-              <QRCodeCanvas
-                value={profileUrl}
-                size={72}
-                bgColor="#ffffff"
-                fgColor="#1e3a5f"
-                level="M"
-                includeMargin={false}
-              />
+            {/* QR code */}
+            <div style={{ flexShrink:0, display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
+              <div style={{
+                background:'white', borderRadius:14, padding:8,
+                boxShadow:'0 8px 28px rgba(0,0,0,0.28)',
+                border:'2px solid rgba(255,255,255,0.65)',
+              }}>
+                <QRCodeCanvas
+                  value={profileUrl}
+                  size={80}
+                  bgColor="#ffffff"
+                  fgColor="#1e3a5f"
+                  level="M"
+                  includeMargin={false}
+                />
+              </div>
+              <span style={{ color:'rgba(255,255,255,0.55)', fontSize:8, fontWeight:700, letterSpacing:1.2, textTransform:'uppercase' }}>
+                Scan Profile
+              </span>
             </div>
           </div>
 
-          {/* ── Role badge ── */}
-          <div className="mt-4 flex items-center gap-2">
-            <div
-              className={`flex items-center gap-2 bg-gradient-to-r ${cfg.color} text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-md`}
-            >
-              <cfg.Icon size={14} />
-              {cfg.label}
-            </div>
-          </div>
-
-          {/* ── Bottom chips ── */}
-          <div className="mt-3 pb-4 flex items-center gap-4 border-t border-white/20 pt-3">
-            <div className="flex items-center gap-1.5 text-white/90 text-xs font-semibold">
-              <Briefcase size={13} className="text-blue-100" />
-              Skills
-            </div>
-            <div className="flex items-center gap-1.5 text-white/90 text-xs font-semibold">
-              <FileText size={13} className="text-blue-100" />
-              Portfolio
-            </div>
-            <div className="flex items-center gap-1.5 text-white/90 text-xs font-semibold">
-              <Award size={13} className="text-blue-100" />
-              Certificates
+          {/* Bottom strip */}
+          <div style={{
+            marginTop:13,
+            paddingTop:12,
+            borderTop:'1px solid rgba(255,255,255,0.18)',
+            display:'flex', alignItems:'center', gap:22,
+          }}>
+            {[['🧰','Skills'],['📁','Portfolio'],['🏆','Certificates']].map(([icon,label]) => (
+              <div key={label} style={{
+                display:'flex', alignItems:'center', gap:6,
+                color:'rgba(255,255,255,0.88)', fontSize:11, fontWeight:700,
+              }}>
+                <span style={{ fontSize:13 }}>{icon}</span>{label}
+              </div>
+            ))}
+            <div style={{ marginLeft:'auto', color:'rgba(255,255,255,0.38)', fontSize:9, fontWeight:600, letterSpacing:0.5 }}>
+              universe.app
             </div>
           </div>
         </div>
@@ -161,11 +285,39 @@ export default function UniverseIDCard({ id, name, role, createdAt, avatarUrl }:
       {/* ── Download button ── */}
       <button
         onClick={handleDownload}
-        className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-500 hover:to-green-500 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all"
+        disabled={downloading}
+        style={{
+          display:'flex', alignItems:'center', gap:8,
+          background: downloading ? '#334155' : 'linear-gradient(135deg,#2563eb,#16a34a)',
+          color:'white', border:'none', cursor: downloading ? 'wait' : 'pointer',
+          padding:'10px 24px', borderRadius:12, fontSize:13.5, fontWeight:700,
+          boxShadow:'0 6px 20px rgba(37,99,235,0.38)',
+          transition:'all 0.2s',
+          fontFamily:"'Inter',system-ui,sans-serif",
+          opacity: downloading ? 0.7 : 1,
+        }}
       >
-        <Download size={15} />
-        Download ID Card
+        {downloading ? (
+          <>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              style={{ animation:'spin 1s linear infinite' }}>
+              <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+            </svg>
+            Generating…
+          </>
+        ) : (
+          <>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download ID Card
+          </>
+        )}
       </button>
+
+      <style>{`@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}`}</style>
     </div>
   );
 }
