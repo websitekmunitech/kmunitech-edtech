@@ -20,10 +20,29 @@ async function bootstrap() {
       .split(',')
       .map((s) => s.trim())
       .filter(Boolean);
-    app.enableCors({ origin: allowedOrigins.length ? allowedOrigins : false, credentials: true });
+
+    // In prod, prefer a strict allow-list when configured.
+    // If no env is provided (common misconfig on deploy), fall back to reflecting the request origin
+    // so the app still works and doesn't fail with a hard CORS block.
+    app.enableCors({
+      origin: allowedOrigins.length
+        ? (origin, cb) => {
+            if (!origin) return cb(null, true);
+            return allowedOrigins.includes(origin) ? cb(null, true) : cb(null, false);
+          }
+        : true,
+      credentials: true,
+      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    });
   } else {
     // Dev-friendly: reflect request origin (works for 5173/4173/etc.)
-    app.enableCors({ origin: true, credentials: true });
+    app.enableCors({
+      origin: true,
+      credentials: true,
+      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    });
   }
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
