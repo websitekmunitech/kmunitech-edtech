@@ -16,9 +16,9 @@ function uvId(id: string, createdAt: string): string {
 }
 
 function memberSince(createdAt: string): string {
-  if (!createdAt) return 'â€”';
+  if (!createdAt) return '-';
   const d = new Date(createdAt);
-  if (isNaN(d.getTime())) return 'â€”';
+  if (isNaN(d.getTime())) return '-';
   return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
 
@@ -246,7 +246,7 @@ export default function UniverseIDCard({ id, name, role, createdAt, avatarUrl }:
 
     // Verified badge
     const BADGE_Y = BODY_TOP + 30;
-    const badgeText = 'âœ“  Verified Member of UniVerse';
+    const badgeText = 'Verified Member of UniVerse';
     ctx.font = '700 10px Inter, Segoe UI, system-ui, sans-serif';
     const bW = ctx.measureText(badgeText).width + 20;
     roundRect(ctx, TX, BADGE_Y, bW, 20, 10);
@@ -313,7 +313,7 @@ export default function UniverseIDCard({ id, name, role, createdAt, avatarUrl }:
     ctx.moveTo(16, STRIP_Y); ctx.lineTo(W - 16, STRIP_Y);
     ctx.stroke();
 
-    const chips = ['ðŸ§°  Skills', 'ðŸ“  Portfolio', 'ðŸ†  Certificates'];
+    const chips = ['Skills', 'Portfolio', 'Certificates'];
     let chipX = 20;
     ctx.font = '700 11px Inter, Segoe UI, system-ui, sans-serif';
     ctx.fillStyle = 'rgba(255,255,255,0.88)';
@@ -374,7 +374,7 @@ export default function UniverseIDCard({ id, name, role, createdAt, avatarUrl }:
         <div style={{ position:'absolute', top:0, left:0, right:0, height:5, background:'linear-gradient(90deg,#60a5fa 0%,#34d399 25%,#a78bfa 50%,#f472b6 75%,#60a5fa 100%)' }} />
         {/* Sparkles */}
         {[{top:22,right:148,size:18,o:0.22},{top:60,right:96,size:11,o:0.16},{bottom:40,left:26,size:14,o:0.18}].map((s,i)=>(
-          <div key={i} style={{ position:'absolute', top:s.top, bottom:(s as any).bottom, right:(s as any).right, left:(s as any).left, color:`rgba(255,255,255,${s.o})`, fontSize:s.size, lineHeight:1 }}>âœ¦</div>
+          <div key={i} style={{ position:'absolute', top:s.top, bottom:(s as any).bottom, right:(s as any).right, left:(s as any).left, color:`rgba(255,255,255,${s.o})`, fontSize:s.size, lineHeight:1 }}>✦</div>
         ))}
 
         {/* Header */}
@@ -433,7 +433,7 @@ export default function UniverseIDCard({ id, name, role, createdAt, avatarUrl }:
           </div>
           {/* Bottom strip */}
           <div style={{ marginTop:12, paddingTop:10, borderTop:'1px solid rgba(255,255,255,.18)', display:'flex', alignItems:'center', gap:20 }}>
-            {[['ðŸ§°','Skills'],['ðŸ“','Portfolio'],['ðŸ†','Certificates']].map(([icon,label])=>(
+            {[['🧠','Skills'],['📁','Portfolio'],['🏆','Certificates']].map(([icon,label])=>(
               <div key={label} style={{ display:'flex', alignItems:'center', gap:6, color:'rgba(255,255,255,.88)', fontSize:11, fontWeight:700 }}>
                 <span style={{ fontSize:13 }}>{icon}</span>{label}
               </div>
@@ -457,7 +457,7 @@ export default function UniverseIDCard({ id, name, role, createdAt, avatarUrl }:
         }}
       >
         {downloading ? (
-          <><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation:'uv-spin 1s linear infinite' }}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>Generatingâ€¦</>
+          <><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation:'uv-spin 1s linear infinite' }}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>Generating...</>
         ) : (
           <><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download ID Card</>
         )}
