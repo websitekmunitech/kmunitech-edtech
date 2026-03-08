@@ -1,6 +1,6 @@
-import { IsArray, IsIn, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsBoolean, IsIn, IsString } from 'class-validator';
 
-export class CreateActivityAttemptDto {
+export class SetChapterCompletionDto {
   @IsString()
   @IsIn(['html', 'css', 'js', 'node', 'deploy', 'python', 'ml', 'sql', 'git'])
   topic!: string;
@@ -12,12 +12,6 @@ export class CreateActivityAttemptDto {
   @IsString()
   chapterId!: string;
 
-  @IsInt()
-  @Min(0)
-  @Max(5)
-  score!: number;
-
-  @IsOptional()
-  @IsArray()
-  answers?: unknown[];
+  @IsBoolean()
+  completed!: boolean;
 }

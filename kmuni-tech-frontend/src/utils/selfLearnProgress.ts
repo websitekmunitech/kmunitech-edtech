@@ -111,8 +111,7 @@ export type UnlockedCertificate = {
   issuedAt: string;
 };
 
-export function getUnlockedCertificates(userId: string | null | undefined): UnlockedCertificate[] {
-  const progress = getSelfLearnProgress(userId);
+export function getUnlockedCertificatesFromProgress(progress: SelfLearnProgressV1): UnlockedCertificate[] {
   const topics = Object.keys(SELF_LEARN_CONTENT) as TopicKey[];
 
   const out: UnlockedCertificate[] = [];
@@ -133,4 +132,73 @@ export function getUnlockedCertificates(userId: string | null | undefined): Unlo
 
   // Latest first
   return out.sort((a, b) => (a.issuedAt < b.issuedAt ? 1 : -1));
+}
+
+export function getUnlockedCertificates(userId: string | null | undefined): UnlockedCertificate[] {
+  const progress = getSelfLearnProgress(userId);
+  return getUnlockedCertificatesFromProgress(progress);
+}
+
+export type SelfLearnCompletionRow = {
+  topic: string;
+  level: string;
+  chapterId: string;
+  completedAt: string;
+};
+
+function isTopicKey(x: string): x is TopicKey {
+  return ['html', 'css', 'js', 'node', 'deploy', 'python', 'ml', 'sql', 'git'].includes(x);
+}
+
+function isLevelKey(x: string): x is LevelKey {
+  return ['Beginner', 'Intermediate', 'Advanced'].includes(x);
+}
+
+export function buildProgressFromCompletions(rows: SelfLearnCompletionRow[]): SelfLearnProgressV1 {
+  const completedChapterIds: SelfLearnProgressV1['completedChapterIds'] = {};
+  const chapterCompletedAt: Record<string, string> = {};
+
+  for (const row of rows) {
+    if (!row) continue;
+    const topic = String(row.topic || '').trim();
+    const level = String(row.level || '').trim();
+    const chapterId = String(row.chapterId || '').trim();
+    const completedAt = String(row.completedAt || '').trim();
+    if (!topic || !level || !chapterId || !completedAt) continue;
+    if (!isTopicKey(topic) || !isLevelKey(level)) continue;
+
+    const nextTopic = (completedChapterIds[topic] ?? {}) as Partial<Record<LevelKey, string[]>>;
+    const prevList = nextTopic[level] ?? [];
+    nextTopic[level] = uniqueStrings([...prevList, chapterId]);
+    completedChapterIds[topic] = nextTopic;
+
+    chapterCompletedAt[`${topic}::${level}::${chapterId}`] = completedAt;
+  }
+
+  // Compute per-level completion timestamps (when the final required chapter was completed).
+  const completedAt: SelfLearnProgressV1['completedAt'] = {};
+  for (const topic of Object.keys(SELF_LEARN_CONTENT) as TopicKey[]) {
+    const levels = Object.keys(SELF_LEARN_CONTENT[topic]) as LevelKey[];
+    for (const level of levels) {
+      const chapters = getLevelChapters(topic, level);
+      if (chapters.length === 0) continue;
+
+      const doneIds = completedChapterIds?.[topic]?.[level] ?? [];
+      const isComplete = chapters.every((c) => doneIds.includes(c.id));
+      if (!isComplete) continue;
+
+      let maxIso = '';
+      for (const c of chapters) {
+        const iso = chapterCompletedAt[`${topic}::${level}::${c.id}`] || '';
+        if (!maxIso || (iso && iso > maxIso)) maxIso = iso;
+      }
+
+      completedAt[topic] = {
+        ...(completedAt[topic] ?? {}),
+        [level]: maxIso || new Date().toISOString(),
+      };
+    }
+  }
+
+  return { version: 1, completedChapterIds, completedAt };
 }

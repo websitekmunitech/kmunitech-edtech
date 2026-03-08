@@ -9,6 +9,7 @@ import { Enrollment } from './entities/enrollment.entity';
 import { UnilinkLead } from './entities/unilink-lead.entity';
 import { UnilinkEvent } from './entities/unilink-event.entity';
 import { SelfLearnActivityAttempt } from './entities/self-learn-activity-attempt.entity';
+import { SelfLearnChapterCompletion } from './entities/self-learn-chapter-completion.entity';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { CoursesController } from './courses/courses.controller';
@@ -31,6 +32,8 @@ import { UnilinkEventsService } from './unilink-events/unilink-events.service';
 import { R2Module } from './storage/r2.module';
 import { SelfLearnActivityController } from './self-learn-activity/self-learn-activity.controller';
 import { SelfLearnActivityService } from './self-learn-activity/self-learn-activity.service';
+import { SelfLearnProgressController } from './self-learn-progress/self-learn-progress.controller';
+import { SelfLearnProgressService } from './self-learn-progress/self-learn-progress.service';
 
 @Module({
   imports: [
@@ -111,7 +114,7 @@ import { SelfLearnActivityService } from './self-learn-activity/self-learn-activ
                   database: process.env.DB_NAME || 'kmunitech',
                 }),
           ...(useSsl ? { ssl: sslOptions } : {}),
-          entities: [User, Course, Lesson, Enrollment, UnilinkLead, UnilinkEvent, SelfLearnActivityAttempt],
+          entities: [User, Course, Lesson, Enrollment, UnilinkLead, UnilinkEvent, SelfLearnActivityAttempt, SelfLearnChapterCompletion],
           synchronize: true,
           retryAttempts: 10,
           retryDelay: 3000,
@@ -122,7 +125,7 @@ import { SelfLearnActivityService } from './self-learn-activity/self-learn-activ
         };
       },
     }),
-    TypeOrmModule.forFeature([User, Course, Lesson, Enrollment, UnilinkLead, UnilinkEvent, SelfLearnActivityAttempt]),
+    TypeOrmModule.forFeature([User, Course, Lesson, Enrollment, UnilinkLead, UnilinkEvent, SelfLearnActivityAttempt, SelfLearnChapterCompletion]),
     AuthModule,
     R2Module,
   ],
@@ -137,6 +140,7 @@ import { SelfLearnActivityService } from './self-learn-activity/self-learn-activ
     UnilinkController,
     PublicController,
     SelfLearnActivityController,
+    SelfLearnProgressController,
   ],
   providers: [
     AuthService,
@@ -150,6 +154,7 @@ import { SelfLearnActivityService } from './self-learn-activity/self-learn-activ
     PublicService,
     UnilinkEventsService,
     SelfLearnActivityService,
+    SelfLearnProgressService,
   ],
 })
 export class AppModule {}

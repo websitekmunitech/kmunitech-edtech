@@ -443,7 +443,233 @@ export const SELF_LEARN_ACTIVITIES: Record<string, ChapterActivity> = {
       q('q5', 'Using small, focused modules helps mainly with…', ['Maintainability and testing', 'Changing browser fonts', 'Making HTML optional', 'Disabling errors'], 0),
     ],
   },
-  'py-b-intro': {
+  // ── Backend (Node.js) Activities ──
+
+  'node-b-intro': {
+    topic: 'node',
+    level: 'Beginner',
+    chapterId: 'node-b-intro',
+    title: 'Activity: What is Node.js?',
+    questions: [
+      q('q1', 'Node.js allows you to run JavaScript…', ['Only in the browser', 'On the server / outside the browser', 'Only in CSS files', 'Only in HTML'], 1),
+      q('q2', 'Which engine does Node.js use under the hood?', ['SpiderMonkey', 'V8', 'Chakra', 'WebKit'], 1),
+      q('q3', 'Which command initializes a new Node project?', ['node init', 'npm init', 'npm create', 'node start'], 1),
+      q('q4', 'What file tracks your project dependencies?', ['index.js', 'package.json', '.env', 'node_modules'], 1),
+      q('q5', 'Node.js uses an event-driven model that is…', ['Blocking and synchronous', 'Non-blocking and asynchronous', 'Only for databases', 'Only for frontend'], 1),
+    ],
+  },
+
+  'node-b-express': {
+    topic: 'node',
+    level: 'Beginner',
+    chapterId: 'node-b-express',
+    title: 'Activity: Express Basics',
+    questions: [
+      q('q1', 'Express is primarily used to…', ['Style web pages', 'Create server-side web applications and APIs', 'Compile TypeScript', 'Manage databases'], 1),
+      q('q2', 'Which method defines a handler for GET requests in Express?', ['app.get()', 'app.fetch()', 'app.receive()', 'app.read()'], 0),
+      q('q3', 'To send a JSON response you use…', ['res.json()', 'res.html()', 'res.write()', 'console.log()'], 0),
+      q('q4', 'Route parameters are accessed via…', ['req.body', 'req.params', 'req.headers', 'req.cookies'], 1),
+      q('q5', 'Which command installs Express?', ['npm install express', 'node install express', 'npx express', 'npm init express'], 0),
+    ],
+  },
+
+  'node-b-rest': {
+    topic: 'node',
+    level: 'Beginner',
+    chapterId: 'node-b-rest',
+    title: 'Activity: REST API Design',
+    questions: [
+      q('q1', 'REST maps CRUD operations to…', ['CSS selectors', 'HTTP methods on resource URLs', 'Database tables', 'File extensions'], 1),
+      q('q2', 'Which HTTP method is used to create a new resource?', ['GET', 'POST', 'DELETE', 'HEAD'], 1),
+      q('q3', 'Status code 404 means…', ['Success', 'Resource not found', 'Server error', 'Redirect'], 1),
+      q('q4', 'Status code 201 is typically used when…', ['A resource is deleted', 'A resource is created', 'The server crashes', 'A redirect occurs'], 1),
+      q('q5', 'A good REST API returns consistent…', ['HTML pages always', 'JSON response shapes', 'Binary data', 'CSS stylesheets'], 1),
+    ],
+  },
+
+  'node-i-middleware': {
+    topic: 'node',
+    level: 'Intermediate',
+    chapterId: 'node-i-middleware',
+    title: 'Activity: Middleware & Error Handling',
+    questions: [
+      q('q1', 'Middleware functions have access to…', ['Only req', 'req, res, and next', 'Only the database', 'Only headers'], 1),
+      q('q2', 'To pass control to the next middleware you call…', ['return', 'next()', 'continue', 'break'], 1),
+      q('q3', 'express.json() is used to…', ['Serve static files', 'Parse JSON request bodies', 'Send JSON responses', 'Compress responses'], 1),
+      q('q4', 'An error-handling middleware has how many parameters?', ['2 (req, res)', '3 (req, res, next)', '4 (err, req, res, next)', '1 (err)'], 2),
+      q('q5', 'Helmet is a middleware that…', ['Validates forms', 'Sets security-related HTTP headers', 'Compresses images', 'Handles file uploads'], 1),
+    ],
+  },
+
+  'node-i-database': {
+    topic: 'node',
+    level: 'Intermediate',
+    chapterId: 'node-i-database',
+    title: 'Activity: Database Integration',
+    questions: [
+      q('q1', 'A database is important because…', ['In-memory data persists on restart', 'It stores data permanently', 'It replaces JavaScript', 'It speeds up CSS'], 1),
+      q('q2', 'An ORM helps by…', ['Writing raw SQL automatically from models', 'Replacing the database', 'Compiling JavaScript', 'Sending emails'], 0),
+      q('q3', 'PostgreSQL is a…', ['NoSQL database', 'Relational database', 'Frontend framework', 'CSS preprocessor'], 1),
+      q('q4', 'Parameterized queries help prevent…', ['Slow rendering', 'SQL injection', 'CSS conflicts', 'Memory leaks'], 1),
+      q('q5', 'A connection string typically includes…', ['Host, port, username, password, database name', 'Only the port number', 'Only CSS selectors', 'The HTML template'], 0),
+    ],
+  },
+
+  'node-i-auth': {
+    topic: 'node',
+    level: 'Intermediate',
+    chapterId: 'node-i-auth',
+    title: 'Activity: Authentication with JWT',
+    questions: [
+      q('q1', 'Passwords should be stored as…', ['Plain text', 'Base64 strings', 'Bcrypt hashes', 'ROT13 encoded'], 2),
+      q('q2', 'JWT stands for…', ['JavaScript Web Token', 'JSON Web Token', 'Java Web Tool', 'Just Web Transfer'], 1),
+      q('q3', 'After login, the client typically sends the JWT in…', ['The URL', 'The Authorization header', 'A cookie only', 'The HTML body'], 1),
+      q('q4', 'jwt.verify() is used to…', ['Create a new token', 'Check if a token is valid', 'Delete a token', 'Hash a password'], 1),
+      q('q5', 'Auth middleware should return 401 when…', ['The request is too slow', 'The token is missing or invalid', 'The database is empty', 'The CSS fails to load'], 1),
+    ],
+  },
+
+  'node-a-security': {
+    topic: 'node',
+    level: 'Advanced',
+    chapterId: 'node-a-security',
+    title: 'Activity: Security Best Practices',
+    questions: [
+      q('q1', 'SQL injection can be prevented by…', ['Using string concatenation', 'Using parameterized queries', 'Disabling the database', 'Using only GET requests'], 1),
+      q('q2', 'Rate limiting helps prevent…', ['CSS bugs', 'Brute-force and abuse', 'Memory allocation', 'Image loading'], 1),
+      q('q3', 'Secrets should be stored in…', ['Source code', 'Environment variables', 'HTML comments', 'CSS files'], 1),
+      q('q4', 'Helmet sets…', ['Database indexes', 'Security-related HTTP headers', 'Cookie flavors', 'CSS variables'], 1),
+      q('q5', 'If a secret is exposed in a git commit, you should…', ['Ignore it', 'Rotate the secret immediately', 'Delete the repo', 'Change the font'], 1),
+    ],
+  },
+
+  'node-a-architecture': {
+    topic: 'node',
+    level: 'Advanced',
+    chapterId: 'node-a-architecture',
+    title: 'Activity: Project Architecture & Testing',
+    questions: [
+      q('q1', 'A service layer should contain…', ['HTML templates', 'Business logic', 'CSS styles', 'Static assets'], 1),
+      q('q2', 'Controllers are responsible for…', ['Database queries directly', 'Handling HTTP input and calling services', 'Writing CSS', 'Managing DNS'], 1),
+      q('q3', 'Jest is commonly used for…', ['Styling components', 'Running automated tests', 'Building Docker images', 'Managing databases'], 1),
+      q('q4', 'Integration tests verify…', ['Only CSS rendering', 'End-to-end route behavior', 'Only variable types', 'Only function names'], 1),
+      q('q5', 'Dependency injection helps with…', ['Making code harder to test', 'Swapping dependencies easily for testing', 'Removing all imports', 'Disabling TypeScript'], 1),
+    ],
+  },
+
+  // ── Deployment Activities ──
+
+  'deploy-b-intro': {
+    topic: 'deploy',
+    level: 'Beginner',
+    chapterId: 'deploy-b-intro',
+    title: 'Activity: What is Deployment?',
+    questions: [
+      q('q1', 'Deployment means…', ['Writing more code', 'Making your app live on the internet', 'Deleting files', 'Installing Node.js'], 1),
+      q('q2', 'DNS maps…', ['CSS to HTML', 'Domain names to IP addresses', 'Passwords to tokens', 'Images to text'], 1),
+      q('q3', 'HTTPS provides…', ['Faster JavaScript', 'Encrypted communication', 'Better CSS', 'Larger fonts'], 1),
+      q('q4', 'Vercel is primarily used for…', ['Database hosting', 'Static site and frontend hosting', 'Email servers', 'DNS registration only'], 1),
+      q('q5', 'Environment variables help keep…', ['Code readable', 'Secrets out of source code', 'CSS organized', 'Images compressed'], 1),
+    ],
+  },
+
+  'deploy-b-static': {
+    topic: 'deploy',
+    level: 'Beginner',
+    chapterId: 'deploy-b-static',
+    title: 'Activity: Deploying Static Sites',
+    questions: [
+      q('q1', '`npm run build` typically creates…', ['A database', 'An optimized dist/ folder', 'A new repo', 'A Docker image'], 1),
+      q('q2', 'On Vercel, deployments are triggered by…', ['Email', 'Git pushes', 'Cron jobs', 'DNS changes'], 1),
+      q('q3', 'SPA routing issues occur because…', ['CSS is missing', 'The server returns 404 for client-side routes', 'JavaScript is disabled', 'The build fails'], 1),
+      q('q4', 'A vercel.json rewrite rule fixes SPAs by…', ['Deleting routes', 'Serving index.html for all paths', 'Blocking requests', 'Compressing images'], 1),
+      q('q5', 'Environment variables on Vercel are set in…', ['The HTML file', 'Project settings on the dashboard', 'The package.json', 'The .gitignore'], 1),
+    ],
+  },
+
+  'deploy-b-backend': {
+    topic: 'deploy',
+    level: 'Beginner',
+    chapterId: 'deploy-b-backend',
+    title: 'Activity: Deploying a Backend API',
+    questions: [
+      q('q1', 'Render is commonly used to deploy…', ['Static CSS files', 'Backend APIs and services', 'Domain registrations', 'Fonts'], 1),
+      q('q2', 'The start command for a Node app is typically…', ['npm run build', 'node dist/main.js or npm start', 'git push', 'docker pull'], 1),
+      q('q3', 'DATABASE_URL is an example of…', ['An HTML tag', 'An environment variable', 'A CSS class', 'A JavaScript function'], 1),
+      q('q4', 'CORS must be configured so…', ['The backend rejects all requests', 'The frontend origin is allowed', 'Images load faster', 'DNS resolves correctly'], 1),
+      q('q5', 'A managed PostgreSQL instance provides…', ['Free domain names', 'A hosted database with connection string', 'Automatic frontend builds', 'CSS minification'], 1),
+    ],
+  },
+
+  'deploy-i-cicd': {
+    topic: 'deploy',
+    level: 'Intermediate',
+    chapterId: 'deploy-i-cicd',
+    title: 'Activity: CI/CD Pipelines',
+    questions: [
+      q('q1', 'CI stands for…', ['Continuous Integration', 'Code Injection', 'CSS Import', 'Container Instance'], 0),
+      q('q2', 'GitHub Actions workflows are defined in…', ['package.json', '.github/workflows/*.yml files', 'index.html', 'Dockerfile'], 1),
+      q('q3', 'A CI pipeline typically runs…', ['Only on weekends', 'On every push or pull request', 'Only manually', 'Only at midnight'], 1),
+      q('q4', 'Branch protection rules can require…', ['Secrets in code', 'CI checks to pass before merging', 'CSS validation', 'DNS records'], 1),
+      q('q5', 'CD means changes are automatically…', ['Deleted', 'Deployed after passing tests', 'Cached', 'Compressed'], 1),
+    ],
+  },
+
+  'deploy-i-docker': {
+    topic: 'deploy',
+    level: 'Intermediate',
+    chapterId: 'deploy-i-docker',
+    title: 'Activity: Docker for Web Apps',
+    questions: [
+      q('q1', 'Docker packages your app into a…', ['ZIP file', 'Container / image', 'PDF', 'Spreadsheet'], 1),
+      q('q2', 'A Dockerfile starts with…', ['RUN', 'FROM (base image)', 'CMD', 'EXPOSE'], 1),
+      q('q3', 'Multi-stage builds help by…', ['Making images larger', 'Keeping the final image small', 'Removing all code', 'Disabling networking'], 1),
+      q('q4', '`.dockerignore` is used to…', ['Include all files', 'Exclude files from the Docker build context', 'Delete images', 'Start containers'], 1),
+      q('q5', '`docker compose up` is used to…', ['Build a single file', 'Start multi-container applications', 'Deploy to Vercel', 'Minify JavaScript'], 1),
+    ],
+  },
+
+  'deploy-i-env': {
+    topic: 'deploy',
+    level: 'Intermediate',
+    chapterId: 'deploy-i-env',
+    title: 'Activity: Environment Management',
+    questions: [
+      q('q1', '.env files should be…', ['Committed to Git', 'Listed in .gitignore', 'Shared publicly', 'Deleted after use'], 1),
+      q('q2', 'Platform env vars override…', ['CSS styles', 'Local .env values', 'HTML attributes', 'Package names'], 1),
+      q('q3', 'NODE_ENV=production typically…', ['Enables verbose logging', 'Enables optimizations and disables dev features', 'Installs dev dependencies', 'Slows down the application'], 1),
+      q('q4', 'If a secret is leaked in a commit, you should…', ['Leave it', 'Rotate the secret immediately', 'Add more secrets', 'Change the file extension'], 1),
+      q('q5', 'A .env.example file is useful because…', ['It contains real secrets', 'It shows what env vars are needed without real values', 'It replaces .env', 'It speeds up builds'], 1),
+    ],
+  },
+
+  'deploy-a-monitoring': {
+    topic: 'deploy',
+    level: 'Advanced',
+    chapterId: 'deploy-a-monitoring',
+    title: 'Activity: Monitoring & Logging',
+    questions: [
+      q('q1', 'Structured logging means…', ['Using console.log everywhere', 'Outputting JSON-formatted log entries', 'Removing all logs', 'Logging only errors'], 1),
+      q('q2', 'A /health endpoint is used to…', ['Reset the database', 'Verify the app is running correctly', 'Deploy code', 'Compress assets'], 1),
+      q('q3', 'Sentry is a service for…', ['Static hosting', 'Error tracking and alerting', 'Database management', 'CSS compilation'], 1),
+      q('q4', 'Uptime monitoring checks if…', ['The code compiles', 'The application is accessible', 'Tests pass', 'Dependencies are updated'], 1),
+      q('q5', 'Pino is a popular Node.js library for…', ['Routing', 'Structured logging', 'Authentication', 'Image processing'], 1),
+    ],
+  },
+
+  'deploy-a-scaling': {
+    topic: 'deploy',
+    level: 'Advanced',
+    chapterId: 'deploy-a-scaling',
+    title: 'Activity: Scaling & Performance',
+    questions: [
+      q('q1', 'Horizontal scaling means…', ['Using a faster CPU', 'Running multiple instances behind a load balancer', 'Making the code shorter', 'Removing features'], 1),
+      q('q2', 'Caching reduces…', ['Security', 'Database load and response time', 'Code quality', 'Test coverage'], 1),
+      q('q3', 'For shared state across instances, you should use…', ['In-memory variables', 'Redis or a database', 'Local files', 'CSS variables'], 1),
+      q('q4', 'A CDN is used to…', ['Run database queries', 'Serve static assets from locations near users', 'Compile TypeScript', 'Write tests'], 1),
+      q('q5', 'Lazy loading routes helps by…', ['Loading everything upfront', 'Loading code only when needed, reducing initial bundle size', 'Removing routes', 'Disabling navigation'], 1),
+    ],
+  },  'py-b-intro': {
     topic: 'python',
     level: 'Beginner',
     chapterId: 'py-b-intro',

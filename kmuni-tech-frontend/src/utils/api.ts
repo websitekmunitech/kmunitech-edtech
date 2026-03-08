@@ -585,3 +585,42 @@ export async function fetchAdminSelfLearnActivityAttempts(
   const path = qs ? `/api/admin/self-learn/activity-attempts?${qs}` : '/api/admin/self-learn/activity-attempts';
   return apiFetch<AdminSelfLearnActivityAttemptDTO[]>(path, { method: 'GET' }, token);
 }
+
+export type SelfLearnChapterCompletionDTO = {
+  id: string;
+  topic: string;
+  level: string;
+  chapterId: string;
+  completedAt: string;
+};
+
+export async function fetchSelfLearnChapterCompletions(
+  token: string,
+  params?: { topic?: string; level?: string },
+) {
+  const query = new URLSearchParams();
+  if (params?.topic) query.set('topic', params.topic);
+  if (params?.level) query.set('level', params.level);
+  const qs = query.toString();
+  const path = qs ? `/api/self-learn/progress?${qs}` : '/api/self-learn/progress';
+  return apiFetch<SelfLearnChapterCompletionDTO[]>(path, { method: 'GET' }, token);
+}
+
+export type SetSelfLearnChapterCompletionRequest = {
+  topic: string;
+  level: string;
+  chapterId: string;
+  completed: boolean;
+};
+
+export type SetSelfLearnChapterCompletionResponse =
+  | { topic: string; level: string; chapterId: string; completed: false }
+  | ({ id: string; topic: string; level: string; chapterId: string; completed: true; completedAt: string });
+
+export async function setSelfLearnChapterCompletion(payload: SetSelfLearnChapterCompletionRequest, token: string) {
+  return apiFetch<SetSelfLearnChapterCompletionResponse>(
+    '/api/self-learn/progress/chapter',
+    { method: 'PUT', body: JSON.stringify(payload) },
+    token,
+  );
+}

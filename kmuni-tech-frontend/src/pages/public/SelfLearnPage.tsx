@@ -11,6 +11,7 @@ import {
   type TopicKey,
 } from '../../data/selfLearn';
 import {
+  buildProgressFromCompletions,
   getSelfLearnProgress,
   isChapterCompleted,
   isLevelFullyComplete,
@@ -18,8 +19,11 @@ import {
 } from '../../utils/selfLearnProgress';
 import { getChapterActivity } from '../../data/selfLearnActivities';
 import {
+  fetchSelfLearnChapterCompletions,
   fetchSelfLearnActivityAttempts,
+  setSelfLearnChapterCompletion,
   submitSelfLearnActivityAttempt,
+  type SelfLearnChapterCompletionDTO,
   type SelfLearnActivityAttemptDTO,
 } from '../../utils/api';
 
@@ -44,6 +48,46 @@ export default function SelfLearnPage() {
   const [activitySubmitting, setActivitySubmitting] = useState(false);
   const [activitySubmitError, setActivitySubmitError] = useState('');
   const [activityLastScore, setActivityLastScore] = useState<number | null>(null);
+
+  const [localProgressTick, setLocalProgressTick] = useState(0);
+  const localProgress = useMemo(() => {
+    void localProgressTick;
+    return getSelfLearnProgress(userId);
+  }, [userId, localProgressTick]);
+
+  const [completions, setCompletions] = useState<SelfLearnChapterCompletionDTO[]>([]);
+  const [progressLoading, setProgressLoading] = useState(false);
+  const [progressError, setProgressError] = useState('');
+
+  useEffect(() => {
+    setProgressError('');
+    setCompletions([]);
+
+    if (!token) return;
+
+    let mounted = true;
+    setProgressLoading(true);
+    fetchSelfLearnChapterCompletions(token)
+      .then((rows) => {
+        if (!mounted) return;
+        setCompletions(rows);
+      })
+      .catch((e: any) => {
+        if (!mounted) return;
+        setProgressError(e?.message || 'Failed to load self-learn progress');
+      })
+      .finally(() => {
+        if (!mounted) return;
+        setProgressLoading(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, [token]);
+
+  const remoteProgress = useMemo(() => buildProgressFromCompletions(completions), [completions]);
+  const progress = token ? remoteProgress : localProgress;
 
   const activityErrorHint = useMemo(() => {
     const msg = (activityError || '').toLowerCase();
@@ -130,12 +174,6 @@ export default function SelfLearnPage() {
     };
   }, [token, activity?.chapterId, activity?.topic, activity?.level]);
 
-  const [progressTick, setProgressTick] = useState(0);
-  const progress = useMemo(() => {
-    void progressTick;
-    return getSelfLearnProgress(userId);
-  }, [userId, progressTick]);
-
   const isLevelComplete = Boolean(activeTopic && isLevelFullyComplete(progress, activeTopic.key, activeLevel));
 
   useEffect(() => {
@@ -150,9 +188,30 @@ export default function SelfLearnPage() {
     ? chapters.filter((c) => isChapterCompleted(progress, activeTopic.key, activeLevel, c.id)).length
     : 0;
 
-  function onToggleChapter(topic: TopicKey, level: LevelKey, chapterId: string) {
-    toggleChapterCompletion(userId, topic, level, chapterId);
-    setProgressTick((t) => t + 1);
+  async function onToggleChapter(topic: TopicKey, level: LevelKey, chapterId: string) {
+    if (!token || !user) {
+      toggleChapterCompletion(userId, topic, level, chapterId);
+      setLocalProgressTick((t) => t + 1);
+      return;
+    }
+
+    const isDone = isChapterCompleted(progress, topic, level, chapterId);
+    try {
+      const res = await setSelfLearnChapterCompletion(
+        { topic, level, chapterId, completed: !isDone },
+        token,
+      );
+
+      setCompletions((prev) => {
+        const without = prev.filter(
+          (r) => !(r.topic === topic && r.level === level && r.chapterId === chapterId),
+        );
+        if (!('completed' in res) || res.completed === false) return without;
+        return [...without, { id: res.id, topic: res.topic, level: res.level, chapterId: res.chapterId, completedAt: res.completedAt }];
+      });
+    } catch (e: any) {
+      setProgressError(e?.message || 'Failed to update progress');
+    }
   }
 
   return (
@@ -358,6 +417,13 @@ export default function SelfLearnPage() {
                           {completedCount}/{chapters.length}
                         </div>
                       </div>
+
+                      {token && progressLoading ? (
+                        <p className="mt-4 text-slate-400 text-sm">Loading your progress…</p>
+                      ) : null}
+                      {progressError ? (
+                        <p className="mt-4 text-sm text-red-400 font-semibold">{progressError}</p>
+                      ) : null}
 
                       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
                         {chapters.map((c, idx) => {
@@ -605,30 +671,6 @@ export default function SelfLearnPage() {
                                 >
                                   {activitySubmitting ? 'Submitting…' : activityAttempts.length >= 3 ? 'Attempt Limit Reached' : 'Submit Attempt'}
                                 </button>
-                              </div>
-
-                              {/* Completion claim (UI placeholder) */}
-                              <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5">
-                                <p className="text-white font-bold">Completion Badge</p>
-                                <p className="text-slate-500 text-sm mt-1">
-                                  Claim badge and download PDF (coming soon).
-                                </p>
-                                <div className="mt-4 flex flex-col sm:flex-row gap-3">
-                                  <button
-                                    type="button"
-                                    disabled
-                                    className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-bold border bg-white/5 border-white/10 text-slate-400 cursor-not-allowed"
-                                  >
-                                    Claim Badge
-                                  </button>
-                                  <button
-                                    type="button"
-                                    disabled
-                                    className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-bold border bg-white/5 border-white/10 text-slate-400 cursor-not-allowed"
-                                  >
-                                    Download PDF
-                                  </button>
-                                </div>
                               </div>
                             </>
                           )}
