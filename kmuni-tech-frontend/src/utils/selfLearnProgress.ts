@@ -1,5 +1,5 @@
 import type { LevelKey, TopicKey } from '../data/selfLearn';
-import { SELF_LEARN_CONTENT } from '../data/selfLearn';
+import { SELF_LEARN_CONTENT, SELF_LEARN_DOMAINS } from '../data/selfLearn';
 
 export type SelfLearnProgressV1 = {
   version: 1;
@@ -111,6 +111,14 @@ export type UnlockedCertificate = {
   issuedAt: string;
 };
 
+function getTopicTitle(topic: TopicKey) {
+  for (const domain of SELF_LEARN_DOMAINS) {
+    const match = domain.topics.find((t) => t.key === topic);
+    if (match) return match.title;
+  }
+  return topic.toUpperCase();
+}
+
 export function getUnlockedCertificatesFromProgress(progress: SelfLearnProgressV1): UnlockedCertificate[] {
   const topics = Object.keys(SELF_LEARN_CONTENT) as TopicKey[];
 
@@ -124,7 +132,7 @@ export function getUnlockedCertificatesFromProgress(progress: SelfLearnProgressV
         id: `selflearn:${topic}:${level}`,
         topic,
         level,
-        title: `Self-Learn ${topic.toUpperCase()} — ${level} Certificate`,
+        title: `Self-Learn ${getTopicTitle(topic)} — ${level} Certificate`,
         issuedAt,
       });
     }
