@@ -93,12 +93,6 @@ export default function Navbar() {
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-0.5">
             <Link to="/" className={linkCls('/')}>Home</Link>
-            <Link to="/universe" className={linkCls('/universe')}>
-              <span className="flex items-center gap-1.5">
-                <Sparkles size={13} className="text-blue-400" />
-                Universe
-              </span>
-            </Link>
             <Link to="/courses" className={linkCls('/courses')}>
               <span className="flex items-center gap-1.5">
                 <BookOpen size={13} className="text-blue-400" />
@@ -218,9 +212,6 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="lg:hidden bg-[#0d0f1a]/98 border-t border-white/5 px-4 py-4 space-y-1 backdrop-blur-xl">
           <Link to="/" className={mobileLinkCls('/')}>Home</Link>
-          <Link to="/universe" className={mobileLinkCls('/universe')}>
-            <span className="flex items-center gap-2.5"><Sparkles size={15} className="text-blue-400" /> Universe</span>
-          </Link>
           <Link to="/courses" className={mobileLinkCls('/courses')}>
             <span className="flex items-center gap-2.5"><BookOpen size={15} className="text-blue-400" /> Courses</span>
           </Link>
