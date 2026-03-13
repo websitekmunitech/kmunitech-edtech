@@ -229,6 +229,31 @@ export type PublicUserListItem = {
   bio?: string;
 };
 
+export type PublicSelfLearnLeaderboardEntry = {
+  rank: number;
+  user: {
+    id: string;
+    name: string;
+    role: 'student' | 'instructor';
+    bio: string | null;
+  };
+  totalPoints: number;
+  totalPossiblePoints: number;
+  accuracyPercent: number;
+  chaptersPlayed: number;
+  attemptsCount: number;
+  lastActivityAt: string;
+};
+
+export type PublicSelfLearnLeaderboardResponse = {
+  items: PublicSelfLearnLeaderboardEntry[];
+  filters: {
+    topic: string | null;
+    level: string | null;
+  };
+  updatedAt: string;
+};
+
 export async function fetchPublicUnilinkEvents() {
   return apiFetch<PublicUnilinkEventsResponse>('/api/public/unilink-events');
 }
@@ -315,6 +340,23 @@ export async function fetchPublicUsers(params?: { limit?: number; offset?: numbe
     createdAt: u.createdAt ?? '',
     bio: typeof u.bio === 'string' && u.bio.trim().length > 0 ? u.bio : undefined,
   })) as PublicUserListItem[];
+}
+
+export async function fetchPublicSelfLearnLeaderboard(params?: {
+  limit?: number;
+  topic?: string;
+  level?: string;
+}) {
+  const qs = new URLSearchParams();
+  if (typeof params?.limit === 'number') qs.set('limit', String(params.limit));
+  if (params?.topic) qs.set('topic', params.topic);
+  if (params?.level) qs.set('level', params.level);
+  const suffix = qs.toString() ? `?${qs.toString()}` : '';
+
+  return apiFetch<PublicSelfLearnLeaderboardResponse>(
+    `/api/public/self-learn/leaderboard${suffix}`,
+    { method: 'GET' },
+  );
 }
 
 const toUser = (apiUser: ApiUser): User => ({

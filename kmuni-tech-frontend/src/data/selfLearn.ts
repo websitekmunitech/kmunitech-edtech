@@ -1510,10 +1510,174 @@ export const SELF_LEARN_CONTENT: Record<TopicKey, Record<LevelKey, Chapter[]>> =
         ],
         practice: ['Run a print statement in the terminal.'],
         miniProject: { title: 'Mini Project: Greet', steps: ['Ask for user name using input()', 'Print a personalized greeting'] }
+      },
+      {
+        id: 'py-b-control-flow',
+        title: 'Conditions and Loops',
+        overview: 'Use if statements, for loops, and while loops to make programs react to data and repeat work.',
+        outcomes: ['Write branching logic with if/elif/else', 'Loop through ranges and lists', 'Avoid infinite loops'],
+        sections: [
+          {
+            title: 'Making Decisions',
+            description: 'Conditional statements let your program choose different paths based on values or comparisons.',
+            code: {
+              languageLabel: 'Python',
+              snippet: "score = 78\n\nif score >= 90:\n    print('A')\nelif score >= 75:\n    print('B')\nelse:\n    print('Keep practicing')",
+            },
+          },
+          {
+            title: 'Repeating Work',
+            description: 'Loops are useful for processing many items or repeating a task until a condition changes.',
+            bullets: ['Use for with range() for known counts', 'Use while when repetition depends on a condition', 'Update loop variables so the loop can end'],
+          },
+        ],
+        practice: ['Print numbers 1 to 10 using a for loop.', 'Write a grade checker using if/elif/else.', 'Create a countdown with a while loop.'],
+        miniProject: {
+          title: 'Mini Project: Number Guessing Rules',
+          steps: ['Ask for a number input.', 'Print whether it is positive, negative, or zero.', 'Loop until the user types "quit".'],
+        },
+      },
+      {
+        id: 'py-b-collections',
+        title: 'Lists, Dictionaries, and Strings',
+        overview: 'Store structured data in Python using the core collection types you will use in almost every script.',
+        outcomes: ['Add and read items from a list', 'Store key/value data in a dictionary', 'Use string methods for cleanup'],
+        sections: [
+          {
+            title: 'Working with Lists',
+            description: 'Lists keep ordered items and are great for loops, menus, and collections of values.',
+            code: {
+              languageLabel: 'Python',
+              snippet: "courses = ['HTML', 'CSS', 'Python']\ncourses.append('SQL')\nfor course in courses:\n    print(course)",
+            },
+          },
+          {
+            title: 'Key/Value Data with Dictionaries',
+            description: 'Dictionaries map a key to a value and are useful for records like profiles, settings, or API data.',
+            code: {
+              languageLabel: 'Python',
+              snippet: "student = {'name': 'Asha', 'track': 'AI', 'active': True}\nprint(student['name'])\nstudent['track'] = 'Data Science'",
+            },
+          },
+        ],
+        practice: ['Create a list of 5 skills and print each one.', 'Create a dictionary for a student profile.', 'Use .strip() and .lower() on user input before checking it.'],
+        miniProject: {
+          title: 'Mini Project: Study Tracker',
+          steps: ['Store study topics in a list.', 'Store user details in a dictionary.', 'Print a small summary sentence using both.'],
+        },
       }
     ],
-    Intermediate: [],
-    Advanced: []
+    Intermediate: [
+      {
+        id: 'py-i-functions',
+        title: 'Functions and Reusable Logic',
+        overview: 'Organize repeated logic into functions with parameters and return values so your code stays readable and testable.',
+        outcomes: ['Define and call functions', 'Pass arguments and return values', 'Break large scripts into small units'],
+        sections: [
+          {
+            title: 'Function Basics',
+            description: 'Functions group related steps into a reusable block.',
+            code: {
+              languageLabel: 'Python',
+              snippet: "def format_name(first_name, last_name):\n    return f'{first_name.title()} {last_name.title()}'\n\nprint(format_name('kmuni', 'student'))",
+            },
+          },
+          {
+            title: 'Why Return Values Matter',
+            description: 'Returning a value makes a function more flexible than printing directly inside it.',
+            bullets: ['Return data when later code still needs it', 'Keep functions focused on one job', 'Use descriptive parameter names'],
+          },
+        ],
+        practice: ['Write a function that calculates a discounted price.', 'Refactor a repeated print block into one function.', 'Return a greeting string instead of printing inside the function.'],
+        miniProject: {
+          title: 'Mini Project: Expense Summary Helper',
+          steps: ['Write one function to total expenses.', 'Write another to format a report line.', 'Call both functions from a simple script.'],
+        },
+      },
+      {
+        id: 'py-i-modules',
+        title: 'Modules, Packages, and Virtual Environments',
+        overview: 'Move beyond single-file scripts by splitting code into modules and isolating dependencies with virtual environments.',
+        outcomes: ['Import your own modules', 'Install packages with pip', 'Create a virtual environment for a project'],
+        sections: [
+          {
+            title: 'Importing Code',
+            description: 'Modules help you separate utilities, business logic, and entry-point scripts.',
+            code: {
+              languageLabel: 'Python',
+              snippet: "# utils.py\ndef slugify(text):\n    return text.lower().replace(' ', '-')\n\n# app.py\nfrom utils import slugify\nprint(slugify('Learn Python Fast'))",
+            },
+          },
+          {
+            title: 'Virtual Environments',
+            description: 'A virtual environment keeps project dependencies isolated from the rest of your machine.',
+            code: {
+              languageLabel: 'Bash',
+              snippet: 'python -m venv .venv\n.venv\\Scripts\\activate\npip install requests',
+            },
+          },
+        ],
+        practice: ['Split one script into app.py and utils.py.', 'Create a .venv and install one package.', 'Freeze dependencies with pip freeze > requirements.txt.'],
+        miniProject: {
+          title: 'Mini Project: Quote Fetcher',
+          steps: ['Create a virtual environment.', 'Install requests.', 'Fetch a JSON quote from a public API and print it neatly.'],
+        },
+      },
+    ],
+    Advanced: [
+      {
+        id: 'py-a-files',
+        title: 'Files and Data Processing',
+        overview: 'Read and write files so your Python programs can persist data and process larger datasets.',
+        outcomes: ['Read text files safely', 'Write structured output files', 'Process CSV-like rows with loops'],
+        sections: [
+          {
+            title: 'Using with open()',
+            description: 'Context managers close files automatically and reduce resource leaks.',
+            code: {
+              languageLabel: 'Python',
+              snippet: "with open('notes.txt', 'r', encoding='utf-8') as file:\n    contents = file.read()\n    print(contents)",
+            },
+          },
+          {
+            title: 'Writing Output',
+            description: 'You can generate logs, reports, and exported data files from your programs.',
+            bullets: ['Use write() for text output', 'Handle encoding explicitly', 'Validate file paths before overwriting'],
+          },
+        ],
+        practice: ['Read a text file and count its lines.', 'Write a report file with three summary lines.', 'Parse comma-separated values using split(",").'],
+        miniProject: {
+          title: 'Mini Project: Attendance Report',
+          steps: ['Read a text file of names.', 'Count present students.', 'Write a summary file with totals and notes.'],
+        },
+      },
+      {
+        id: 'py-a-automation',
+        title: 'Automation Scripts',
+        overview: 'Use Python to automate repetitive tasks like renaming files, generating reports, and validating folders.',
+        outcomes: ['Traverse folders with pathlib', 'Build small automation utilities', 'Add validation and friendly error handling'],
+        sections: [
+          {
+            title: 'Pathlib for File Automation',
+            description: 'pathlib gives a modern API for working with files and directories.',
+            code: {
+              languageLabel: 'Python',
+              snippet: "from pathlib import Path\n\nfor file_path in Path('uploads').glob('*.txt'):\n    print(file_path.name)",
+            },
+          },
+          {
+            title: 'Safer Automation',
+            description: 'Automation is powerful, but add checks so scripts do not damage files accidentally.',
+            bullets: ['Preview changes before writing', 'Check whether paths exist', 'Handle exceptions with clear messages'],
+          },
+        ],
+        practice: ['List all .txt files in a folder.', 'Rename files using a consistent pattern.', 'Print an error message if the folder does not exist.'],
+        miniProject: {
+          title: 'Mini Project: File Organizer',
+          steps: ['Scan a folder for files.', 'Group them by extension.', 'Move or report them into organized folders.'],
+        },
+      },
+    ]
   },
   ml: {
     Beginner: [
@@ -1531,10 +1695,156 @@ export const SELF_LEARN_CONTENT: Record<TopicKey, Record<LevelKey, Chapter[]>> =
         ],
         practice: ['Identify 3 apps that use ML.'],
         miniProject: { title: 'Mini Project: Classify Data', steps: ['Conceptual mapping of inputs to outputs'] }
+      },
+      {
+        id: 'ml-b-workflow',
+        title: 'The Machine Learning Workflow',
+        overview: 'Understand the common steps behind most ML projects, from collecting data to evaluating a model.',
+        outcomes: ['Name the main ML project stages', 'Explain why data quality matters', 'Separate training from evaluation'],
+        sections: [
+          {
+            title: 'From Data to Predictions',
+            description: 'Most projects follow a loop: collect data, clean it, train a model, evaluate it, then improve it.',
+            bullets: ['Data collection', 'Cleaning and labeling', 'Training and validation', 'Deployment and monitoring'],
+          },
+          {
+            title: 'Garbage In, Garbage Out',
+            description: 'A model trained on weak or biased data will learn the wrong patterns.',
+            code: {
+              languageLabel: 'Text',
+              snippet: 'Poor data quality -> weak model performance\nBiased labels -> unfair predictions\nMissing values -> unreliable outcomes',
+            },
+          },
+        ],
+        practice: ['Describe the ML workflow for a spam filter.', 'List two data problems that can hurt a model.', 'Explain why test data should stay separate from training data.'],
+        miniProject: {
+          title: 'Mini Project: ML Workflow Map',
+          steps: ['Pick one app that uses ML.', 'Write down its likely input data and target output.', 'Sketch the full workflow from training to prediction.'],
+        },
+      },
+      {
+        id: 'ml-b-metrics',
+        title: 'Model Evaluation Basics',
+        overview: 'Learn how to judge whether a model is useful instead of assuming a prediction system is "smart".',
+        outcomes: ['Understand accuracy, precision, and recall at a high level', 'Recognize overfitting', 'Know why one metric is not always enough'],
+        sections: [
+          {
+            title: 'Accuracy Is Not the Whole Story',
+            description: 'A model can have high accuracy and still be bad when the dataset is imbalanced.',
+            bullets: ['Accuracy = overall correct predictions', 'Precision = how many predicted positives were correct', 'Recall = how many actual positives were found'],
+          },
+          {
+            title: 'Overfitting',
+            description: 'Overfitting happens when a model memorizes the training data instead of learning general patterns.',
+            bullets: ['Training score looks great', 'Real-world performance drops', 'Simpler models can generalize better'],
+          },
+        ],
+        practice: ['Compare accuracy and recall for a fraud detection model.', 'Explain overfitting in one paragraph.', 'Think of a case where recall matters more than accuracy.'],
+        miniProject: {
+          title: 'Mini Project: Metric Match-Up',
+          steps: ['Choose 3 ML use cases.', 'Assign the most important metric for each.', 'Explain the tradeoff in simple language.'],
+        },
       }
     ],
-    Intermediate: [],
-    Advanced: []
+    Intermediate: [
+      {
+        id: 'ml-i-features',
+        title: 'Features, Labels, and Splits',
+        overview: 'Go one level deeper into the structure of ML datasets and how training, validation, and test splits are used.',
+        outcomes: ['Differentiate features from labels', 'Explain train/validation/test splits', 'Spot common leakage mistakes'],
+        sections: [
+          {
+            title: 'Features vs Labels',
+            description: 'Features are the inputs used by the model. Labels are the outputs the model tries to predict.',
+            code: {
+              languageLabel: 'Text',
+              snippet: 'Example: House price prediction\nFeatures: size, bedrooms, location\nLabel: final sale price',
+            },
+          },
+          {
+            title: 'Why We Split Data',
+            description: 'Separate datasets help you estimate whether a model will work on unseen data.',
+            bullets: ['Training: teaches the model', 'Validation: tunes choices', 'Test: final unbiased check'],
+          },
+        ],
+        practice: ['List features and labels for a student performance predictor.', 'Explain data leakage with a simple example.', 'Describe why the test set should stay untouched until the end.'],
+        miniProject: {
+          title: 'Mini Project: Dataset Design Sheet',
+          steps: ['Choose one prediction problem.', 'Write its possible features and labels.', 'Describe how you would split the dataset.'],
+        },
+      },
+      {
+        id: 'ml-i-model-types',
+        title: 'Common Model Types',
+        overview: 'Understand the role of linear models, decision trees, and clustering methods before you start coding them.',
+        outcomes: ['Name common model families', 'Match models to problem types', 'Recognize tradeoffs in interpretability and performance'],
+        sections: [
+          {
+            title: 'Supervised Model Families',
+            description: 'Different algorithms are good at different kinds of patterns and datasets.',
+            bullets: ['Linear regression for numeric prediction', 'Logistic regression for classification', 'Decision trees for readable rule-like decisions'],
+          },
+          {
+            title: 'Unsupervised Models',
+            description: 'Clustering helps find hidden groups when you do not have labels.',
+            bullets: ['K-means groups similar rows', 'Useful for customer segments', 'Needs careful interpretation'],
+          },
+        ],
+        practice: ['Pick the right model type for 3 different problems.', 'Explain why a decision tree can be easier to interpret.', 'Describe one limitation of clustering.'],
+        miniProject: {
+          title: 'Mini Project: Model Selection Brief',
+          steps: ['Choose one ML use case.', 'Compare 2 possible model families.', 'Write which one you would start with and why.'],
+        },
+      },
+    ],
+    Advanced: [
+      {
+        id: 'ml-a-production',
+        title: 'From Notebook to Production',
+        overview: 'A good ML model still needs serving, monitoring, and retraining plans to be useful in production.',
+        outcomes: ['Describe the gap between experiments and production', 'Understand inference APIs', 'Recognize model drift'],
+        sections: [
+          {
+            title: 'Serving Predictions',
+            description: 'Production systems expose a trained model through an API, batch job, or embedded application.',
+            bullets: ['Online inference for real-time predictions', 'Batch inference for scheduled reports', 'Version models so deployments are traceable'],
+          },
+          {
+            title: 'Monitoring Model Drift',
+            description: 'Real-world data changes over time, so model quality can slowly decline even if the code stays the same.',
+            bullets: ['Track input distributions', 'Monitor output confidence and business KPIs', 'Schedule retraining when drift appears'],
+          },
+        ],
+        practice: ['Describe one way to serve an ML model.', 'Explain model drift with a real-world example.', 'List 3 metrics you would monitor after deployment.'],
+        miniProject: {
+          title: 'Mini Project: Production Plan',
+          steps: ['Pick one model idea.', 'Describe how users would send input to it.', 'Define how you would monitor and update it over time.'],
+        },
+      },
+      {
+        id: 'ml-a-responsible',
+        title: 'Responsible and Trustworthy ML',
+        overview: 'Advanced ML work includes fairness, privacy, explainability, and human review where the stakes are high.',
+        outcomes: ['Identify fairness risks', 'Explain why explainability matters', 'Recognize when human oversight is required'],
+        sections: [
+          {
+            title: 'Bias and Fairness',
+            description: 'Biased data or labels can create biased outcomes even when the model is technically accurate.',
+            bullets: ['Audit training data sources', 'Check performance across groups', 'Do not optimize only for one average metric'],
+          },
+          {
+            title: 'Human-in-the-Loop Systems',
+            description: 'For domains like health, education, or finance, models should often support humans rather than replace them.',
+            bullets: ['Use confidence thresholds', 'Route uncertain cases for review', 'Keep clear records of model decisions'],
+          },
+        ],
+        practice: ['List two fairness risks in a hiring model.', 'Explain why black-box predictions may be risky in education.', 'Describe when a human review step is necessary.'],
+        miniProject: {
+          title: 'Mini Project: Ethics Review Checklist',
+          steps: ['Choose one ML use case.', 'List possible harms or bias risks.', 'Write 5 checks a team should complete before launch.'],
+        },
+      },
+    ]
   },
   sql: {
     Beginner: [
@@ -1552,10 +1862,177 @@ export const SELF_LEARN_CONTENT: Record<TopicKey, Record<LevelKey, Chapter[]>> =
         ],
         practice: ['Write a query selecting only the name and email.'],
         miniProject: { title: 'Mini Project: User Roster', steps: ['Query 5 users out of a mock table'] }
+      },
+      {
+        id: 'sql-b-sort-filter',
+        title: 'Sorting and Filtering Results',
+        overview: 'Make queries more useful by narrowing rows with conditions and ordering the result set clearly.',
+        outcomes: ['Use WHERE with multiple conditions', 'Sort with ORDER BY', 'Limit result sizes for dashboards and previews'],
+        sections: [
+          {
+            title: 'Combining Conditions',
+            description: 'WHERE works with AND, OR, and comparison operators to filter rows precisely.',
+            code: {
+              languageLabel: 'SQL',
+              snippet: "SELECT name, email\nFROM users\nWHERE active = true AND city = 'Chennai';",
+            },
+          },
+          {
+            title: 'Ordering Rows',
+            description: 'ORDER BY makes reports and admin views much easier to scan.',
+            code: {
+              languageLabel: 'SQL',
+              snippet: 'SELECT title, created_at\nFROM courses\nORDER BY created_at DESC\nLIMIT 10;',
+            },
+          },
+        ],
+        practice: ['Filter users by city and active status.', 'Return the latest 5 courses.', 'Sort students alphabetically by name.'],
+        miniProject: {
+          title: 'Mini Project: Recent Courses List',
+          steps: ['Query course titles and creation dates.', 'Sort newest first.', 'Limit the results to 5 rows.'],
+        },
+      },
+      {
+        id: 'sql-b-aggregate',
+        title: 'Counts, Totals, and Averages',
+        overview: 'Use aggregate functions to summarize data for dashboards, reports, and analytics views.',
+        outcomes: ['Use COUNT, SUM, and AVG', 'Group rows logically', 'Read summary results confidently'],
+        sections: [
+          {
+            title: 'Aggregate Functions',
+            description: 'Aggregates calculate one value from many rows.',
+            code: {
+              languageLabel: 'SQL',
+              snippet: 'SELECT COUNT(*) AS total_students, AVG(progress) AS avg_progress\nFROM enrollments;',
+            },
+          },
+          {
+            title: 'Grouping by Category',
+            description: 'GROUP BY creates one summary row per category or type.',
+            code: {
+              languageLabel: 'SQL',
+              snippet: 'SELECT status, COUNT(*) AS total\nFROM unilink_events\nGROUP BY status;',
+            },
+          },
+        ],
+        practice: ['Count the total number of users.', 'Find the average course rating.', 'Group enrollments by courseId and count them.'],
+        miniProject: {
+          title: 'Mini Project: Dashboard Metrics',
+          steps: ['Write one query for total users.', 'Write one query for average course rating.', 'Write one grouped query for enrollments by course.'],
+        },
       }
     ],
-    Intermediate: [],
-    Advanced: []
+    Intermediate: [
+      {
+        id: 'sql-i-joins',
+        title: 'Joining Related Tables',
+        overview: 'Use joins to combine rows across tables so you can answer real application questions with one query.',
+        outcomes: ['Write INNER JOIN queries', 'Use aliases to keep SQL readable', 'Understand one-to-many relationships in query form'],
+        sections: [
+          {
+            title: 'INNER JOIN Basics',
+            description: 'Joins connect rows using shared keys such as course IDs or user IDs.',
+            code: {
+              languageLabel: 'SQL',
+              snippet: 'SELECT c.title, u.name\nFROM courses c\nJOIN users u ON u.id = c.instructor_id;',
+            },
+          },
+          {
+            title: 'Readable Queries with Aliases',
+            description: 'Aliases shorten table names and make longer queries easier to scan.',
+            bullets: ['Use short aliases like c, u, e', 'Qualify columns when names overlap', 'Keep join conditions close to each JOIN'],
+          },
+        ],
+        practice: ['Join courses with instructors.', 'Join enrollments with users.', 'Rewrite a long query using aliases.'],
+        miniProject: {
+          title: 'Mini Project: Enrollment Report',
+          steps: ['Join enrollments, users, and courses.', 'Return student name, course title, and progress.', 'Sort by highest progress first.'],
+        },
+      },
+      {
+        id: 'sql-i-subqueries',
+        title: 'Subqueries and HAVING',
+        overview: 'Move beyond simple reports with nested queries and group filters.',
+        outcomes: ['Use a subquery in WHERE', 'Filter grouped results with HAVING', 'Break complex logic into smaller query pieces'],
+        sections: [
+          {
+            title: 'Filtering with Subqueries',
+            description: 'Subqueries help when a condition depends on another query result.',
+            code: {
+              languageLabel: 'SQL',
+              snippet: 'SELECT title\nFROM courses\nWHERE instructor_id IN (\n  SELECT id FROM users WHERE role = \'instructor\'\n);',
+            },
+          },
+          {
+            title: 'HAVING for Grouped Filters',
+            description: 'Use HAVING after GROUP BY when filtering aggregated values.',
+            code: {
+              languageLabel: 'SQL',
+              snippet: 'SELECT course_id, COUNT(*) AS total\nFROM enrollments\nGROUP BY course_id\nHAVING COUNT(*) > 10;',
+            },
+          },
+        ],
+        practice: ['Find courses taught by approved instructors using a subquery.', 'List groups with more than 10 rows using HAVING.', 'Compare WHERE vs HAVING in one sentence.'],
+        miniProject: {
+          title: 'Mini Project: Popular Courses Query Pack',
+          steps: ['Find courses with high enrollment counts.', 'Use HAVING to filter grouped totals.', 'Add a subquery to include only published courses.'],
+        },
+      },
+    ],
+    Advanced: [
+      {
+        id: 'sql-a-indexing',
+        title: 'Indexes and Query Performance',
+        overview: 'Learn how indexes help databases find rows faster and when they can also introduce tradeoffs.',
+        outcomes: ['Explain what an index does', 'Spot columns that benefit from indexing', 'Recognize write-performance tradeoffs'],
+        sections: [
+          {
+            title: 'How Indexes Help',
+            description: 'Indexes speed up lookups on frequently filtered or joined columns.',
+            bullets: ['Useful for WHERE, JOIN, and ORDER BY columns', 'Too many indexes can slow inserts and updates', 'Measure before and after adding them'],
+          },
+          {
+            title: 'A Simple Example',
+            description: 'An index on instructor_id can help course lookup queries.',
+            code: {
+              languageLabel: 'SQL',
+              snippet: 'CREATE INDEX idx_courses_instructor_id ON courses (instructor_id);',
+            },
+          },
+        ],
+        practice: ['List 3 columns in your schema that may need indexes.', 'Explain why indexes are not free.', 'Identify one slow query that could benefit from an index.'],
+        miniProject: {
+          title: 'Mini Project: Query Tuning Notes',
+          steps: ['Pick one reporting query.', 'Identify filter and join columns.', 'Suggest indexes and explain the expected benefit.'],
+        },
+      },
+      {
+        id: 'sql-a-transactions',
+        title: 'Transactions and Data Safety',
+        overview: 'Transactions let multiple SQL statements succeed or fail together so your data stays consistent.',
+        outcomes: ['Explain BEGIN, COMMIT, and ROLLBACK', 'Identify operations that need transactions', 'Understand why consistency matters in production systems'],
+        sections: [
+          {
+            title: 'All or Nothing',
+            description: 'Transactions protect related changes such as payments, enrollment creation, or inventory updates.',
+            code: {
+              languageLabel: 'SQL',
+              snippet: 'BEGIN;\nUPDATE courses SET students_count = students_count + 1 WHERE id = 42;\nINSERT INTO enrollments (course_id, user_id) VALUES (42, 7);\nCOMMIT;',
+            },
+          },
+          {
+            title: 'Rollback on Failure',
+            description: 'If one part fails, rolling back prevents half-finished data from being saved.',
+            bullets: ['Use transactions for related writes', 'Keep transactions short', 'Handle errors explicitly in application code'],
+          },
+        ],
+        practice: ['Name one feature in your app that should use a transaction.', 'Explain what ROLLBACK does.', 'Describe the risk of partial writes without transactions.'],
+        miniProject: {
+          title: 'Mini Project: Safe Enrollment Flow',
+          steps: ['Design an enrollment operation with 2 related writes.', 'Wrap them in a transaction.', 'Describe what should happen if the second step fails.'],
+        },
+      },
+    ]
   },
   node: {
     Beginner: [
@@ -2403,9 +2880,167 @@ export const SELF_LEARN_CONTENT: Record<TopicKey, Record<LevelKey, Chapter[]>> =
         ],
         practice: ['Initialize an empty repo and make one commit.'],
         miniProject: { title: 'Mini Project: First Commit', steps: ['Create a text file, add it, and commit it'] }
+      },
+      {
+        id: 'git-b-branching',
+        title: 'Branches for Safe Changes',
+        overview: 'Use branches to isolate work so features and fixes can be developed without breaking the main line.',
+        outcomes: ['Create and switch branches', 'Understand why branches reduce risk', 'Merge simple branch changes back into main'],
+        sections: [
+          {
+            title: 'Creating a Branch',
+            description: 'A branch is a lightweight pointer to a line of commits.',
+            code: {
+              languageLabel: 'Bash',
+              snippet: 'git switch -c feature/navbar-redesign\n# make changes\ngit add .\ngit commit -m "Update navbar layout"',
+            },
+          },
+          {
+            title: 'Why Branches Matter',
+            description: 'Branches let you experiment, review, and merge work independently.',
+            bullets: ['Keep main stable', 'Use one branch per feature or fix', 'Delete merged branches when done'],
+          },
+        ],
+        practice: ['Create a branch for a new feature.', 'Commit one change on the branch.', 'Merge it back into main.'],
+        miniProject: {
+          title: 'Mini Project: Feature Branch Flow',
+          steps: ['Create a branch.', 'Make one small code or text change.', 'Merge the branch after reviewing the diff.'],
+        },
+      },
+      {
+        id: 'git-b-remote',
+        title: 'Working with GitHub Remotes',
+        overview: 'Connect your local repository to GitHub so you can push code, pull updates, and collaborate with others.',
+        outcomes: ['Add a remote origin', 'Push local commits to GitHub', 'Pull remote changes safely'],
+        sections: [
+          {
+            title: 'Connecting to Origin',
+            description: 'A remote stores your repository on a server such as GitHub.',
+            code: {
+              languageLabel: 'Bash',
+              snippet: 'git remote add origin https://github.com/your-name/your-repo.git\ngit push -u origin main',
+            },
+          },
+          {
+            title: 'Push and Pull',
+            description: 'Push sends your commits up. Pull downloads new commits and integrates them locally.',
+            bullets: ['Push after meaningful commits', 'Pull before starting work on a shared branch', 'Check git status before and after syncing'],
+          },
+        ],
+        practice: ['Add a GitHub remote to a local repo.', 'Push a branch to GitHub.', 'Pull the latest changes from main.'],
+        miniProject: {
+          title: 'Mini Project: Publish a Repo',
+          steps: ['Create an empty GitHub repository.', 'Connect your local project to origin.', 'Push your commits and verify they appear online.'],
+        },
       }
     ],
-    Intermediate: [],
-    Advanced: []
+    Intermediate: [
+      {
+        id: 'git-i-merge-conflicts',
+        title: 'Handling Merge Conflicts',
+        overview: 'Conflicts happen when Git cannot combine edits automatically. Learn the mechanics and the calm way to resolve them.',
+        outcomes: ['Recognize conflict markers', 'Resolve file conflicts safely', 'Complete a merge after resolving issues'],
+        sections: [
+          {
+            title: 'Conflict Markers',
+            description: 'Git inserts markers into files to show competing changes.',
+            code: {
+              languageLabel: 'Text',
+              snippet: '<<<<<<< HEAD\nCurrent branch change\n=======\nIncoming branch change\n>>>>>>> feature-branch',
+            },
+          },
+          {
+            title: 'Resolution Workflow',
+            description: 'Choose the correct final content, remove markers, test the result, then commit the merge.',
+            bullets: ['Read both sides before editing', 'Keep only the intended final code', 'Run tests or build after resolving'],
+          },
+        ],
+        practice: ['Create a sample conflict in two branches.', 'Resolve the conflict manually.', 'Finish the merge with a commit.'],
+        miniProject: {
+          title: 'Mini Project: Conflict Drill',
+          steps: ['Edit the same line on two branches.', 'Merge them to trigger a conflict.', 'Resolve it and verify the final file is correct.'],
+        },
+      },
+      {
+        id: 'git-i-history',
+        title: 'Reading and Cleaning History',
+        overview: 'A clean commit history makes reviews easier and helps future debugging.',
+        outcomes: ['Inspect history with git log', 'Amend or squash local work when appropriate', 'Write clearer commit messages'],
+        sections: [
+          {
+            title: 'Useful History Commands',
+            description: 'Git provides several ways to understand what changed and why.',
+            code: {
+              languageLabel: 'Bash',
+              snippet: 'git log --oneline --graph\ngit show HEAD\ngit diff main...feature-branch',
+            },
+          },
+          {
+            title: 'Commit Message Discipline',
+            description: 'Commit messages should describe the change intent, not just repeat a filename.',
+            bullets: ['Keep the summary line specific', 'One commit should represent one logical change', 'Clean up noisy local commits before opening a PR'],
+          },
+        ],
+        practice: ['Use git log --oneline to inspect recent commits.', 'Rewrite a vague commit message into a better one.', 'Compare your branch against main with git diff.'],
+        miniProject: {
+          title: 'Mini Project: PR-Ready History',
+          steps: ['Make 3 local commits on a feature branch.', 'Review the history.', 'Rewrite or squash them into a cleaner story before review.'],
+        },
+      },
+    ],
+    Advanced: [
+      {
+        id: 'git-a-release',
+        title: 'Release Tags and Versioning',
+        overview: 'Use Git tags to mark stable versions and connect commits to releases that teams can deploy or roll back to.',
+        outcomes: ['Create annotated tags', 'Understand semantic versioning basics', 'Use tags to mark release points'],
+        sections: [
+          {
+            title: 'Annotated Tags',
+            description: 'Annotated tags store release metadata and are preferred for versions.',
+            code: {
+              languageLabel: 'Bash',
+              snippet: 'git tag -a v1.0.0 -m "Initial production release"\ngit push origin v1.0.0',
+            },
+          },
+          {
+            title: 'Versioning Strategy',
+            description: 'Semantic versioning gives teams a shared language for breaking changes, features, and fixes.',
+            bullets: ['Major for breaking changes', 'Minor for new backward-compatible features', 'Patch for fixes'],
+          },
+        ],
+        practice: ['Create a tag for a stable commit.', 'Explain the difference between v1.2.0 and v2.0.0.', 'Push a tag to GitHub.'],
+        miniProject: {
+          title: 'Mini Project: Release Cut',
+          steps: ['Choose a stable commit.', 'Create an annotated version tag.', 'Write short release notes describing the change.'],
+        },
+      },
+      {
+        id: 'git-a-recovery',
+        title: 'Recovering from Mistakes',
+        overview: 'Advanced Git usage includes knowing how to inspect reflog, restore files, and recover safely from common mistakes.',
+        outcomes: ['Use reflog to find lost commits', 'Restore files without damaging other work', 'Choose safer recovery commands'],
+        sections: [
+          {
+            title: 'Reflog as a Safety Net',
+            description: 'reflog tracks where HEAD has been, which can help recover work that no longer appears in normal history.',
+            code: {
+              languageLabel: 'Bash',
+              snippet: 'git reflog\ngit switch -c recovery-branch HEAD@{1}',
+            },
+          },
+          {
+            title: 'Restore Instead of Panic',
+            description: 'Git provides safer targeted commands for restoring files and unstaging changes.',
+            bullets: ['git restore file.txt for working tree changes', 'git restore --staged file.txt to unstage', 'Inspect first, then recover deliberately'],
+          },
+        ],
+        practice: ['Run git reflog and inspect recent HEAD positions.', 'Unstage a file with git restore --staged.', 'Describe how you would recover from deleting a useful local branch.'],
+        miniProject: {
+          title: 'Mini Project: Recovery Playbook',
+          steps: ['Write down 3 common Git mistakes.', 'Map each mistake to a safe recovery command.', 'Test one recovery flow in a throwaway repository.'],
+        },
+      },
+    ]
   }
 };

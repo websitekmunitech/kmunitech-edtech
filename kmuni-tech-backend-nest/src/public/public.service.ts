@@ -3,8 +3,25 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from '../entities/course.entity';
 import { Enrollment } from '../entities/enrollment.entity';
+import { SelfLearnActivityAttempt } from '../entities/self-learn-activity-attempt.entity';
 import { User, UserRole } from '../entities/user.entity';
 import { CourseListDTO } from '../courses/courses.service';
+
+export type PublicSelfLearnLeaderboardEntry = {
+  rank: number;
+  user: {
+    id: string;
+    name: string;
+    role: 'student' | 'instructor';
+    bio: string | null;
+  };
+  totalPoints: number;
+  totalPossiblePoints: number;
+  accuracyPercent: number;
+  chaptersPlayed: number;
+  attemptsCount: number;
+  lastActivityAt: string;
+};
 
 @Injectable()
 export class PublicService {
@@ -15,6 +32,8 @@ export class PublicService {
     private readonly coursesRepo: Repository<Course>,
     @InjectRepository(User)
     private readonly usersRepo: Repository<User>,
+    @InjectRepository(SelfLearnActivityAttempt)
+    private readonly selfLearnAttemptsRepo: Repository<SelfLearnActivityAttempt>,
   ) {}
 
   async getHomeStats() {
@@ -110,5 +129,105 @@ export class PublicService {
       createdAt: u.createdAt ? u.createdAt.toISOString() : '',
       bio: u.bio ?? null,
     }));
+  }
+
+  async getSelfLearnLeaderboard(input?: { limit?: number; topic?: string; level?: string }) {
+    const limit = Number.isFinite(input?.limit as number) ? Math.max(1, Math.min(100, input!.limit!)) : 25;
+    const topic = (input?.topic || '').trim();
+    const level = (input?.level || '').trim();
+
+    const attempts = await this.selfLearnAttemptsRepo.find({
+      relations: { user: true },
+      order: { createdAt: 'DESC' },
+    });
+
+    const leaderboard = new Map<string, {
+      user: PublicSelfLearnLeaderboardEntry['user'];
+      bestByChapter: Map<string, { score: number; totalQuestions: number }>;
+      attemptsCount: number;
+      lastActivityAt: string;
+    }>();
+
+    for (const attempt of attempts) {
+      const user = attempt.user;
+      if (!user) continue;
+      if (user.role !== UserRole.STUDENT && user.role !== UserRole.INSTRUCTOR) continue;
+      if (topic && attempt.topic !== topic) continue;
+      if (level && attempt.level !== level) continue;
+
+      const role = user.role === UserRole.INSTRUCTOR ? 'instructor' : 'student';
+      const chapterKey = `${attempt.topic}::${attempt.level}::${attempt.chapterId}`;
+      const createdAt = attempt.createdAt ? attempt.createdAt.toISOString() : new Date().toISOString();
+
+      const existing = leaderboard.get(user.id) ?? {
+        user: {
+          id: user.id,
+          name: user.name,
+          role,
+          bio: user.bio ?? null,
+        },
+        bestByChapter: new Map<string, { score: number; totalQuestions: number }>(),
+        attemptsCount: 0,
+        lastActivityAt: createdAt,
+      };
+
+      existing.attemptsCount += 1;
+      if (createdAt > existing.lastActivityAt) {
+        existing.lastActivityAt = createdAt;
+      }
+
+      const previousBest = existing.bestByChapter.get(chapterKey);
+      if (!previousBest || attempt.score > previousBest.score) {
+        existing.bestByChapter.set(chapterKey, {
+          score: attempt.score,
+          totalQuestions: attempt.totalQuestions,
+        });
+      }
+
+      leaderboard.set(user.id, existing);
+    }
+
+    const rows = Array.from(leaderboard.values())
+      .map((entry) => {
+        const bestAttempts = Array.from(entry.bestByChapter.values());
+        const totalPoints = bestAttempts.reduce((sum, item) => sum + item.score, 0);
+        const totalPossiblePoints = bestAttempts.reduce((sum, item) => sum + item.totalQuestions, 0);
+        const chaptersPlayed = bestAttempts.length;
+        const accuracyPercent = totalPossiblePoints > 0
+          ? Math.round((totalPoints / totalPossiblePoints) * 100)
+          : 0;
+
+        return {
+          user: entry.user,
+          totalPoints,
+          totalPossiblePoints,
+          accuracyPercent,
+          chaptersPlayed,
+          attemptsCount: entry.attemptsCount,
+          lastActivityAt: entry.lastActivityAt,
+        };
+      })
+      .filter((entry) => entry.totalPossiblePoints > 0)
+      .sort((a, b) => {
+        if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
+        if (b.accuracyPercent !== a.accuracyPercent) return b.accuracyPercent - a.accuracyPercent;
+        if (b.chaptersPlayed !== a.chaptersPlayed) return b.chaptersPlayed - a.chaptersPlayed;
+        if (b.attemptsCount !== a.attemptsCount) return a.attemptsCount - b.attemptsCount;
+        return a.user.name.localeCompare(b.user.name);
+      })
+      .slice(0, limit)
+      .map((entry, index) => ({
+        rank: index + 1,
+        ...entry,
+      }));
+
+    return {
+      items: rows satisfies PublicSelfLearnLeaderboardEntry[],
+      filters: {
+        topic: topic || null,
+        level: level || null,
+      },
+      updatedAt: new Date().toISOString(),
+    };
   }
 }

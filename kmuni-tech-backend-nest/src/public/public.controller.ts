@@ -34,4 +34,17 @@ export class PublicController {
       offset: offset ? Number(offset) : undefined,
     });
   }
+
+  @Get('self-learn/leaderboard')
+  selfLearnLeaderboard(
+    @Query('limit') limit?: string,
+    @Query('topic') topic?: string,
+    @Query('level') level?: string,
+  ) {
+    return this.pub.getSelfLearnLeaderboard({
+      limit: limit ? Number(limit) : undefined,
+      topic,
+      level,
+    });
+  }
 }

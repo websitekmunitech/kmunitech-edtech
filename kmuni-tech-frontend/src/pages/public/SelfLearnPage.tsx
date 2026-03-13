@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { BookOpen, CheckCircle2, Code2, ChevronLeft, ChevronRight } from 'lucide-react';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
@@ -226,10 +227,22 @@ export default function SelfLearnPage() {
               <span className="text-blue-300 text-xs font-bold uppercase tracking-widest">Self Learn Courses</span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">Learn by Yourself, Step by Step</h1>
-            <p className="text-slate-400 text-lg max-w-3xl">
-              Choose a domain and start with the level that fits you — Beginner, Intermediate, or Advanced.
-            </p>
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
+              <div>
+                <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">Learn by Yourself, Step by Step</h1>
+                <p className="text-slate-400 text-lg max-w-3xl">
+                  Choose a domain and start with the level that fits you — Beginner, Intermediate, or Advanced.
+                </p>
+              </div>
+
+              <Link
+                to="/self-learn/leaderboard"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-amber-400/20 bg-amber-500/10 px-5 py-3 text-sm font-bold text-amber-100 transition-all hover:border-amber-300/40 hover:bg-amber-500/15"
+              >
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-400/15 text-amber-300">#</span>
+                View Leaderboard
+              </Link>
+            </div>
           </header>
 
           <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">

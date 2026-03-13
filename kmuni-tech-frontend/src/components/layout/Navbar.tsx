@@ -111,6 +111,14 @@ export default function Navbar() {
                 Self Learn
               </span>
             </Link>
+            <Link to="/self-learn/leaderboard" className={linkCls('/self-learn/leaderboard')}>
+              <span className="flex items-center gap-1.5">
+                <svg className="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l3-3 3 3v13M5 21h14" />
+                </svg>
+                Leaderboard
+              </span>
+            </Link>
             <Link to="/unilink" className={linkCls('/unilink')}>
               <span className="flex items-center gap-1.5">
                 <Link2 size={13} className="text-sky-400" />
@@ -218,6 +226,14 @@ export default function Navbar() {
           </Link>
           <Link to="/self-learn" className={mobileLinkCls('/self-learn')}>
             <span className="flex items-center gap-2.5"><Sparkles size={15} className="text-green-400" /> Self Learn</span>
+          </Link>
+          <Link to="/self-learn/leaderboard" className={mobileLinkCls('/self-learn/leaderboard')}>
+            <span className="flex items-center gap-2.5">
+              <svg className="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l3-3 3 3v13M5 21h14" />
+              </svg>
+              Leaderboard
+            </span>
           </Link>
           <Link to="/unilink" className={mobileLinkCls('/unilink')}>
             <span className="flex items-center gap-2.5"><Link2 size={15} className="text-sky-400" /> UniLink</span>

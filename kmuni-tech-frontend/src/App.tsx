@@ -18,6 +18,7 @@ const CoursesPage = React.lazy(() => import('./pages/public/CoursesPage'));
 const CourseDetailPage = React.lazy(() => import('./pages/public/CourseDetailPage'));
 const UnilinkPage = React.lazy(() => import('./pages/public/UnilinkPage'));
 const SelfLearnPage = React.lazy(() => import('./pages/public/SelfLearnPage'));
+const SelfLearnLeaderboardPage = React.lazy(() => import('./pages/public/SelfLearnLeaderboardPage'));
 const SocialConnectPage = React.lazy(() => import('./pages/public/SocialConnectPage'));
 // Auth Pages
 const LoginPage = React.lazy(() => import('./pages/public/LoginPage'));
@@ -66,6 +67,7 @@ function App() {
             <Route path="/courses/:id" element={<CourseDetailPage />} />
             <Route path="/unilink" element={<UnilinkPage />} />
             <Route path="/self-learn" element={<SelfLearnPage />} />
+            <Route path="/self-learn/leaderboard" element={<SelfLearnLeaderboardPage />} />
             <Route path="/unispace" element={<SocialConnectPage />} />
             <Route path="/social-connect" element={<Navigate to="/unispace" replace />} />
             
