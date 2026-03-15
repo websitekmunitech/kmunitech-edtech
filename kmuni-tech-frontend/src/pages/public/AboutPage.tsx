@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import { Link } from 'react-router-dom';
+import { collaborations } from '../../data/collaborations';
+import { fetchHomeStats, HomeStats } from '../../utils/api';
 import {
     Award,
     Target,
@@ -73,7 +75,7 @@ const products = [
     },
 ];
 
-const stats = [
+const fallbackStats = [
     { value: '10K+', label: 'Active Learners' },
     { value: '200+', label: 'Courses Available' },
     { value: '50+', label: 'Partner Companies' },
@@ -166,12 +168,58 @@ function UniverseLogo({ size = 96 }: { size?: number }) {
 }
 
 export default function AboutPage() {
+    const [homeStats, setHomeStats] = useState<HomeStats | null>(null);
+    const [isLoadingHomeStats, setIsLoadingHomeStats] = useState(true);
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         subject: '',
         message: ''
     });
+
+    useEffect(() => {
+        let mounted = true;
+
+        const load = async () => {
+            try {
+                const data = await fetchHomeStats();
+                if (!mounted) return;
+                setHomeStats(data);
+            } catch {
+                if (!mounted) return;
+                setHomeStats(null);
+            } finally {
+                if (!mounted) return;
+                setIsLoadingHomeStats(false);
+            }
+        };
+
+        load();
+        const intervalId = window.setInterval(load, 60_000);
+
+        return () => {
+            mounted = false;
+            window.clearInterval(intervalId);
+        };
+    }, []);
+
+    const formatCompactCount = (value: number) =>
+        new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(value);
+
+    const statsToRender = isLoadingHomeStats
+        ? fallbackStats
+        : homeStats
+            ? [
+                { value: `${formatCompactCount(homeStats.studentsEnrolled)}+`, label: 'Active Learners' },
+                { value: `${formatCompactCount(homeStats.expertCourses)}+`, label: 'Courses Available' },
+                { value: `${Math.max(collaborations.length, 50)}+`, label: 'Partner Companies' },
+                {
+                    value: homeStats.satisfactionRate == null ? '—' : `${homeStats.satisfactionRate}%`,
+                    label: 'Satisfaction Rate',
+                },
+            ]
+            : fallbackStats;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -210,7 +258,7 @@ export default function AboutPage() {
                 <section className="py-12 border-y border-white/5">
                     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                            {stats.map((s, i) => (
+                            {statsToRender.map((s, i) => (
                                 <div key={s.label} className="text-center">
                                     <div
                                         className={
