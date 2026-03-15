@@ -186,44 +186,7 @@ export default function AboutPage() {
             <Navbar />
 
             <main className="pt-24 pb-20">
-                {/* ─── Hero Section ────────────────────────────────────────── */}
-                <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 relative">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-blue-600/5 blur-[120px] rounded-full pointer-events-none" />
-
-                    <div className="text-center relative z-10">
-                        <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-8">
-                            <span className="text-blue-300 text-xs font-bold uppercase tracking-widest">Our Story & Mission</span>
-                        </div>
-                        <h1 className="text-4xl md:text-6xl font-bold text-white mb-8">
-                            Empowering the Next Generation of <span className="gradient-text">Tech Leaders</span>
-                        </h1>
-                        <p className="text-slate-400 text-xl max-w-3xl mx-auto leading-relaxed">
-                            UniVerse is a hybrid product- and service-based technology startup focused on IT education,
-                            software upskilling, and digital solutions. We bridge the gap between academic education
-                            and industry requirements.
-                        </p>
-                    </div>
-                </section>
-
-              
-
-                {/* ─── Call to Action ────────────────────────────────────────── */}
-                <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center bg-[#0f1120] py-16 rounded-[2.5rem] border border-white/5">
-                    <h2 className="text-3xl font-bold text-white mb-6">Join Our Growing Community</h2>
-                    <p className="text-slate-400 mb-10 max-w-xl mx-auto">
-                        Whether you're a student looking to upskill, a college seeking workshops, or a startup needing
-                        solutions — UniVerse is your destination.
-                    </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <Link to="/courses" className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2">
-                            Explore Courses <ArrowRight size={18} />
-                        </Link>
-                        <a href="mailto:kmunitech@gmail.com" className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-10 py-4 rounded-xl font-bold transition-all flex items-center justify-center">
-                            Contact Us
-                        </a>
-                    </div>
-                </section>
-
+                
                 {/* ─── Universe Platform Content (Moved Here) ───────────────── */}
                 <section className="py-24">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -347,6 +310,43 @@ export default function AboutPage() {
                                 );
                             })}
                         </div>
+                    </div>
+                </section>
+{/* ─── Hero Section ────────────────────────────────────────── */}
+                <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 relative">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-blue-600/5 blur-[120px] rounded-full pointer-events-none" />
+
+                    <div className="text-center relative z-10">
+                        <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-8">
+                            <span className="text-blue-300 text-xs font-bold uppercase tracking-widest">Our Story & Mission</span>
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-bold text-white mb-8">
+                            Empowering the Next Generation of <span className="gradient-text">Tech Leaders</span>
+                        </h1>
+                        <p className="text-slate-400 text-xl max-w-3xl mx-auto leading-relaxed">
+                            UniVerse is a hybrid product- and service-based technology startup focused on IT education,
+                            software upskilling, and digital solutions. We bridge the gap between academic education
+                            and industry requirements.
+                        </p>
+                    </div>
+                </section>
+
+              
+
+                {/* ─── Call to Action ────────────────────────────────────────── */}
+                <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center bg-[#0f1120] py-16 rounded-[2.5rem] border border-white/5">
+                    <h2 className="text-3xl font-bold text-white mb-6">Join Our Growing Community</h2>
+                    <p className="text-slate-400 mb-10 max-w-xl mx-auto">
+                        Whether you're a student looking to upskill, a college seeking workshops, or a startup needing
+                        solutions — UniVerse is your destination.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+                        <Link to="/courses" className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2">
+                            Explore Courses <ArrowRight size={18} />
+                        </Link>
+                        <a href="mailto:kmunitech@gmail.com" className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-10 py-4 rounded-xl font-bold transition-all flex items-center justify-center">
+                            Contact Us
+                        </a>
                     </div>
                 </section>
 
