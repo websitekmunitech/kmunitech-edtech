@@ -205,45 +205,7 @@ export default function AboutPage() {
                     </div>
                 </section>
 
-                {/* ─── Vision & Values ─────────────────────────────────────── */}
-                <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="bg-[#12141f] border border-white/5 p-8 rounded-[2rem] hover:border-blue-500/30 transition-all">
-                            <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6">
-                                <Target className="text-blue-400" size={24} />
-                            </div>
-                            <h3 className="text-xl font-bold text-white mb-4">Our Vision</h3>
-                            <p className="text-slate-400 text-sm leading-relaxed">
-                                To build a unified platform for learning, innovation, and impact across diverse technology domains.
-                                "All Domains, One Destination – UniVerse."
-                            </p>
-                        </div>
-
-                        <div className="bg-[#12141f] border border-white/5 p-8 rounded-[2rem] hover:border-green-500/30 transition-all">
-                            <div className="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mb-6">
-                                <BookOpen className="text-green-400" size={24} />
-                            </div>
-                            <h3 className="text-xl font-bold text-white mb-4">Practical Learning</h3>
-                            <p className="text-slate-400 text-sm leading-relaxed">
-                                We deliver hands-on, practical training in UI/UX, Blockchain, SQL, and emerging technologies
-                                through live webinars and structured internships.
-                            </p>
-                        </div>
-
-                        <div className="bg-[#12141f] border border-white/5 p-8 rounded-[2rem] hover:border-emerald-500/30 transition-all">
-                            <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-6">
-                                <Heart className="text-emerald-400" size={24} />
-                            </div>
-                            <h3 className="text-xl font-bold text-white mb-4">Social Impact</h3>
-                            <p className="text-slate-400 text-sm leading-relaxed">
-                                Growth shouldn't just be about metrics. We donate a significant portion of our funds
-                                to NGOs and food distribution for underprivileged communities.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-               
+              
 
                 {/* ─── Call to Action ────────────────────────────────────────── */}
                 <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center bg-[#0f1120] py-16 rounded-[2.5rem] border border-white/5">
@@ -483,6 +445,45 @@ export default function AboutPage() {
                         </div>
                     </div>
                 </section>
+                  {/* ─── Vision & Values ─────────────────────────────────────── */}
+                <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="bg-[#12141f] border border-white/5 p-8 rounded-[2rem] hover:border-blue-500/30 transition-all">
+                            <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6">
+                                <Target className="text-blue-400" size={24} />
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-4">Our Vision</h3>
+                            <p className="text-slate-400 text-sm leading-relaxed">
+                                To build a unified platform for learning, innovation, and impact across diverse technology domains.
+                                "All Domains, One Destination – UniVerse."
+                            </p>
+                        </div>
+
+                        <div className="bg-[#12141f] border border-white/5 p-8 rounded-[2rem] hover:border-green-500/30 transition-all">
+                            <div className="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mb-6">
+                                <BookOpen className="text-green-400" size={24} />
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-4">Practical Learning</h3>
+                            <p className="text-slate-400 text-sm leading-relaxed">
+                                We deliver hands-on, practical training in UI/UX, Blockchain, SQL, and emerging technologies
+                                through live webinars and structured internships.
+                            </p>
+                        </div>
+
+                        <div className="bg-[#12141f] border border-white/5 p-8 rounded-[2rem] hover:border-emerald-500/30 transition-all">
+                            <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-6">
+                                <Heart className="text-emerald-400" size={24} />
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-4">Social Impact</h3>
+                            <p className="text-slate-400 text-sm leading-relaxed">
+                                Growth shouldn't just be about metrics. We donate a significant portion of our funds
+                                to NGOs and food distribution for underprivileged communities.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+               
                 {/* ─── Contact Section ────────────────────────────────────── */}
                 <section className="py-20">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
