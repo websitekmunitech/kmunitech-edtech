@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import { Link } from 'react-router-dom';
@@ -17,6 +17,11 @@ import {
     Globe,
     CheckCircle,
     GraduationCap,
+    Mail,
+    Phone,
+    MapPin,
+    Send,
+    MessageSquare,
 } from 'lucide-react';
 
 const baseUrl = import.meta.env.BASE_URL;
@@ -161,6 +166,21 @@ function UniverseLogo({ size = 96 }: { size?: number }) {
 }
 
 export default function AboutPage() {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+    });
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Handle form submission
+        console.log('Form submitted:', formData);
+        alert('Thank you for your message! We will get back to you soon.');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+    };
+
     return (
         <div className="min-h-screen bg-[#0d0f1a]">
             <Navbar />
@@ -223,71 +243,7 @@ export default function AboutPage() {
                     </div>
                 </section>
 
-                {/* ─── CEO & Founder Section ───────────────────────────────── */}
-                <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
-                    <div className="bg-gradient-to-br from-[#1a1c2e] to-[#0d0f1a] border border-white/5 rounded-[3rem] overflow-hidden">
-                        <div className="grid lg:grid-cols-2 gap-12 items-center">
-                            {/* Image Column */}
-                            <div className="relative aspect-square lg:aspect-auto lg:h-[600px] overflow-hidden">
-                                <img
-                                    src={`${baseUrl}assetskmuni/pradosh-km.png`}
-                                    alt="K.M.Pradosh"
-                                    className="w-full h-full object-cover object-top filter brightness-90 hover:brightness-100 transition-all duration-700"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0f1a] via-transparent to-transparent opacity-60" />
-                                <div className="absolute bottom-10 left-10">
-                                    <p className="text-white font-bold text-3xl">Pradosh K.M</p>
-                                    <p className="text-blue-400 font-medium tracking-widest uppercase text-sm">Founder & CEO</p>
-                                </div>
-                            </div>
-
-                            {/* Content Column */}
-                            <div className="p-10 lg:p-20">
-                                <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
-                                    Leading with <span className="gradient-text">Vision and Purpose</span>
-                                </h2>
-                                <div className="space-y-6 text-slate-300 text-lg leading-relaxed">
-                                    <p>
-                                        K.M.Pradosh, the Founder and CEO of UniVerse, established the organization with a
-                                        singular goal: to create a world where education is synonymous with impact.
-                                    </p>
-                                    <p>
-                                        With deep expertise in software engineering and digital transformation, K.M.Pradosh envisioned
-                                        UniVerse as more than just an ed-tech platform. He built it as a hybrid ecosystem
-                                        where practical skills meet social responsibility.
-                                    </p>
-                                    <p>
-                                        Under his leadership, UniVerse has grown from a visionary startup to an MSME-approved
-                                        entity serving individuals, institutions, and startups across India. His philosophy
-                                        of "Empowering through Upskilling" continues to drive our innovation in every domain.
-                                    </p>
-                                </div>
-
-                                <div className="mt-8">
-                                    <a
-                                        href="https://www.linkedin.com/in/pradhosh-km-1b7838342?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-500/20"
-                                    >
-                                        <Linkedin size={18} /> Connect with me
-                                    </a>
-                                </div>
-
-                                <div className="mt-12 flex flex-wrap gap-4">
-                                    <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-6 py-3 rounded-2xl">
-                                        <Award className="text-blue-400" size={20} />
-                                        <span className="text-white font-semibold text-sm">Tech Visionary</span>
-                                    </div>
-                                    <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-6 py-3 rounded-2xl">
-                                        <Users className="text-green-400" size={20} />
-                                        <span className="text-white font-semibold text-sm">Impact Leader</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+               
 
                 {/* ─── Call to Action ────────────────────────────────────────── */}
                 <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center bg-[#0f1120] py-16 rounded-[2.5rem] border border-white/5">
@@ -459,6 +415,222 @@ export default function AboutPage() {
                                     </div>
                                 );
                             })}
+                        </div>
+                    </div>
+                </section>
+ {/* ─── CEO & Founder Section ───────────────────────────────── */}
+                <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+                    <div className="bg-gradient-to-br from-[#1a1c2e] to-[#0d0f1a] border border-white/5 rounded-[3rem] overflow-hidden">
+                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                            {/* Image Column */}
+                            <div className="relative aspect-square lg:aspect-auto lg:h-[600px] overflow-hidden">
+                                <img
+                                    src={`${baseUrl}assetskmuni/pradosh-km.png`}
+                                    alt="K.M.Pradosh"
+                                    className="w-full h-full object-cover object-top filter brightness-90 hover:brightness-100 transition-all duration-700"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0f1a] via-transparent to-transparent opacity-60" />
+                                <div className="absolute bottom-10 left-10">
+                                    <p className="text-white font-bold text-3xl">Pradosh K.M</p>
+                                    <p className="text-blue-400 font-medium tracking-widest uppercase text-sm">Ideator</p>
+                                </div>
+                            </div>
+
+                            {/* Content Column */}
+                            <div className="p-10 lg:p-20">
+                                <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
+                                    Leading with <span className="gradient-text">Vision and Purpose</span>
+                                </h2>
+                                <div className="space-y-6 text-slate-300 text-lg leading-relaxed">
+                                    <p>
+                                        K.M.Pradosh, the Ideator of UniVerse, established the organization with a
+                                        singular goal: to create a world where education is synonymous with impact.
+                                    </p>
+                                    <p>
+                                        With deep expertise in software engineering and digital transformation, K.M.Pradosh envisioned
+                                        UniVerse as more than just an ed-tech platform. He built it as a hybrid ecosystem
+                                        where practical skills meet social responsibility.
+                                    </p>
+                                    <p>
+                                        Under his leadership, UniVerse has grown from a visionary startup to an MSME-approved
+                                        entity serving individuals, institutions, and startups across India. His philosophy
+                                        of "Empowering through Upskilling" continues to drive our innovation in every domain.
+                                    </p>
+                                </div>
+
+                                <div className="mt-8">
+                                    <a
+                                        href="https://www.linkedin.com/in/pradhosh-km-1b7838342?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-500/20"
+                                    >
+                                        <Linkedin size={18} /> Connect with me
+                                    </a>
+                                </div>
+
+                                <div className="mt-12 flex flex-wrap gap-4">
+                                    <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-6 py-3 rounded-2xl">
+                                        <Award className="text-blue-400" size={20} />
+                                        <span className="text-white font-semibold text-sm">Tech Visionary</span>
+                                    </div>
+                                    <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-6 py-3 rounded-2xl">
+                                        <Users className="text-green-400" size={20} />
+                                        <span className="text-white font-semibold text-sm">Impact Leader</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {/* ─── Contact Section ────────────────────────────────────── */}
+                <section className="py-20">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        {/* Header */}
+                        <div className="text-center mb-16">
+                            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                                Get in <span className="text-blue-400">Touch</span>
+                            </h1>
+                            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
+                                Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                            </p>
+                        </div>
+
+                        <div className="grid lg:grid-cols-3 gap-8">
+                            {/* Contact Information */}
+                            <div className="lg:col-span-1 space-y-6">
+                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                            <Mail className="text-blue-400" size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-white font-semibold mb-1">Email</h3>
+                                            <p className="text-slate-400 text-sm">contact@kmunitech.com</p>
+                                            <p className="text-slate-400 text-sm">support@kmunitech.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                            <Phone className="text-blue-400" size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-white font-semibold mb-1">Phone</h3>
+                                            <p className="text-slate-400 text-sm">+1 (555) 123-4567</p>
+                                            <p className="text-slate-400 text-sm">Mon-Fri, 9AM-6PM EST</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                            <MapPin className="text-blue-400" size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-white font-semibold mb-1">Office</h3>
+                                            <p className="text-slate-400 text-sm">123 Innovation Drive</p>
+                                            <p className="text-slate-400 text-sm">Tech Valley, CA 94025</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                            <MessageSquare className="text-blue-400" size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-white font-semibold mb-1">Live Chat</h3>
+                                            <p className="text-slate-400 text-sm mb-2">Get instant support</p>
+                                            <button className="text-blue-400 hover:text-blue-300 text-sm font-medium">
+                                                Start Chat →
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                            {/* Contact Form */}
+                            <div className="lg:col-span-2">
+                                <form onSubmit={handleSubmit} className="bg-white/5 border border-white/10 rounded-2xl p-8">
+                                    <h2 className="text-2xl font-bold text-white mb-6">Send us a Message</h2>
+                                    
+                                    <div className="space-y-6">
+                                        <div>
+                                            <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
+                                                Your Name
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="name"
+                                                required
+                                                value={formData.name}
+                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+                                                placeholder="John Doe"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
+                                                Email Address
+                                            </label>
+                                            <input
+                                                type="email"
+                                                id="email"
+                                                required
+                                                value={formData.email}
+                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+                                                placeholder="john@example.com"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label htmlFor="subject" className="block text-sm font-medium text-slate-300 mb-2">
+                                                Subject
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="subject"
+                                                required
+                                                value={formData.subject}
+                                                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+                                                placeholder="How can we help?"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label htmlFor="message" className="block text-sm font-medium text-slate-300 mb-2">
+                                                Message
+                                            </label>
+                                            <textarea
+                                                id="message"
+                                                required
+                                                rows={6}
+                                                value={formData.message}
+                                                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                                                placeholder="Tell us more about your inquiry..."
+                                            />
+                                        </div>
+
+                                        <button
+                                            type="submit"
+                                            className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
+                                        >
+                                            <Send size={18} />
+                                            Send Message
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </section>

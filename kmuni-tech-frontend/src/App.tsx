@@ -11,7 +11,6 @@ const AboutPage = React.lazy(() => import('./pages/public/AboutPage'));
 const VisionMissionPage = React.lazy(() => import('./pages/public/VisionMissionPage'));
 const ProductsPage = React.lazy(() => import('./pages/public/ProductsPage'));
 
-const ContactPage = React.lazy(() => import('./pages/public/ContactPage'));
 const CoursesPage = React.lazy(() => import('./pages/public/CoursesPage'));
 const CourseDetailPage = React.lazy(() => import('./pages/public/CourseDetailPage'));
 const UnilinkPage = React.lazy(() => import('./pages/public/UnilinkPage'));
@@ -57,7 +56,7 @@ function App() {
             <Route path="/community" element={<Navigate to="/unispace" replace />} />
             <Route path="/blog" element={<Navigate to="/" replace />} />
             <Route path="/roadmap" element={<Navigate to="/about" replace />} />
-            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/contact" element={<Navigate to="/about" replace />} />
             
             {/* ── Universe Product (EdTech Platform) ──────────────── */}
             <Route path="/universe" element={<Navigate to="/about" replace />} />
@@ -75,7 +74,6 @@ function App() {
             <Route path="/profile/:id" element={<UserProfilePage />} />
             
             {/* ── Legacy Redirects ─────────────────────────────────── */}
-            <Route path="/collaborations" element={<Navigate to="/community" replace />} />
 
             {/* ── Student (protected) ─────────────────────────────── */}
             <Route path="/student/dashboard" element={

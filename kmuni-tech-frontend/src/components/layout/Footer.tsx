@@ -107,20 +107,36 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/5 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-slate-500 text-sm">
-            © 2026 UniVerse. All rights reserved.
-          </p>
-          <p className="text-slate-500 text-sm">
-            Built with ❤️ by{' '}
+        <div className="border-t border-white/5 mt-10 pt-6">
+          <p className="text-slate-500 text-sm text-center w-full mb-3">
+            A product of{' '}
             <a
-              href="https://isqre.tech/"
+              href="https://kmunitech.vercel.app/"
               className="text-blue-400 hover:text-blue-300"
               target="_blank"
+              rel="noopener noreferrer"
             >
-              ISquare Tech Solutions
+              KM UniTech
             </a>
+            .
           </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-slate-500 text-sm">
+              © 2026 UniVerse. All rights reserved.
+            </p>
+            <p className="text-slate-500 text-sm">
+              Built with ❤️ by{' '}
+              <a
+                href="https://isqre.tech/"
+                className="text-blue-400 hover:text-blue-300"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ISquare Tech Solutions
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

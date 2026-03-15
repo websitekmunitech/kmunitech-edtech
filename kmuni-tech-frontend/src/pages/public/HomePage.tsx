@@ -12,7 +12,6 @@ import {
   TrendingUp,
   CheckCircle,
   ChevronRight,
-  ExternalLink,
 } from 'lucide-react';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
@@ -21,7 +20,7 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { formatINRCompact, formatPriceINR } from '../../utils/currency';
 import { fetchFeaturedCourses, fetchHomeStats, HomeStats } from '../../utils/api';
 import { Course } from '../../types';
-import { collaborations } from '../../data/collaborations';
+
 
 const features = [
   {
@@ -187,7 +186,7 @@ export default function HomePage() {
                   <img
                     src={logoSrc}
                     alt="UniVerse"
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-contain scale-125"
                   />
                 </div>
                 <div className="text-slate-300 text-sm leading-snug">
@@ -376,112 +375,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── Our Network (Marquee) ───────────────────────────────────── */}
+      {/* ─── Call to action for webinars ───────────────────────────*/}
       <section className="py-20 bg-[#0b0c15] border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <p className="text-blue-400 text-sm font-semibold tracking-wider uppercase mb-2">
-              Our Network
-            </p>
-            <h2 className="section-title">Strategic Collaborations</h2>
-            <p className="text-slate-400 mt-2 max-w-xl text-base">
-              Partners that help us create real opportunities for learners
-              everywhere.
-            </p>
-          </div>
-          <Link
-            to="/community"
-            className="hidden sm:inline-flex items-center gap-2 bg-blue-600/10 border border-blue-500/20 hover:bg-blue-600/20 hover:border-blue-500/40 px-5 py-2.5 rounded-xl text-blue-300 font-semibold text-sm transition-all"
-          >
-            View All Partners <ArrowRight size={15} />
-          </Link>
-        </div>
-
-        <div className="relative overflow-hidden bg-[#0d0f1a] border-y border-white/5 py-12 rounded-[28px] sm:rounded-[32px]">
-          <div
-            className="flex animate-marquee gap-6 sm:gap-8"
-            style={{ animationDuration: '30s' }}
-          >
-            {[...collaborations, ...collaborations].map((collab, index) => {
-              const src = collab.image.startsWith('http')
-                ? collab.image
-                : `${baseUrl}${collab.image.startsWith('/') ? collab.image.slice(1) : collab.image}`;
-              return (
-                <div
-                  key={index}
-                  className="w-[260px] sm:w-[300px] flex-shrink-0"
-                >
-                  <div className="group flex flex-col rounded-2xl overflow-hidden border border-white/[0.07] hover:border-blue-500/40 transition-all duration-300 hover:-translate-y-1.5 shadow-lg shadow-black/20 bg-[#0d0e1c]">
-                    {/* Image area — portrait, no overlay, fully readable */}
-                    <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#0d0e1c]">
-                      <img
-                        src={src}
-                        alt={collab.title}
-                        className="w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-500"
-                      />
-                    </div>
-                    {/* Info strip */}
-                    <div className="flex items-center gap-3 px-4 py-3 border-t border-white/[0.06] bg-[#12141f]">
-                      <div
-                        className={`w-8 h-8 rounded-lg bg-gradient-to-br ${collab.color} flex items-center justify-center flex-shrink-0 shadow-md`}
-                      >
-                        <collab.icon size={14} className="text-white" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-white font-bold text-sm leading-tight truncate group-hover:text-blue-200 transition-colors">
-                          {collab.title}
-                        </p>
-                        <p className="text-slate-500 text-[11px] truncate">
-                          {collab.tagline}
-                        </p>
-                      </div>
-                      <ExternalLink
-                        size={13}
-                        className="text-blue-400/50 group-hover:text-blue-400 transition-colors ml-auto flex-shrink-0"
-                      />
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-24 bg-gradient-to-r from-[#0d0f1a] via-[#0d0f1a]/85 to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-[#0d0f1a] via-[#0d0f1a]/85 to-transparent" />
-        </div>
-
-        <div className="text-center mt-8 sm:hidden">
-          <Link
-            to="/community"
-            className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-semibold text-sm transition-colors"
-          >
-            View All Partners <ArrowRight size={15} />
-          </Link>
-        </div>
-
-        <div className="mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden bg-gradient-to-r from-blue-600/15 to-green-600/15 border border-blue-500/20 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
-            <div className="absolute -top-10 -left-10 w-48 h-48 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-10 -right-10 w-56 h-56 bg-green-600/10 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="relative">
-              <div className="inline-flex items-center gap-2 mb-2">
-                <span className="badge-free">Free</span>
-                <span className="text-slate-400 text-xs font-semibold">Unilink</span>
-              </div>
-              <p className="text-white font-bold text-lg sm:text-xl">
-                Want free webinar & workshops?
-              </p>
-              <p className="text-slate-400 text-sm mt-1">
+              <p>
                 Join Unilink to access live sessions and updates.
               </p>
-            </div>
-
             <Link to="/unilink" className="btn-primary text-sm py-3 px-8 inline-flex items-center gap-2 self-stretch sm:self-auto justify-center">
               Join Unilink <ArrowRight size={16} />
             </Link>
-          </div>
-        </div>
+          
       </section>
 
       {/* ─── Features ─────────────────────────────────────────────────── */}
